@@ -15,6 +15,8 @@ def main():
   hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
                       'bin/teams/base/config/formations-dt', 6000,
                       'localhost', 'base_left', False)
+
+  print(SHOOT, DRIBBLE, MOVE)
   for episode in itertools.count():
     status = IN_GAME
     while status == IN_GAME:

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 echo "[$(date +"%Y-%m-%d_%H:%M:%S")] RUNNING HFO EXPERIMENT"
 echo "[$(date +"%Y-%m-%d_%H:%M:%S")] PARSING ARGUMENTS"
 
@@ -49,7 +48,7 @@ if [ -z "${MAX_FRAMES+x}" ]; then
   MAX_FRAMES=100
 fi
 if [ -z "${AGENT+x}" ]; then
-  AGENT="test_agent"
+  AGENT="Dummy"
 fi
 if [ -z "${OFFENSE_AGENTS+x}" ]; then
   OFFENSE_AGENTS=2
@@ -66,8 +65,10 @@ echo "[$(date +"%Y-%m-%d_%H:%M:%S")] SELECTED PARAMETERS:" \
 "RUNS=${RUNS},TRIALS=${TRIALS}, MAX_FRAMES=${MAX_FRAMES}," \
 "AGENT=${AGENT}, OFFENSE_AGENTS=${OFFENSE_AGENTS}, DEFENSE_AGENTS=${DEFENSE_AGENTS}"
 
-_now=$(date +"%Y_%m_%d-%H:%M:%S")
-_dir="./experiments/LOGS/${_now}_${AGENT}"
+_now=$(date +"%Y_%m_%d-%H.%M.%S")
+BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+_dir="${BASE_DIR}/LOGS/${_now}_${AGENT}/"
+echo "[$(date +"%Y-%m-%d_%H:%M:%S")] BASE DIRECTORY: ${BASE_DIR}"
 echo "[$(date +"%Y-%m-%d_%H:%M:%S")] MAKE LOG DIRECTORY: ${_dir}"
 
 mkdir -p ${_dir};
@@ -79,12 +80,15 @@ do
   echo "[$(date +"%Y-%m-%d_%H:%M:%S")] STARTING RUN ${run} =================="
   echo "[$(date +"%Y-%m-%d_%H:%M:%S")] STARTING HFO SERVER"
   ./bin/HFO \
+  --log-dir "${_dir}" \
   --offense-agents "${OFFENSE_AGENTS}" \
   --defense-npcs "${DEFENSE_AGENTS}" \
   --trials "${TRIALS}" \
   --frames-per-trial "${MAX_FRAMES}" \
-  --no-sync \
+  --headless \
   --fullstate &
+
+  # instead of headless: --no-sync \
 
   HFO_PID=$!
   echo "[$(date +"%Y-%m-%d_%H:%M:%S")] HFO SERVER PID: ${HFO_PID}"
@@ -92,11 +96,12 @@ do
   do
     echo "[$(date +"%Y-%m-%d_%H:%M:%S")] STARTING AGENT ${agent}"
     sleep 5
-    ./experiments/"${AGENT}".py 6000 &> "${_dir}"/"${AGENT}"_"${run}"_"${agent}"  &
+    "${BASE_DIR}"/experiment.py -a "${AGENT}" -i 5 -d 5 -l "${_dir}${AGENT}"_"${run}"_"${agent}" &> "${_dir}${AGENT}"_"${run}"_"${agent}"  &
   done
   wait ${HFO_PID}
   sleep 5
   killall -9 rcssserver
+  mv -v "${_dir}"incomplete.hfo "${_dir}"incomplete_"${run}".hfo
 done
 
 # The magic line

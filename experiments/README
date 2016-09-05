@@ -1,0 +1,36 @@
+ok, so this is how you start the experimet:
+
+./experiments/run.sh -o=1 -d=0 -t=10 -f=100 -r=1 -a=Dummy
+
+Then the experiment will run with the Dummy agent. When it's
+done, you can look at the ./experiments/LOGS/ directory. It has
+file for every agent in every run, in case something goes bad,
+but we probably don't need any information from there.
+
+The most important files are the incomplete_?.hfo. In there are
+all the results for each trial in one run.
+
+IMPORTANT:
+- These are the files we work with:
+     run.sh
+     experiment.py
+     agents/agent.py
+     agents/dummy.py
+     agents/sarsa.py
+
+PROBLEMS:
+- Evaluation trials not possible, because the server controls
+the trials and not eachagent for himself (it would not make sense
+anyway). A possible solution is to calculate the evaluation trials
+in the total number of trials and then stop learning during
+evaluation.
+
+- Not sure how we can save the agent and reuse it later...
+
+TODOs:
+- Generate evaluation data from incomplete_?.hfo files. [Ruben]
+- Visualize evaluation data [Ruben]
+- In experiment.py improve interaction with agent! [Leno, Ruben]
+- Integrate CMAC state transformation in agent class [Leno, Ruben]
+- Improve agent class and subclasses (agent.py, dummy.py) [Leno, Ruben]
+- Adapt a real learning agent (sarsa.py) [Leno, Ruben]
