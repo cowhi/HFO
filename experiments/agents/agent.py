@@ -24,6 +24,9 @@ class Agent(object):
 
     """
     __metaclass__ = abc.ABCMeta
+    
+    '''The HFO object'''
+    hfo = None
 
     ''' An enum of the possible HFO actions
       [Low-Level] Dash(power, relative_direction)
@@ -71,18 +74,9 @@ class Agent(object):
                "'n_avail_actions':" + str(self.n_avail_actions) + ", " + \
                "'avail_actions':" + str(self.avail_actions)
 
-    def __init__(self):
-        """ Initializes an agent for a given environment.
-
-        Args:
-            env (Environment): The envirnoment in which the agent actuates.
-            mem (Memory): The replay memory to save the experiences.
-            net (Learner): Object of one of the Learner modules.
-            args (argparse.Namespace): All settings either with a default value or set via command line arguments.
-            rng (mtrand.RandomState): initialized Mersenne Twister pseudo-random number generator.
-            name (str): The name of the agent.
-
-        """
+    def __init__(self,hfo):
+        """ Initializes an agent for a given environment. """
+        self.hfo = hfo
         self.exploring = True
 
 
@@ -99,3 +93,4 @@ class Agent(object):
     def setExploring(self,exploring):
         """ The agent keeps track if it should explore in the current state (used for evaluations) """
         self.exploring = exploring
+        

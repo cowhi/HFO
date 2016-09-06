@@ -71,7 +71,7 @@ def main():
     except ImportError:
         sys.stderr.write("ERROR: missing python module: " + parameter.agent + "\n")
         sys.exit(1)
-    AGENT = AgentClass()
+    AGENT = AgentClass(hfo)
     print('***** '+ parameter.agent +' Agent online')
 
     

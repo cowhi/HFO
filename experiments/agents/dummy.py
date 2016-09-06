@@ -5,8 +5,8 @@ from .agent import Agent
 
 class Dummy(Agent):
 
-    def __init__(self):
-        super(Dummy, self).__init__()
+    def __init__(self,hfo):
+        super(Dummy, self).__init__(hfo)
 
 
     def select_action(self,state):
