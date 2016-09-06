@@ -1,6 +1,13 @@
 ok, so this is how you start the experimet:
 
-./experiments/run.sh -o=1 -d=0 -t=10 -f=100 -r=1 -a=Dummy
+./experiments/run.sh -o=2 -d=1 -t=10 -f=100 -r=1 -a=Dummy -i=5 -e=5
+
+-i is the number of learning trials before each evaluation
+-e is the number of trials executed in each evaluation
+
+my tests were executed with:
+./bin/HFO --offense-agents 2 --defense-npcs 1 --trials 20 --frames-per-trial 100 --fullstate
+python experiment.py -a Dummy  -i 5 -d 5 -t 10 -l /home/leno/HFO/HFO-master/log/Dummy
 
 Then the experiment will run with the Dummy agent. When it's
 done, you can look at the ./experiments/LOGS/ directory. It has
@@ -30,6 +37,7 @@ evaluation.
 - Not sure how we can save the agent and reuse it later... 
 ** I don't think we need to save the agent for our experiments [Leno] **
 
+
 TODOs:
 - Generate evaluation data from incomplete_?.hfo files. [Ruben]
 - Visualize evaluation data [Ruben] 
@@ -41,3 +49,27 @@ TODOs:
 
 - Improve agent class and subclasses (agent.py, dummy.py) [Leno, Ruben]
 - Adapt a real learning agent (sarsa.py) [Leno, Ruben]
+
+List of TODOs as in 06/09:
+
+- Test .sh file to see if the evaluation works after last changes on the files [Ruben]
+- Make SARSA work:
+  -- Implement executionAction method in experiment.py - this method will allow the use of the PASSnear and PASSfar actions. It should be able to identify the Unum of the nearest and farthest agents to use as parameters to the PASS action
+  -- Implement localFeatures method in experiment.py - This method must order the features according to the distance of the friendly agents.
+  -- Check if the CMAC is working for state space approximation
+  -- Check if the Q-function is working with the CMAC based features
+- Implement our proposal:
+  -- Modify the communication implemented in the DummyCom agent to the sarsa-based one
+  -- Change the exploration strategy to work with advising
+  -- Implement a method to translate one agent's state to another (maybe transferring the CMAC state in a message is enough)
+  -- Implement the importance-based advising with our metrics
+  -- Check if the PASS actions are being advised correctly
+  -- Include in the output files the average of budget use
+- Implement Torrey and Taylor proposal
+   -- Modify our proposal to work with theirs importance metric
+- Implement graph output methods (only if we have enough-time, a hand-tailored MATLAB graph can also be used)
+
+
+
+
+
