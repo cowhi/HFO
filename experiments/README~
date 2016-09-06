@@ -19,18 +19,19 @@ IMPORTANT:
      agents/sarsa.py
 
 PROBLEMS:
-- Evaluation trials not possible, because the server controls
+<strike>- Evaluation trials not possible, because the server controls
 the trials and not eachagent for himself (it would not make sense
 anyway). A possible solution is to calculate the evaluation trials
 in the total number of trials and then stop learning during
-evaluation.
+evaluation. </strike> <b> Solved... I've calculated the total number of needed trials in the run.sh file. The agent is informed about how many training and evaluation trials it should execute [Leno]</b>
 
-- Not sure how we can save the agent and reuse it later...
+
+- Not sure how we can save the agent and reuse it later... <b> I don't think we need to save the agent for our experiments [Leno] </b>
 
 TODOs:
 - Generate evaluation data from incomplete_?.hfo files. [Ruben]
-- Visualize evaluation data [Ruben]
+- Visualize evaluation data [Ruben] <b> Don't worry about this right now... I can quickly generate MATLAB graphs if we finish the experiments codification in the nick of time [Leno] </b>
 - In experiment.py improve interaction with agent! [Leno, Ruben]
-- Integrate CMAC state transformation in agent class [Leno, Ruben]
+- Integrate CMAC state transformation in agent class [Leno, Ruben] <b> I've made some changes in the experiment.py file... all the CMAC-related codification should be included in the agent class, as only him knows about his state representation [Leno] </b>
 - Improve agent class and subclasses (agent.py, dummy.py) [Leno, Ruben]
 - Adapt a real learning agent (sarsa.py) [Leno, Ruben]
