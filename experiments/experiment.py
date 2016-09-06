@@ -104,19 +104,24 @@ def main():
             # Get current state features
             features = hfo.getState()
             #print('********** features [%s]: %s' % (str(type(features)), str(features)))
-            # Transform features with tile encoding
-            #state = transformFeatures(features)
-            state = features
+            
+            #Get a state in the agent's point of view
+            state = localFeatures(features)
             #print('********** State: %s' % str(state))
             # Select action in regard to state
             action = AGENT.select_action(state)
+            #Execute the action in the environment
+            executeAction(hfo,action)
             #print('********** Action: %s' % str(action))
             # Advance the environment and get the game status
-            hfo.act(action)
             status = hfo.step()
             #print('********** Status after frame %d: %s' % (frame, hfo.statusToString(status)))
             reward = getReward(status)
             #print('********** Reward: %s' % str(reward))
+            statePrime = localFeatures(hfo.getState()) 
+            
+            AGENT.observeReward(state,action,reward,statePrime)
+            
         # Check the outcome of the trial
         print('***** Trial ended with %s'% hfo.statusToString(status))
         
@@ -136,9 +141,9 @@ def main():
                 eval_status = IN_GAME
                 while eval_status == IN_GAME:
                     eval_frame += 1
-                    eval_state = hfo.getState()
+                    eval_state = localFeatures(hfo.getState())
                     eval_action = AGENT.select_action(eval_state)
-                    hfo.act(eval_action)
+                    executeAction(hfo,eval_action)
                     eval_status = hfo.step()
                     if(eval_status == GOAL):
                         goals += 1.0
@@ -164,8 +169,20 @@ def main():
     eval_csv_file.close()
     train_csv_file.close()
     
-
-
+def executeAction(hfo, action):
+    """Executes the action in the HFO server"""
+    #If the action is not one of the default ones, it needs translation    
+    if action in range(15):    
+        hfo.act(action)        
+    else:
+        #TODO: Implement the PASSnear and PASSfar actions in the translateAction method
+        action,parameter = translateAction(action)
+        hfo.act(action,parameter)
+    
+def localFeatures(features):
+    """Returns a state in which the friendly agents are sorted by their distance"""
+    #TODO: Sort Agents
+    return features
 
 if __name__ == '__main__':
     main()

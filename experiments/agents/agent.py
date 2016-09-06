@@ -46,6 +46,12 @@ class Agent(object):
       QUIT(): Quit the game '''
     DASH, TURN, TACKLE, KICK, KICK_TO, MOVE_TO, DRIBBLE_TO, INTERCEPT, \
       MOVE, SHOOT, PASS, DRIBBLE, CATCH, NOOP, QUIT = range(15) 
+      
+    #Customized actions
+    PASSnear = 15
+    PASSfar = 16
+    #The available actions
+    actions = [MOVE, SHOOT, PASSnear, PASSfar, DRIBBLE]
 
     ''' Possible game status
       [IN_GAME] Game is currently active
@@ -86,8 +92,8 @@ class Agent(object):
         pass
 
     @abc.abstractmethod
-    def observeReward(self,state,reward,statePrime):
-        """ After executing an action, the agent is informed about the state-reward-state tuple """
+    def observeReward(self,state,action,reward,statePrime):
+        """ After executing an action, the agent is informed about the state-action-reward-state tuple """
         pass
 
     def setExploring(self,exploring):

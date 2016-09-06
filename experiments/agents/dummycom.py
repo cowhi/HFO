@@ -46,7 +46,7 @@ class DummyCom(Agent):
         return self.MOVE
 
 
-    def observeReward(self,state,reward,statePrime):
+    def observeReward(self,state,action,reward,statePrime):
         """ After executing an action, the agent is informed about the state-reward-state tuple """
         pass
     
