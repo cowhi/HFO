@@ -1,4 +1,5 @@
 import logging
+from hfo import *
 _logger = logging.getLogger(__name__)
 
 import abc
@@ -41,7 +42,7 @@ class Agent(object):
       NOOP(): Do Nothing
       QUIT(): Quit the game '''
     DASH, TURN, TACKLE, KICK, KICK_TO, MOVE_TO, DRIBBLE_TO, INTERCEPT, \
-      MOVE, SHOOT, PASS, DRIBBLE, CATCH, NOOP, QUIT = range(15)
+      MOVE, SHOOT, PASS, DRIBBLE, CATCH, NOOP, QUIT = range(15) 
 
     ''' Possible game status
       [IN_GAME] Game is currently active

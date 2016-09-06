@@ -38,7 +38,7 @@ do
     INTERVAL="${i#*=}"
     shift
     ;;
-    -e=*|--evaluation_duration=*)
+    -d=*|--evaluation_duration=*)
     DURATION="${i#*=}"
     shift
     ;;

@@ -10,33 +10,35 @@ import os
 import csv
 import random, itertools
 from hfo import *
-from cmac import CMAC
+#from cmac import CMAC
 
 
 from agents.agent import Agent
 
 AGENT = None
 hfo = None
-cmac = None
+#cmac = None
 
 def get_args():
     parser = argparse.ArgumentParser(
             description="Agent parameter"
     )
     parser.add_argument('-a','--agent',default='Dummy')
+    parser.add_argument('-t','--learning_trials',type=int, default=10)
     parser.add_argument('-i','--evaluation_interval',type=int, default=5)
     parser.add_argument('-d','--evaluation_duration',type=int, default=5)
     parser.add_argument('-l','--log_file',default='Dummy_1_1')
     return parser.parse_args()
 
-
-def transformFeatures(features):
+#This should have been done inside the agent class... only the own agent
+    # knows about his state representation [Leno]
+"""def transformFeatures(features):
     ''' From continuous to discrete using CMAC '''
     data = []
     for feature in features:
         quantized_features = cmac.quantize(feature)
         data.append([pts])
-    return data
+    return data"""
 
 def getReward(status):
     """The Reward Function returns -1 when a defensive agent captures the ball,
@@ -56,12 +58,12 @@ def main():
 
     print('***** Connecting to HFO server')
     hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
-                      'bin/teams/base/config/formations-dt', 6000,
+                      '/home/leno/HFO/HFO-master/bin/teams/base/config/formations-dt', 6000,
                       'localhost', 'base_left', False)
 
     print('***** Loading agent implementation')
     parameter = get_args()
-    try:
+    try:        
         AgentClass = getattr(
                 __import__('agents.' + (parameter.agent).lower(),
                         fromlist=[parameter.agent]),
@@ -72,7 +74,7 @@ def main():
     AGENT = AgentClass()
     print('***** '+ parameter.agent +' Agent online')
 
-    """
+    
     print('***** Setting up result log files')
     train_csv_file = open(parameter.log_file+"_train", "wb")
     train_csv_writer = csv.writer(train_csv_file)
@@ -82,21 +84,23 @@ def main():
     eval_csv_writer = csv.writer(eval_csv_file)
     eval_csv_writer.writerow(("trial","goal_percentage","avg_goal_time"))
     eval_csv_file.flush()
-    """
+    
 
-    print('***** Initializing discretization with CMAC')
-    cmac = CMAC(1,0.5,0.1)
+    #This should have been done inside the agent class... only the own agent
+    # knows about his state representation [Leno]
+    #print('***** Initializing discretization with CMAC')
+    #cmac = CMAC(1,0.5,0.1)
 
     print('***** Start training')
-    for trial in itertools.count():
-        print('***** Starting trial %d' % trial)
+    for trial in range(1,parameter.learning_trials+1):
+        print('***** Starting Learning Trial %d' % trial)
         status = IN_GAME
         frame = 0
         while status == IN_GAME:
             # count frames
             frame += 1
             # rember last status (necessary?)
-            old_status = status
+            #old_status = status
             # Get current state features
             features = hfo.getState()
             #print('********** features [%s]: %s' % (str(type(features)), str(features)))
@@ -115,20 +119,19 @@ def main():
             #print('********** Reward: %s' % str(reward))
         # Check the outcome of the trial
         print('***** Trial ended with %s'% hfo.statusToString(status))
-        """
+        
         # save stuff
         train_csv_writer.writerow((trial,frame,reward))
         train_csv_file.flush()
 
         # perform an evaluation trial
-
         if(trial % parameter.evaluation_interval == 0):
             print('***** Running evaluation trials')
             AGENT.setExploring(False)
             goals = 0.0
             time_to_goal = 0.0
 
-            for eval_trials in range(1,parameter.evaluation_duration):
+            for eval_trials in range(1,parameter.evaluation_duration+1):
                 eval_frame = 0
                 eval_status = IN_GAME
                 while eval_status == IN_GAME:
@@ -151,16 +154,16 @@ def main():
             eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time)))
             eval_csv_file.flush()
             AGENT.setExploring(True)
-        """
+        
         # Quit if the server goes down
         if status == SERVER_DOWN:
             hfo.act(QUIT)
             print('***** Shutting down agent')
             break
-    """
+    
     eval_csv_file.close()
     train_csv_file.close()
-    """
+    
 
 
 
