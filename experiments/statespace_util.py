@@ -7,7 +7,7 @@ Created on Wed Sep  7 09:54:23 2016
 This file implements Utilities for state space processing
 """
 
-from .agent import Agent #importing the action enum
+from agents.agent import Agent #importing the action enum
 
 """State Variable Enum (with 2 friendly agents and 1 opponent)"""
 X_POSITION, Y_POSITION, ORIENTATION, BALL_PROXIMITY, BALL_ANGLE, ABLE_KICK, CENTER_PROXIMITY, GOAL_ANGLE, \
@@ -30,7 +30,7 @@ def translateAction(action, stateFeatures):
     else:
         nearest = stateFeatures[FRIEND2_NUMBER]
         farthest = stateFeatures[FRIEND1_NUMBER]
-    actionRet = PASS
+    actionRet = Agent.PASS
     
     if(action==Agent.PASSnear):
         argument = nearest

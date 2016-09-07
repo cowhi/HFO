@@ -50,7 +50,7 @@ def main():
 
     print('***** Connecting to HFO server')
     hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
-                      '/home/leno/HFO/HFO-master/bin/teams/base/config/formations-dt', 6000,
+                      'bin/teams/base/config/formations-dt', 6000,
                       'localhost', 'base_left', False)
 
     print('***** Loading agent implementation')
@@ -95,7 +95,7 @@ def main():
             #old_status = status
             # Get current state features
             features = hfo.getState()
-            print('********** features [%s]: %s' % (str(type(features)), str(features)))
+            #print('********** features [%s]: %s' % (str(type(features)), str(features)))
             
             #Get a state in the agent's point of view
             state = localFeatures(features)
