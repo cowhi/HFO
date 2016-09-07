@@ -41,7 +41,7 @@ def translate_action(action, stateFeatures):
     return actionRet,argument
 
 
-def get_local_view_features(stateFeatures):
+def get_transformed_features(stateFeatures):
     """Erases the irrelevant features (such as agent Unums) and sort agents by
     their distance"""
     #Defines the agent order

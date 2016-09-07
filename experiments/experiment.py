@@ -48,14 +48,14 @@ def execute_action(hfo, action):
         hfo.act(action)
     else:
         #In the statespace_util file
-        action,parameter = translate_action(action, hfo.getState())
-        hfo.act(action,parameter)
-
+        action, parameter = translate_action(action, hfo.getState())
+        hfo.act(action, parameter)
+'''
 def get_local_features(features):
     """Returns a state in which the friendly agents are sorted by their distance"""
     #In the statespace_util file
-    return get_local_view_features(features)
-
+    return get_transformed_features(features)
+'''
 
 def main():
     print('New agent called')
@@ -106,7 +106,7 @@ def main():
             features = hfo.getState()
             #print('********** features [%s]: %s' % (str(type(features)), str(features)))
             #Get a state in the agent's point of view
-            state = get_local_features(features)
+            state = get_transformed_features(features)
             #print('********** State: %s' % str(state))
             # Select action in regard to state
             action = AGENT.select_action(state)
