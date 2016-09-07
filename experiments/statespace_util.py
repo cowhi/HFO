@@ -8,6 +8,7 @@ This file implements Utilities for state space processing
 """
 
 from agents.agent import Agent #importing the action enum
+import numpy as np
 
 """State Variable Enum (with 2 friendly agents and 1 opponent)"""
 X_POSITION, Y_POSITION, ORIENTATION, BALL_PROXIMITY, BALL_ANGLE, ABLE_KICK, CENTER_PROXIMITY, GOAL_ANGLE, \
@@ -83,7 +84,7 @@ def localViewFeatures(stateFeatures):
     
     #Removes the agent Unum... makes the friendly agents differentiable only by their feature values
     # and makes easier the state translation for the advising
-    stateFeatures = stateFeatures.delete([FRIEND1_NUMBER,FRIEND2_NUMBER])
+    stateFeatures = np.delete(stateFeatures,[FRIEND1_NUMBER,FRIEND2_NUMBER])
     return stateFeatures
     
     
