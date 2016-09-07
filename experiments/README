@@ -31,8 +31,7 @@ List of TODOs as in 07/09:
 
 - Make SARSA work:
   -- Implement executionAction method in experiment.py - **Done [Leno]
-  -- Implement localFeatures method in experiment.py - This method must order
-     the features according to the distance of the friendly agents.
+  -- Implement localFeatures method in experiment.py - **Done [Leno]
   -- Check if the CMAC is working for state space approximation
   -- Check if the Q-function is working with the CMAC based features
 - Implement our proposal:
