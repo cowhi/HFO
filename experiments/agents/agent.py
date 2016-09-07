@@ -77,7 +77,7 @@ class Agent(object):
         self.exploring = exploring
 
     def transform_features(self,features):
-        ''' CMAC utilities for the SARSA agent '''
+        ''' CMAC utilities for all agent '''
         data = []
         for feature in features:
             quantized_features = self.cmac.quantize(feature)

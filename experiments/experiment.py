@@ -18,7 +18,6 @@ from statespace_util import *
 
 AGENT = None
 hfo = None
-#cmac = None
 
 def get_args():
     parser = argparse.ArgumentParser(
@@ -40,6 +39,22 @@ def get_reward(status):
     elif(status == GOAL):
          return 1.0
     return 0.0
+
+
+def execute_action(hfo, action):
+    """Executes the action in the HFO server"""
+    #If the action is not one of the default ones, it needs translation
+    if action in range(15):
+        hfo.act(action)
+    else:
+        #In the statespace_util file
+        action,parameter = translate_action(action, hfo.getState())
+        hfo.act(action,parameter)
+
+def get_local_features(features):
+    """Returns a state in which the friendly agents are sorted by their distance"""
+    #In the statespace_util file
+    return get_local_view_features(features)
 
 
 def main():
@@ -77,12 +92,6 @@ def main():
     eval_csv_writer.writerow(("trial","goal_percentage","avg_goal_time"))
     eval_csv_file.flush()
 
-
-    #This should have been done inside the agent class... only the own agent
-    # knows about his state representation [Leno]
-    #print('***** Initializing discretization with CMAC')
-    #cmac = CMAC(1,0.5,0.1)
-
     print('***** Start training')
     for trial in range(1,parameter.learning_trials+1):
         print('***** Starting Learning Trial %d' % trial)
@@ -96,7 +105,6 @@ def main():
             # Get current state features
             features = hfo.getState()
             #print('********** features [%s]: %s' % (str(type(features)), str(features)))
-
             #Get a state in the agent's point of view
             state = get_local_features(features)
             #print('********** State: %s' % str(state))
@@ -161,19 +169,6 @@ def main():
     eval_csv_file.close()
     train_csv_file.close()
 
-def execute_action(hfo, action):
-    """Executes the action in the HFO server"""
-    #If the action is not one of the default ones, it needs translation
-    if action in range(15):
-        hfo.act(action)
-    else:
-        #In the statespace_util file
-        action,parameter = translate_action(action, hfo.getState())
-        hfo.act(action,parameter)
 
-def get_local_features(features):
-    """Returns a state in which the friendly agents are sorted by their distance"""
-    #In the statespace_util file
-    return get_local_view_features(features)
 if __name__ == '__main__':
     main()
