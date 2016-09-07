@@ -1,75 +1,50 @@
-ok, so this is how you start the experimet:
+Run experiments:
 
 ./experiments/run.sh -o=2 -d=1 -t=10 -f=100 -r=1 -a=Dummy -i=5 -e=5
 
 -i is the number of learning trials before each evaluation
 -e is the number of trials executed in each evaluation
 
-my tests were executed with:
+Then the experiment will run with the Dummy agent. It automatically
+calculates the total trials and the evaluation trials and calls the
+server accordingly. It saves all to ./experiments/LOGS/ directory with
+a file for every agent in every run and the server info in incomplete_?.hfo.
+
+
+Start experiment for debugger:
 ./bin/HFO --offense-agents 2 --defense-npcs 1 --trials 20 --frames-per-trial 100 --fullstate
 python experiment.py -a Dummy  -i 5 -d 5 -t 10 -l /home/leno/HFO/HFO-master/log/Dummy
 
-Then the experiment will run with the Dummy agent. When it's
-done, you can look at the ./experiments/LOGS/ directory. It has
-file for every agent in every run, in case something goes bad,
-but we probably don't need any information from there.
-
-The most important files are the incomplete_?.hfo. In there are
-all the results for each trial in one run.
 
 IMPORTANT:
 - These are the files we work with:
      run.sh
      experiment.py
+     statespace_util.py
      agents/agent.py
      agents/dummy.py
+     agents/dummycom.py
      agents/sarsa.py
 
-PROBLEMS:
-- Evaluation trials not possible, because the server controls
-the trials and not eachagent for himself (it would not make sense
-anyway). A possible solution is to calculate the evaluation trials
-in the total number of trials and then stop learning during
-evaluation. 
-** Solved... I've calculated the total number of needed trials in the run.sh file. The agent is informed about how many training and evaluation trials it should execute [Leno]**
 
+List of TODOs as in 07/09:
 
-- Not sure how we can save the agent and reuse it later... 
-** I don't think we need to save the agent for our experiments [Leno] **
-
-
-TODOs:
-- Generate evaluation data from incomplete_?.hfo files. [Ruben]
-- Visualize evaluation data [Ruben] 
-** Don't worry about this right now... I can quickly generate MATLAB graphs if we finish the experiments codification in the nick of time [Leno] **
-
-- In experiment.py improve interaction with agent! [Leno, Ruben]
-- Integrate CMAC state transformation in agent class [Leno, Ruben] 
-** I've made some changes in the experiment.py file... all the CMAC-related codification should be included in the agent class, as only him knows about his state representation [Leno] **
-
-- Improve agent class and subclasses (agent.py, dummy.py) [Leno, Ruben]
-- Adapt a real learning agent (sarsa.py) [Leno, Ruben]
-
-List of TODOs as in 06/09:
-
-- Test .sh file to see if the evaluation works after last changes on the files [Ruben]
 - Make SARSA work:
-  -- Implement executionAction method in experiment.py - **Done [Leno]  
-  -- Implement localFeatures method in experiment.py - This method must order the features according to the distance of the friendly agents.
+  -- Implement executionAction method in experiment.py - **Done [Leno]
+  -- Implement localFeatures method in experiment.py - This method must order
+     the features according to the distance of the friendly agents.
   -- Check if the CMAC is working for state space approximation
   -- Check if the Q-function is working with the CMAC based features
 - Implement our proposal:
-  -- Modify the communication implemented in the DummyCom agent to the sarsa-based one
+  -- Modify the communication implemented in the DummyCom agent to the
+     sarsa-based one
   -- Change the exploration strategy to work with advising
-  -- Implement a method to translate one agent's state to another (maybe transferring the CMAC state in a message is enough)
+  -- Implement a method to translate one agent's state to another (maybe
+     transferring the CMAC state in a message is enough)
   -- Implement the importance-based advising with our metrics
   -- Check if the PASS actions are being advised correctly
   -- Include in the output files the average of budget use
 - Implement Torrey and Taylor proposal
    -- Modify our proposal to work with theirs importance metric
-- Implement graph output methods (only if we have enough-time, a hand-tailored MATLAB graph can also be used)
-
-
-
-
-
+- Implement graph output methods (only if we have enough-time, a hand-tailored
+  MATLAB graph can also be used)
