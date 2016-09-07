@@ -107,7 +107,7 @@ do
   --defense-npcs "${DEFENSE_AGENTS}" \
   --trials "${TRIALS_TOTAL}" \
   --frames-per-trial "${MAX_FRAMES}" \
-  --no-sync \
+  --headless \
   --fullstate &
   # instead of headless: --no-sync \
 

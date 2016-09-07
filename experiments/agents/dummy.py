@@ -5,8 +5,8 @@ from .agent import Agent
 
 class Dummy(Agent):
 
-    def __init__(self,hfo):
-        super(Dummy, self).__init__(hfo)
+    def __init__(self):
+        super(Dummy, self).__init__()
 
 
     def select_action(self,state):
@@ -16,7 +16,28 @@ class Dummy(Agent):
             return random.choice([self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear])
         return self.MOVE
 
-
     def observe_reward(self,state,action,reward,statePrime):
         """ After executing an action, the agent is informed about the state-reward-state tuple """
         pass
+
+    def train(self, state, action):
+        """ Perform a training step """
+        #Execute the action in the environment
+        self.execute_action(action)
+        # Advance the environment and get the game status
+        status = self.hfo.step()
+        statePrime = self.get_transformed_features(self.hfo.getState())
+        reward = self.get_reward(status)
+        actionPrime = self.select_action(statePrime)
+        return status, statePrime, actionPrime
+
+    def eval(self, state, action):
+        """ Perform a training step """
+        #Execute the action in the environment
+        self.execute_action(action)
+        # Advance the environment and get the game status
+        status = self.hfo.step()
+        statePrime = self.get_transformed_features(self.hfo.getState())
+        reward = self.get_reward(status)
+        actionPrime = self.select_action(statePrime)
+        return status, statePrime, actionPrime

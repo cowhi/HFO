@@ -30,7 +30,7 @@ def get_args():
     parser.add_argument('-l','--log_file',default='Dummy_1_1')
     return parser.parse_args()
 
-
+'''
 def get_reward(status):
     """The Reward Function returns -1 when a defensive agent captures the ball,
     +1 when the agent's team scores a goal and 0 otherwise"""
@@ -50,7 +50,7 @@ def execute_action(hfo, action):
         #In the statespace_util file
         action, parameter = translate_action(action, hfo.getState())
         hfo.act(action, parameter)
-'''
+
 def get_local_features(features):
     """Returns a state in which the friendly agents are sorted by their distance"""
     #In the statespace_util file
@@ -59,14 +59,6 @@ def get_local_features(features):
 
 def main():
     print('New agent called')
-
-    print('***** Loading HFO environment')
-    hfo = HFOEnvironment()
-
-    print('***** Connecting to HFO server')
-    hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
-                      'bin/teams/base/config/formations-dt', 6000,
-                      'localhost', 'base_left', False)
 
     print('***** Loading agent implementation')
     parameter = get_args()
@@ -78,11 +70,11 @@ def main():
     except ImportError:
         sys.stderr.write("ERROR: missing python module: " + parameter.agent + "\n")
         sys.exit(1)
-    AGENT = AgentClass(hfo)
-    print('***** '+ parameter.agent +' Agent online')
+    AGENT = AgentClass()
+    print('***** %s: %s Agent online' % (str(AGENT.unum), str(parameter.agent)))
 
 
-    print('***** Setting up result log files')
+    print('***** %s: Setting up result log files' % str(AGENT.unum))
     train_csv_file = open(parameter.log_file+"_train", "wb")
     train_csv_writer = csv.writer(train_csv_file)
     train_csv_writer.writerow(("trial","frames_trial","goals_trial"))
@@ -92,78 +84,82 @@ def main():
     eval_csv_writer.writerow(("trial","goal_percentage","avg_goal_time"))
     eval_csv_file.flush()
 
-    print('***** Start training')
+    print('***** %s: Start training' % str(AGENT.unum))
     for trial in range(1,parameter.learning_trials+1):
-        print('***** Starting Learning Trial %d' % trial)
-        status = IN_GAME
+        print('***** %s: Starting Learning Trial %d' % (str(AGENT.unum),trial))
+        status = AGENT.IN_GAME
         frame = 0
-        while status == IN_GAME:
+        # initialize
+        state = AGENT.get_transformed_features(AGENT.hfo.getState())
+        action = AGENT.select_action(state)
+        while status == AGENT.IN_GAME:
             # count frames
             frame += 1
             # rember last status (necessary?)
             #old_status = status
-            # Get current state features
-            features = hfo.getState()
-            #print('********** features [%s]: %s' % (str(type(features)), str(features)))
             #Get a state in the agent's point of view
-            state = get_transformed_features(features)
+            #state = get_transformed_features(hfo.getState())
             #print('********** State: %s' % str(state))
             # Select action in regard to state
-            action = AGENT.select_action(state)
+            #action = AGENT.select_action(state)
             #Execute the action in the environment
-            execute_action(hfo,action)
+            #execute_action(hfo,action)
             #print('********** Action: %s' % str(action))
             # Advance the environment and get the game status
-            status = hfo.step()
+            #status = hfo.step()
             #print('********** Status after frame %d: %s' % (frame, hfo.statusToString(status)))
-            reward = get_reward(status)
+            #reward = get_reward(status)
             #print('********** Reward: %s' % str(reward))
-            statePrime = get_local_features(hfo.getState())
+            #statePrime = get_transformed_features(hfo.getState())
 
-            AGENT.observe_reward(state,action,reward,statePrime)
+            #AGENT.observe_reward(state,action,reward,statePrime)
+            status, state, agent = AGENT.train(state, action)
 
         # Check the outcome of the trial
-        print('***** Trial ended with %s'% hfo.statusToString(status))
-
+        print('***** %s: Trial ended with %s'% (str(AGENT.unum), AGENT.hfo.statusToString(status)))
+        reward = AGENT.get_reward(status)
         # save stuff
         train_csv_writer.writerow((trial,frame,reward))
         train_csv_file.flush()
 
         # perform an evaluation trial
         if(trial % parameter.evaluation_interval == 0):
-            print('***** Running evaluation trials')
+            print('***** %s: Running evaluation trials' % str(AGENT.unum) )
             AGENT.set_exploring(False)
             goals = 0.0
             time_to_goal = 0.0
 
             for eval_trials in range(1,parameter.evaluation_duration+1):
                 eval_frame = 0
-                eval_status = IN_GAME
-                while eval_status == IN_GAME:
+                eval_status = AGENT.IN_GAME
+                state = AGENT.get_transformed_features(AGENT.hfo.getState())
+                action = AGENT.select_action(state)
+                while eval_status == AGENT.IN_GAME:
                     eval_frame += 1
-                    eval_state = get_local_features(hfo.getState())
-                    eval_action = AGENT.select_action(eval_state)
-                    execute_action(hfo,eval_action)
-                    eval_status = hfo.step()
-                    if(eval_status == GOAL):
+                    eval_status, state, agent = AGENT.eval(state, action)
+                    #eval_state = get_local_features(hfo.getState())
+                    #eval_action = AGENT.select_action(eval_state)
+                    #execute_action(hfo,eval_action)
+                    #eval_status = hfo.step()
+                    if(eval_status == AGENT.GOAL):
                         goals += 1.0
                         time_to_goal += eval_frame
-                        print('********** GGGGOOOOOOOOOOLLLL: %s in %s' % (str(goals), str(time_to_goal)))
+                        print('********** %s: GGGGOOOOOOOOOOLLLL: %s in %s' % (str(AGENT.unum), str(goals), str(time_to_goal)))
             goal_percentage = 100*goals/parameter.evaluation_duration
             if (goals != 0):
                 avg_goal_time = time_to_goal/goals
             else:
                 avg_goal_time = 0.0
-            print('***** Goal Percentage: '+ str(goal_percentage))
-            print('***** Average Time to Goal: '+ str(avg_goal_time))
+            print('***** %s: Goal Percentage: %s' % (str(AGENT.unum), str(goal_percentage)))
+            print('***** %s: Average Time to Goal: %s' % (str(AGENT.unum), str(avg_goal_time)))
             eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time)))
             eval_csv_file.flush()
             AGENT.set_exploring(True)
 
         # Quit if the server goes down
-        if status == SERVER_DOWN:
-            hfo.act(QUIT)
-            print('***** Shutting down agent')
+        if status == AGENT.SERVER_DOWN:
+            AGENT.hfo.act(QUIT)
+            print('***** %s: Shutting down agent' % str(AGENT.unum))
             break
 
     eval_csv_file.close()

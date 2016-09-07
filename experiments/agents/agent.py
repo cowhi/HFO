@@ -55,9 +55,25 @@ class Agent(object):
     RIGHT, NEUTRAL, LEFT = range(-1,2)
 
 
-    def __init__(self,hfo):
+    '''State Variable Enum (with 2 friendly agents and 1 opponent)'''
+    X_POSITION, Y_POSITION, ORIENTATION, BALL_PROXIMITY, BALL_ANGLE, \
+      ABLE_KICK, CENTER_PROXIMITY, GOAL_ANGLE, GOAL_OPENING, \
+      OPPONENT_PROXIMITY, FRIEND1_GOAL_OPPENING, FRIEND2_GOAL_OPPENING, \
+      FRIEND1_OPP_PROXIMITY, FRIEND2_OPP_PROXIMITY, FRIEND1_OPENING, \
+      FRIEND2_OPENING, FRIEND1_PROXIMITY, FRIEND1_ANGLE, FRIEND1_NUMBER, \
+      FRIEND2_PROXIMITY, FRIEND2_ANGLE, FRIEND2_NUMBER, OPP_PROXIMITY, \
+      OPP_ANGLE, OPP_NUMBER = range(25)
+
+    def __init__(self):
         """ Initializes an agent for a given environment. """
-        self.hfo = hfo
+
+        print('***** Connecting to HFO server')
+        self.hfo = HFOEnvironment()
+        self.hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
+                          'bin/teams/base/config/formations-dt', 6000,
+                          'localhost', 'base_left', False)
+        #self.unum = self.hfo.getUnum()
+        self.unum = 0
         self.exploring = True
         self.cmac = CMAC(1,0.5,0.1)
 
@@ -72,14 +88,111 @@ class Agent(object):
         """ After executing an action, the agent is informed about the state-action-reward-state tuple """
         pass
 
-    def set_exploring(self,exploring):
+    @abc.abstractmethod
+    def train(self, state, action):
+        """ Perform a complete training step """
+        pass
+
+    @abc.abstractmethod
+    def eval(self, state, action):
+        """ Perform a complete training step """
+        pass
+
+    def set_exploring(self, exploring):
         """ The agent keeps track if it should explore in the current state (used for evaluations) """
         self.exploring = exploring
 
-    def transform_features(self,features):
-        ''' CMAC utilities for all agent '''
+    def transform_features(self, features):
+        """ CMAC utilities for all agent """
         data = []
         for feature in features:
             quantized_features = self.cmac.quantize(feature)
             data.append([quantized_features])
         return data
+
+    def get_reward(self, status):
+        """The Reward Function returns -1 when a defensive agent captures the ball,
+        +1 when the agent's team scores a goal and 0 otherwise"""
+        if(status == self.CAPTURED_BY_DEFENSE):
+             return -1.0
+        elif(status == self.GOAL):
+             return 1.0
+        return 0.0
+
+    def execute_action(self, action):
+        """Executes the action in the HFO server"""
+        #If the action is not one of the default ones, it needs translation
+        if action in range(15):
+            self.hfo.act(action)
+        else:
+            #In the statespace_util file
+            action, parameter = self.translate_action(action, hfo.getState())
+            self.hfo.act(action, parameter)
+
+    def translate_action(self, action, stateFeatures):
+        """Defines the nearest and farthest friendly agents,
+        then return the PASS action with the correct parameter"""
+        nearest = 0
+        farthest = 0
+
+        if(stateFeatures[self.FRIEND1_PROXIMITY] > stateFeatures[self.FRIEND2_PROXIMITY]):
+            nearest = stateFeatures[self.FRIEND1_NUMBER]
+            farthest = stateFeatures[self.FRIEND2_NUMBER]
+        else:
+            nearest = stateFeatures[self.FRIEND2_NUMBER]
+            farthest = stateFeatures[self.FRIEND1_NUMBER]
+        actionRet = self.PASS
+
+        if(action == self.PASSnear):
+            argument = nearest
+        elif(action == self.PASSfar):
+            argument = farthest
+
+        return actionRet, argument
+
+
+    def get_transformed_features(self, stateFeatures):
+        """Erases the irrelevant features (such as agent Unums) and sort agents by
+        their distance"""
+        #Defines the agent order
+        if(stateFeatures[self.FRIEND1_PROXIMITY] > stateFeatures[self.FRIEND2_PROXIMITY]):
+            nearestGoalOpening = stateFeatures[self.FRIEND1_GOAL_OPPENING]
+            nearestOppProximity = stateFeatures[self.FRIEND1_OPP_PROXIMITY]
+            nearestOpening = stateFeatures[self.FRIEND1_OPENING]
+            nearestProximity = stateFeatures[self.FRIEND1_PROXIMITY]
+            nearestAngle = stateFeatures[self.FRIEND1_ANGLE]
+
+            farthestGoalOpening = stateFeatures[self.FRIEND2_GOAL_OPPENING]
+            farthestOppProximity = stateFeatures[self.FRIEND2_OPP_PROXIMITY]
+            farthestOpening = stateFeatures[self.FRIEND2_OPENING]
+            farthestProximity = stateFeatures[self.FRIEND2_PROXIMITY]
+            farthestAngle = stateFeatures[self.FRIEND2_ANGLE]
+        else:
+            nearestGoalOpening = stateFeatures[self.FRIEND2_GOAL_OPPENING]
+            nearestOppProximity = stateFeatures[self.FRIEND2_OPP_PROXIMITY]
+            nearestOpening = stateFeatures[self.FRIEND2_OPENING]
+            nearestProximity = stateFeatures[self.FRIEND2_PROXIMITY]
+            nearestAngle = stateFeatures[self.FRIEND2_ANGLE]
+
+            farthestGoalOpening = stateFeatures[self.FRIEND1_GOAL_OPPENING]
+            farthestOppProximity = stateFeatures[self.FRIEND1_OPP_PROXIMITY]
+            farthestOpening = stateFeatures[self.FRIEND1_OPENING]
+            farthestProximity = stateFeatures[self.FRIEND1_PROXIMITY]
+            farthestAngle = stateFeatures[self.FRIEND1_ANGLE]
+
+        stateFeatures[self.FRIEND1_GOAL_OPPENING] = nearestGoalOpening
+        stateFeatures[self.FRIEND1_OPP_PROXIMITY] = nearestOppProximity
+        stateFeatures[self.FRIEND1_OPENING] = nearestOpening
+        stateFeatures[self.FRIEND1_PROXIMITY] = nearestProximity
+        stateFeatures[self.FRIEND1_ANGLE] = nearestAngle
+
+        stateFeatures[self.FRIEND2_GOAL_OPPENING] = farthestGoalOpening
+        stateFeatures[self.FRIEND2_OPP_PROXIMITY] = farthestOppProximity
+        stateFeatures[self.FRIEND2_OPENING] = farthestOpening
+        stateFeatures[self.FRIEND2_PROXIMITY] = farthestProximity
+        stateFeatures[self.FRIEND2_ANGLE] = farthestAngle
+
+        #Removes the agent Unum... makes the friendly agents differentiable only by their feature values
+        # and makes easier the state translation for the advising
+        stateFeatures = np.delete(stateFeatures, [self.FRIEND1_NUMBER, self.FRIEND2_NUMBER])
+        return stateFeatures
