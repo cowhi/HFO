@@ -77,12 +77,15 @@ fi
 
 #Now the number of trials is incremented to take into account how many
 # evaluation trials will be carried out
-TRIALS_TOTAL=$(( TRIALS + TRIALS%INTERVAL * DURATION ))
+((EVAL_COUNT=${TRIALS}/${INTERVAL}))
+((EVAL_TRIALS=${EVAL_COUNT}*${DURATION}))
+((TRIALS_TOTAL=${TRIALS}+${EVAL_TRIALS}))
 
-echo "[$(date +"%Y-%m-%d_%H:%M:%S")] SELECTED PARAMETERS:" \
-"RUNS=${RUNS},TRIALS=${TRIALS}, MAX_FRAMES=${MAX_FRAMES}," \
-"AGENT=${AGENT}, OFFENSE_AGENTS=${OFFENSE_AGENTS}, DEFENSE_AGENTS=${DEFENSE_AGENTS}," \
-"INTERVAL=${INTERVAL}, DURATION=${DURATION}, TRIALS_TOTAL=${TRIALS_TOTAL}"
+echo "[$(date +"%Y-%m-%d_%H:%M:%S")] SELECTED PARAMETERS: "\
+"RUNS=${RUNS}, TRIALS=${TRIALS}, MAX_FRAMES=${MAX_FRAMES}, AGENT=${AGENT}, "\
+"OFFENSE_AGENTS=${OFFENSE_AGENTS}, DEFENSE_AGENTS=${DEFENSE_AGENTS}, "\
+"EVAL_TRIALS=${EVAL_TRIALS},INTERVAL=${INTERVAL}, DURATION=${DURATION}, "\
+"TRIALS_TOTAL=${TRIALS_TOTAL}"
 
 _now=$(date +"%Y_%m_%d-%H.%M.%S")
 BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
@@ -111,13 +114,13 @@ do
 
   HFO_PID=$!
   echo "[$(date +"%Y-%m-%d_%H:%M:%S")] HFO SERVER PID: ${HFO_PID}"
-  
+
   for ((agent=1; agent<=${OFFENSE_AGENTS}; agent++ ))
-  do 
-   sleep 5 
+  do
+   sleep 5
     echo "[$(date +"%Y-%m-%d_%H:%M:%S")] STARTING AGENT ${agent}"
-    "${BASE_DIR}"/experiment.py -a "${AGENT}" -i "${INTERVAL}" -d "${DURATION}" -t "${TRIALS}" \ 
-           -l "${_dir}${AGENT}"_"${run}"_"${agent}"  &
+    "${BASE_DIR}"/experiment.py -a "${AGENT}" -i "${INTERVAL}" -d \
+    "${DURATION}" -t "${TRIALS}" -l "${_dir}${AGENT}"_"${run}"_"${agent}"  &
   done
   wait ${HFO_PID}
   sleep 5

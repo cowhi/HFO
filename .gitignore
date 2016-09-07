@@ -86,3 +86,6 @@ experiments/LOGS/
 # jupyter stuff
 .ipynb_checkpoints/
 experiments/.ipynb_checkpoints/
+
+# cleaning up editor stuff
+*~
