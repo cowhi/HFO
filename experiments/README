@@ -36,13 +36,16 @@ List of TODOs as in 07/09:
   -- Check if the Q-function is working with the CMAC based features
 - Implement our proposal:
   -- Modify the communication implemented in the DummyCom agent to the
-     sarsa-based one
+     sarsa-based one - **Done - tests pending [Leno]
   -- Change the exploration strategy to work with advising
   -- Implement a method to translate one agent's state to another (maybe
      transferring the CMAC state in a message is enough)
   -- Implement the importance-based advising with our metrics
   -- Check if the PASS actions are being advised correctly
   -- Include in the output files the average of budget use
+- Check Environment
+  -- Is there a golie in the environment?
+  -- Are the agent starting the trials in random positions?
 - Implement Torrey and Taylor proposal
    -- Modify our proposal to work with theirs importance metric
 - Implement graph output methods (only if we have enough-time, a hand-tailored
