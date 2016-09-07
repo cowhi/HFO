@@ -167,14 +167,13 @@ def executeAction(hfo, action):
     if action in range(15):    
         hfo.act(action)        
     else:
-        #TODO: Implement the PASSnear and PASSfar actions in the translateAction method
+        #In the statespace_util file
         action,parameter = translateAction(action, hfo.getState())
         hfo.act(action,parameter)
     
 def localFeatures(features):
     """Returns a state in which the friendly agents are sorted by their distance"""
-    #TODO: Sort Agents
-    return features
-
+    #In the statespace_util file
+    return localViewFeatures(features)
 if __name__ == '__main__':
     main()

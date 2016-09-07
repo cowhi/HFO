@@ -40,3 +40,51 @@ def translateAction(action, stateFeatures):
     return actionRet,argument
     
     
+def localViewFeatures(stateFeatures):
+    """Erases the irrelevant features (such as agent Unums) and sort agents by
+    their distance"""
+    #Defines the agent order
+    if(stateFeatures[FRIEND1_PROXIMITY] > stateFeatures[FRIEND2_PROXIMITY]):
+        nearestGoalOpening = stateFeatures[FRIEND1_GOAL_OPPENING]
+        nearestOppProximity = stateFeatures[FRIEND1_OPP_PROXIMITY]
+        nearestOpening = stateFeatures[FRIEND1_OPENING]
+        nearestProximity = stateFeatures[FRIEND1_PROXIMITY]
+        nearestAngle = stateFeatures[FRIEND1_ANGLE]
+        
+        farthestGoalOpening = stateFeatures[FRIEND2_GOAL_OPPENING]
+        farthestOppProximity = stateFeatures[FRIEND2_OPP_PROXIMITY]
+        farthestOpening = stateFeatures[FRIEND2_OPENING]
+        farthestProximity = stateFeatures[FRIEND2_PROXIMITY]
+        farthestAngle = stateFeatures[FRIEND2_ANGLE]
+    else:
+        nearestGoalOpening = stateFeatures[FRIEND2_GOAL_OPPENING]
+        nearestOppProximity = stateFeatures[FRIEND2_OPP_PROXIMITY]
+        nearestOpening = stateFeatures[FRIEND2_OPENING]
+        nearestProximity = stateFeatures[FRIEND2_PROXIMITY]
+        nearestAngle = stateFeatures[FRIEND2_ANGLE]
+        
+        farthestGoalOpening = stateFeatures[FRIEND1_GOAL_OPPENING]
+        farthestOppProximity = stateFeatures[FRIEND1_OPP_PROXIMITY]
+        farthestOpening = stateFeatures[FRIEND1_OPENING]
+        farthestProximity = stateFeatures[FRIEND1_PROXIMITY]
+        farthestAngle = stateFeatures[FRIEND1_ANGLE]
+        
+    stateFeatures[FRIEND1_GOAL_OPPENING] = nearestGoalOpening
+    stateFeatures[FRIEND1_OPP_PROXIMITY] = nearestOppProximity
+    stateFeatures[FRIEND1_OPENING] = nearestOpening
+    stateFeatures[FRIEND1_PROXIMITY] = nearestProximity
+    stateFeatures[FRIEND1_ANGLE] = nearestAngle
+    
+    stateFeatures[FRIEND2_GOAL_OPPENING] = farthestGoalOpening
+    stateFeatures[FRIEND2_OPP_PROXIMITY] = farthestOppProximity
+    stateFeatures[FRIEND2_OPENING] = farthestOpening
+    stateFeatures[FRIEND2_PROXIMITY] = farthestProximity
+    stateFeatures[FRIEND2_ANGLE] = farthestAngle
+    
+    #Removes the agent Unum... makes the friendly agents differentiable only by their feature values
+    # and makes easier the state translation for the advising
+    stateFeatures = stateFeatures.delete([FRIEND1_NUMBER,FRIEND2_NUMBER])
+    return stateFeatures
+    
+    
+    
