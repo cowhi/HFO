@@ -14,6 +14,7 @@ from hfo import *
 
 
 from agents.agent import Agent
+from statespace_util import *
 
 AGENT = None
 hfo = None
@@ -30,15 +31,6 @@ def get_args():
     parser.add_argument('-l','--log_file',default='Dummy_1_1')
     return parser.parse_args()
 
-#This should have been done inside the agent class... only the own agent
-    # knows about his state representation [Leno]
-"""def transformFeatures(features):
-    ''' From continuous to discrete using CMAC '''
-    data = []
-    for feature in features:
-        quantized_features = cmac.quantize(feature)
-        data.append([pts])
-    return data"""
 
 def getReward(status):
     """The Reward Function returns -1 when a defensive agent captures the ball,
@@ -103,7 +95,7 @@ def main():
             #old_status = status
             # Get current state features
             features = hfo.getState()
-            #print('********** features [%s]: %s' % (str(type(features)), str(features)))
+            print('********** features [%s]: %s' % (str(type(features)), str(features)))
             
             #Get a state in the agent's point of view
             state = localFeatures(features)
@@ -176,7 +168,7 @@ def executeAction(hfo, action):
         hfo.act(action)        
     else:
         #TODO: Implement the PASSnear and PASSfar actions in the translateAction method
-        action,parameter = translateAction(action)
+        action,parameter = translateAction(action, hfo.getState())
         hfo.act(action,parameter)
     
 def localFeatures(features):
