@@ -1,22 +1,18 @@
 import random
-from ..cmac import CMAC
 
 
 class SARSA(object):
 
-    cmac = None
     lastState = None
 
-
-    def __init__(self, hfo, actions, epsilon=0.1, alpha=0.2, gamma=0.9):
+    def __init__(self, hfo, epsilon=0.1, alpha=0.2, gamma=0.9):
         super(SARSA, self).__init__(hfo)
         self.qTable = {}
 
         self.epsilon = epsilon
         self.alpha = alpha
         self.gamma = gamma
-        self.actions = actions
-        self.cmac = CMAC(1,0.5,0.1)
+
 
     def get_Q(self, state, action):
         return self.qTable.get((state, action), 0.0)
@@ -27,7 +23,6 @@ class SARSA(object):
             self.qTable[(state, action)] = reward
         else:
             self.qTable[(state, action)] = oldv + self.alpha * (value - oldv)
-
 
 
     def observe_reward(self,state,action,reward,statePrime):
@@ -53,7 +48,7 @@ class SARSA(object):
         if self.exploring and random.random() < self.epsilon:
             action = random.choice(self.actions)
         else:
-            qValues = [self.getQ(state, a) for a in self.actions]
+            qValues = [self.get_Q(state, a) for a in self.actions]
             maxQ = max(qValues)
             count = qValues.count(maxQ)
             if count > 1:
@@ -66,15 +61,5 @@ class SARSA(object):
         return action
 
     def learn(self, state1, action1, reward, state2, action2):
-        qnext = self.getQ(state2, action2)
-        self.learnQ(state1, action1, reward, reward + self.gamma * qnext)
-
-
-
-    def transform_features(self,features):
-        ''' CMAC utilities for the SARSA agent '''
-        data = []
-        for feature in features:
-            quantized_features = self.cmac.quantize(feature)
-            data.append([quantized_features])
-        return data
+        qnext = self.get_Q(state2, action2)
+        self.learn_Q(state1, action1, reward, reward + self.gamma * qnext)

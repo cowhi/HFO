@@ -1,5 +1,6 @@
 import logging
 from hfo import *
+from cmac import CMAC
 _logger = logging.getLogger(__name__)
 
 import abc
@@ -7,26 +8,13 @@ import abc
 class Agent(object):
     """ This is the base class for all agent implementations.
 
-    The agent gets its available actions from the environment, keeps track of
-    his current state and saves his experiences in a replay memory while acting
-    in the environment.
-
-    Attributes:
-        name (str): The name of the network object.
-        env (Environment): The envirnoment in which the agent actuates (which is an HFO object).
-        rng (mtrand.RandomState): Initialized Mersenne Twister pseudo-random number generator.
-        n_steps_total (int): Counter of all training steps.
-        callback (Statistics): The stats module that attaches itself to the agent.
-        exploring: variable to indicate if the agent is exploring or exploiting
-
-    Note:
-        All subclasses must inherite this class --> 'class NewClass(Agent)'
-
     """
     __metaclass__ = abc.ABCMeta
 
-    '''The HFO object'''
+    ''' The HFO object '''
     hfo = None
+    ''' State discretizations '''
+    cmac = None
 
     ''' An enum of the possible HFO actions
       [Low-Level] Dash(power, relative_direction)
@@ -67,23 +55,11 @@ class Agent(object):
     RIGHT, NEUTRAL, LEFT = range(-1,2)
 
 
-    def __str__(self):
-        """ Overwrites the object.__str__ method.
-
-        Returns:
-            string (str): Important parameters of the object.
-        """
-        return "'name':" + str(self.name) + ", " + \
-               "'epsilon_start':" + str(self.epsilon_start) + ", " + \
-               "'epsilon_end':" + str(self.epsilon_end) + ", " + \
-               "'epsilon_decay_steps':" + str(self.epsilon_decay_steps) + ", " + \
-               "'n_avail_actions':" + str(self.n_avail_actions) + ", " + \
-               "'avail_actions':" + str(self.avail_actions)
-
     def __init__(self,hfo):
         """ Initializes an agent for a given environment. """
         self.hfo = hfo
         self.exploring = True
+        self.cmac = CMAC(1,0.5,0.1)
 
 
     @abc.abstractmethod
@@ -99,3 +75,11 @@ class Agent(object):
     def set_exploring(self,exploring):
         """ The agent keeps track if it should explore in the current state (used for evaluations) """
         self.exploring = exploring
+
+    def transform_features(self,features):
+        ''' CMAC utilities for the SARSA agent '''
+        data = []
+        for feature in features:
+            quantized_features = self.cmac.quantize(feature)
+            data.append([quantized_features])
+        return data
