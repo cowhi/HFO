@@ -14,12 +14,13 @@ TODO: an actual message passing implementation
 
 
 import random
+from advice_util import ask_advice,verify_advice,give_advice
 
 from agent import Agent
 
 class DummyCom(Agent):
 
-    messageFolder = "messages/"
+   
     steps = 0
 
 
@@ -31,11 +32,19 @@ class DummyCom(Agent):
     def select_action(self,state):
         """ When this method is called, the agent executes an action. """
         if self.exploring:
-            self.say("Agent "+str(self.hfo.getUnum())+" - Say     "+str(self.steps))
+            advised = ask_advice(self.getUnum(),state)
+            if advised:
+                print "ADVISED: "+advised
 
-            message = self.hear()
-            if message:
-                print message
+            reads = verify_advice(self.getUnum())            
+
+            if reads:
+                print reads
+                for ad in reads:
+                    advisee = ad[0]
+                    state = ad[1]
+                    give_advice(advisee,self.getUnum(),self.MOVE)
+            
 
             self.steps = self.steps+1
 
