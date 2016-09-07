@@ -109,7 +109,6 @@ do
   --frames-per-trial "${MAX_FRAMES}" \
   --headless \
   --fullstate &
-
   # instead of headless: --no-sync \
 
   HFO_PID=$!
