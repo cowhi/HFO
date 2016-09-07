@@ -54,7 +54,7 @@ List of TODOs as in 06/09:
 
 - Test .sh file to see if the evaluation works after last changes on the files [Ruben]
 - Make SARSA work:
-  -- Implement executionAction method in experiment.py - this method will allow the use of the PASSnear and PASSfar actions. It should be able to identify the Unum of the nearest and farthest agents to use as parameters to the PASS action
+  -- Implement executionAction method in experiment.py - **Done [Leno]  
   -- Implement localFeatures method in experiment.py - This method must order the features according to the distance of the friendly agents.
   -- Check if the CMAC is working for state space approximation
   -- Check if the Q-function is working with the CMAC based features
