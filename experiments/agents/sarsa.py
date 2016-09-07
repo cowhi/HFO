@@ -3,11 +3,11 @@ from ..cmac import CMAC
 
 
 class SARSA(object):
-    
-    cmac = None    
+
+    cmac = None
     lastState = None
-   
-    
+
+
     def __init__(self, hfo, actions, epsilon=0.1, alpha=0.2, gamma=0.9):
         super(SARSA, self).__init__(hfo)
         self.qTable = {}
@@ -18,21 +18,21 @@ class SARSA(object):
         self.actions = actions
         self.cmac = CMAC(1,0.5,0.1)
 
-    def getQ(self, state, action):
+    def get_Q(self, state, action):
         return self.qTable.get((state, action), 0.0)
 
-    def learnQ(self, state, action, reward, value):
+    def learn_Q(self, state, action, reward, value):
         oldv = self.qTable.get((state, action), None)
         if oldv is None:
             self.qTable[(state, action)] = reward
         else:
             self.qTable[(state, action)] = oldv + self.alpha * (value - oldv)
-            
-            
-        
-    def observeReward(self,state,action,reward,statePrime):
+
+
+
+    def observe_reward(self,state,action,reward,statePrime):
         """ After executing an action, the agent is informed about the state-action-reward-state tuple """
-        if self.exploring:        
+        if self.exploring:
             #Selects the action for the next state without exploration
             lastState = self.lastState
             self.exploring = False
@@ -41,15 +41,15 @@ class SARSA(object):
             #Executes Q-update
             self.learn(lastState,action,reward,self.lastState,nextAction)
             #turns on the exploration again
-        
+
 
     def select_action(self, state):
         """Executes the epsilon-greedy exploration strategy"""
         #Processes the state using cmac
         state = self.transformFeatures(state)
         #stores last CMAC result
-        self.lastState = state        
-        
+        self.lastState = state
+
         if self.exploring and random.random() < self.epsilon:
             action = random.choice(self.actions)
         else:
@@ -68,13 +68,13 @@ class SARSA(object):
     def learn(self, state1, action1, reward, state2, action2):
         qnext = self.getQ(state2, action2)
         self.learnQ(state1, action1, reward, reward + self.gamma * qnext)
-        
-        
-            
-    def transformFeatures(self,features):
+
+
+
+    def transform_features(self,features):
         ''' CMAC utilities for the SARSA agent '''
         data = []
         for feature in features:
             quantized_features = self.cmac.quantize(feature)
             data.append([quantized_features])
-        return data 
+        return data

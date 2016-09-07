@@ -24,7 +24,7 @@ class Agent(object):
 
     """
     __metaclass__ = abc.ABCMeta
-    
+
     '''The HFO object'''
     hfo = None
 
@@ -45,8 +45,8 @@ class Agent(object):
       NOOP(): Do Nothing
       QUIT(): Quit the game '''
     DASH, TURN, TACKLE, KICK, KICK_TO, MOVE_TO, DRIBBLE_TO, INTERCEPT, \
-      MOVE, SHOOT, PASS, DRIBBLE, CATCH, NOOP, QUIT = range(15) 
-      
+      MOVE, SHOOT, PASS, DRIBBLE, CATCH, NOOP, QUIT = range(15)
+
     #Customized actions
     PASSnear = 15
     PASSfar = 16
@@ -92,11 +92,10 @@ class Agent(object):
         pass
 
     @abc.abstractmethod
-    def observeReward(self,state,action,reward,statePrime):
+    def observe_reward(self,state,action,reward,statePrime):
         """ After executing an action, the agent is informed about the state-action-reward-state tuple """
         pass
 
-    def setExploring(self,exploring):
+    def set_exploring(self,exploring):
         """ The agent keeps track if it should explore in the current state (used for evaluations) """
         self.exploring = exploring
-        

@@ -32,7 +32,7 @@ def get_args():
     return parser.parse_args()
 
 
-def getReward(status):
+def get_reward(status):
     """The Reward Function returns -1 when a defensive agent captures the ball,
     +1 when the agent's team scores a goal and 0 otherwise"""
     if(status == CAPTURED_BY_DEFENSE):
@@ -55,7 +55,7 @@ def main():
 
     print('***** Loading agent implementation')
     parameter = get_args()
-    try:        
+    try:
         AgentClass = getattr(
                 __import__('agents.' + (parameter.agent).lower(),
                         fromlist=[parameter.agent]),
@@ -66,7 +66,7 @@ def main():
     AGENT = AgentClass(hfo)
     print('***** '+ parameter.agent +' Agent online')
 
-    
+
     print('***** Setting up result log files')
     train_csv_file = open(parameter.log_file+"_train", "wb")
     train_csv_writer = csv.writer(train_csv_file)
@@ -76,7 +76,7 @@ def main():
     eval_csv_writer = csv.writer(eval_csv_file)
     eval_csv_writer.writerow(("trial","goal_percentage","avg_goal_time"))
     eval_csv_file.flush()
-    
+
 
     #This should have been done inside the agent class... only the own agent
     # knows about his state representation [Leno]
@@ -96,27 +96,27 @@ def main():
             # Get current state features
             features = hfo.getState()
             #print('********** features [%s]: %s' % (str(type(features)), str(features)))
-            
+
             #Get a state in the agent's point of view
-            state = localFeatures(features)
+            state = get_local_features(features)
             #print('********** State: %s' % str(state))
             # Select action in regard to state
             action = AGENT.select_action(state)
             #Execute the action in the environment
-            executeAction(hfo,action)
+            execute_action(hfo,action)
             #print('********** Action: %s' % str(action))
             # Advance the environment and get the game status
             status = hfo.step()
             #print('********** Status after frame %d: %s' % (frame, hfo.statusToString(status)))
-            reward = getReward(status)
+            reward = get_reward(status)
             #print('********** Reward: %s' % str(reward))
-            statePrime = localFeatures(hfo.getState()) 
-            
-            AGENT.observeReward(state,action,reward,statePrime)
-            
+            statePrime = get_local_features(hfo.getState())
+
+            AGENT.observe_reward(state,action,reward,statePrime)
+
         # Check the outcome of the trial
         print('***** Trial ended with %s'% hfo.statusToString(status))
-        
+
         # save stuff
         train_csv_writer.writerow((trial,frame,reward))
         train_csv_file.flush()
@@ -124,7 +124,7 @@ def main():
         # perform an evaluation trial
         if(trial % parameter.evaluation_interval == 0):
             print('***** Running evaluation trials')
-            AGENT.setExploring(False)
+            AGENT.set_exploring(False)
             goals = 0.0
             time_to_goal = 0.0
 
@@ -133,9 +133,9 @@ def main():
                 eval_status = IN_GAME
                 while eval_status == IN_GAME:
                     eval_frame += 1
-                    eval_state = localFeatures(hfo.getState())
+                    eval_state = get_local_features(hfo.getState())
                     eval_action = AGENT.select_action(eval_state)
-                    executeAction(hfo,eval_action)
+                    execute_action(hfo,eval_action)
                     eval_status = hfo.step()
                     if(eval_status == GOAL):
                         goals += 1.0
@@ -150,30 +150,30 @@ def main():
             print('***** Average Time to Goal: '+ str(avg_goal_time))
             eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time)))
             eval_csv_file.flush()
-            AGENT.setExploring(True)
-        
+            AGENT.set_exploring(True)
+
         # Quit if the server goes down
         if status == SERVER_DOWN:
             hfo.act(QUIT)
             print('***** Shutting down agent')
             break
-    
+
     eval_csv_file.close()
     train_csv_file.close()
-    
-def executeAction(hfo, action):
+
+def execute_action(hfo, action):
     """Executes the action in the HFO server"""
-    #If the action is not one of the default ones, it needs translation    
-    if action in range(15):    
-        hfo.act(action)        
+    #If the action is not one of the default ones, it needs translation
+    if action in range(15):
+        hfo.act(action)
     else:
         #In the statespace_util file
-        action,parameter = translateAction(action, hfo.getState())
+        action,parameter = translate_action(action, hfo.getState())
         hfo.act(action,parameter)
-    
-def localFeatures(features):
+
+def get_local_features(features):
     """Returns a state in which the friendly agents are sorted by their distance"""
     #In the statespace_util file
-    return localViewFeatures(features)
+    return get_local_view_features(features)
 if __name__ == '__main__':
     main()
