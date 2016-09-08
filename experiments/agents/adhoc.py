@@ -12,7 +12,7 @@ This agent act as SARSA, and the exploration strategy is changed according to ou
 from sarsa import SARSA
 from threading import Thread
 import advice_util as advice
-import numpy as np
+
 import math
 
 
@@ -30,17 +30,22 @@ class AdHoc(SARSA):
     #Enum for importance metrics
     VISIT_IMPORTANCE, Q_IMPORTANCE = range(2)
     
+    stateImportanceMetric = None
+    
     ASK,ADVISE = range(2)
+    visitTable = None
     
-    
-    def __init__(self, budgetAsk=0, budgetAdvise=0, epsilon=0.1, alpha=0.2, gamma=0.9):
+    def __init__(self, budgetAsk=0, budgetAdvise=0,stateImportanceMetric=VISIT_IMPORTANCE, epsilon=0.1, alpha=0.2, gamma=0.9):
         super(AdHoc, self).__init__()
+        self.name = "AdHoc"
+        self.qTable = {}
         self.budgetAsk = budgetAsk
         self.budgetAdvise = budgetAdvise
         
         thread = Thread(target = self.advise)
         thread.start()
         self.ableToAdvise = True
+        self.stateImportanceMetric = stateImportanceMetric
         
     def select_action(self, state):
         """Changes the exploration strategy"""
@@ -60,13 +65,9 @@ class AdHoc(SARSA):
     def check_advise(self,state): 
         """Returns if the agent should advice in this state.
         The advised action is also returned in the positive case"""
+            
         
-        # Recovers the informed state to the numpy format
-        state = state.split(";")[:-1] #Remove last empty element
-        state = np.asfarray(state, dtype='float')
-        
-        
-        importance = self.state_importance(state,self.ADVISE)
+        importance = self.state_importance(state,self.stateImportanceMetric)
         midpoint = self.midpoint(self.ADVISE)
         
         #Calculates the probability
@@ -79,9 +80,50 @@ class AdHoc(SARSA):
             
         return False,None
         
+    def state_importance(self,state,typeProb):
+        """Calculates the state importance
+        state - the state
+        typeProb - is the state importance being calculated in regard to
+        the number of visits or also by Q-table values?"""
+        processedState = tuple(self.quantize_features(state))
+        numberVisits = self.number_visits(processedState)
+         
+        if numberVisits == 0:
+            return 0
+            
+        visitImportance = numberVisits / (numberVisits + math.log(self.scalingVisits + numberVisits))
+        
+        if typeProb == self.VISIT_IMPORTANCE:
+            return visitImportance
+        elif typeProb==self.Q_IMPORTANCE:            
+            
+            maxQ = -float("inf")
+            minQ = float("inf")
+            #Get max and min Q value
+            for act in self.actions:
+                actQ = self.qTable.get(processedState,act)
+                if actQ > maxQ:
+                    maxQ = actQ
+                if actQ < minQ:
+                    minQ = actQ
+             
+            qImportance = math.fabs(maxQ - minQ) * len(self.actions.count)
+            
+            return visitImportance * qImportance        
+        #If the agent got here, it is an error
+        return None
+        
+    def step(self, state, action):
+        """Modifies the default step action just to include a state visit counter"""
+        if self.exploring:
+                processedState = tuple(self.quantize_features(state))
+                self.visitTable[processedState] = self.visitTable.get(processedState,0.0) + 1
+        super.step(state,action)
+        
+        
     def check_ask(self,state):
         """Returns if the agent should ask for advise in this state"""
-        importance = self.state_importance(state,self.ASK)
+        importance = self.state_importance(state,self.VISIT_IMPORTANCE)
         midpoint = self.midpoint(self.ASK)
         
         #Calculates the probability

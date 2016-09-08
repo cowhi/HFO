@@ -85,7 +85,7 @@ class Agent(object):
             self.
         # friendly players proximity to opponent
 
-        # friendly players pass opening angle
+        # friendly players pass opening angle1. 
 
         # friendly players proxmity, angle & unum
 
@@ -207,8 +207,9 @@ class Agent(object):
         stateFeatures[self.FRIEND2_PROXIMITY] = farthestProximity
         stateFeatures[self.FRIEND2_ANGLE] = farthestAngle
 
-        #Removes the agent Unum... makes the friendly agents differentiable only by their feature values
-        # and makes easier the state translation for the advising
+        # Remaining features:
+        # CENTER_PROXIMITY, GOAL_ANGLE, GOAL_OPENING, OPPONENT_PROXIMITY,
+        # FRIEND1_GOAL_OPPENING. FRIEND2_GOAL_OPPENING
         stateFeatures = np.delete(stateFeatures,
                                     [self.X_POSITION,
                                      self.Y_POSITION,
@@ -240,7 +241,7 @@ class Agent(object):
         transformedFeatures[self.CENTER_PROXIMITY] = stateFeatures[self.CENTER_PROXIMITY]
         transformedFeatures[self.GOAL_ANGLE] = stateFeatures[self.GOAL_ANGLE]
         transformedFeatures[self.GOAL_OPENING] = stateFeatures[self.GOAL_OPENING]
-        transformedFeatures[self.OPP_PROXIMITY] = stateFeatures[self.OPP_PROXIMITY]
+        transformedFeatures[self.OPPONENT_PROXIMITY] = stateFeatures[self.OPPONENT_PROXIMITY]
         if(stateFeatures[self.FRIEND1_PROXIMITY] > stateFeatures[self.FRIEND2_PROXIMITY]):
             transformedFeatures[self.FRIEND1_GOAL_OPPENING] = stateFeatures[self.FRIEND1_GOAL_OPPENING]
             transformedFeatures[self.FRIEND2_GOAL_OPPENING] = stateFeatures[self.FRIEND2_GOAL_OPPENING]

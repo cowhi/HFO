@@ -21,6 +21,7 @@ class SARSA(Agent):
         super(SARSA, self).__init__()
         self.name = "SARSA"
         self.qTable = {}
+        self.stateTrace = {}
         self.epsilon = epsilon
         self.alpha = alpha
         self.gamma = gamma
@@ -69,7 +70,8 @@ class SARSA(Agent):
         if self.exploring and random.random() < self.epsilon:
             return random.choice(actions)
         else:
-            qValues = [self.get_Q(tuple(self.quantize_features(state)), action) for action in actions]
+            cmacState = self.quantize_features(state)
+            qValues = [self.get_Q(tuple(cmacState), action) for action in actions]
             maxQ = max(qValues)
             count = qValues.count(maxQ)
             if count > 1:

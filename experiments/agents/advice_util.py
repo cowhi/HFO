@@ -9,6 +9,7 @@ TODO: an actual message passing implementation
 """
 import os
 from time import sleep
+import numpy as np
 
 
 #When the agent asks for advice, it will create a file named by its uNum in this folder
@@ -85,5 +86,13 @@ def give_advice(uNumAdvisee,uNumAdvisor,action):
     fileAd= open(filePath, 'w+')
     fileAd.write(str(action))
     fileAd.close()
+    
+def recover_state(textualState):
+    """ Transforms a text state read in an advice file to the numpy matrix"""    
+    splittedState = textualState.split(";")[:-1]#Remove last empty element
+    splittedState = np.asfarray(splittedState, dtype='float')
+    return splittedState
+    
+    
     
     
