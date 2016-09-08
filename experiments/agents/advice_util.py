@@ -32,7 +32,11 @@ def ask_advice(uNum,state):
        """
      askFilePath = askFolder+str(uNum)
      fileSay = open(askFilePath, 'w+')
-     fileSay.write(state)
+     stateString = ""
+     for x in state:
+         stateString = stateString + str(x) + ";"
+         
+     fileSay.write(stateString)
      fileSay.close()
      
      sleep(askTimeout/1000)
@@ -62,9 +66,14 @@ def verify_advice(uNum):
     for fileD in os.listdir(askFolder):
         #only reads advice requirements of other agents        
         if(uNum!=int(fileD)):
-             fileR = open(adviceFolder+fileD)
-             state = fileR.readline()
-             requirements.append([int(fileD),state])
+            #Check if the agent has already advised for that advice request
+            if not os.path.exists(adviceFolder+fileD+"-"+str(uNum)):
+                try:             
+                    fileR = open(askFolder+fileD)
+                    state = fileR.readline()
+                    requirements.append([int(fileD),state])
+                except IOError:
+                    pass
     return requirements
     
 def give_advice(uNumAdvisee,uNumAdvisor,action):
@@ -74,7 +83,7 @@ def give_advice(uNumAdvisee,uNumAdvisor,action):
     """
     filePath = adviceFolder+str(uNumAdvisee)+"-"+str(uNumAdvisor)
     fileAd= open(filePath, 'w+')
-    fileAd.write(action)
+    fileAd.write(str(action))
     fileAd.close()
     
     

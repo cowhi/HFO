@@ -14,37 +14,36 @@ TODO: an actual message passing implementation
 
 
 import random
-from advice_util import ask_advice,verify_advice,give_advice
+import advice_util as advice 
 
 from agent import Agent
-
+from threading import Thread
 
 class DummyCom(Agent):
 
    
     steps = 0
+    spentBudget = 0
+    budget = 10
 
 
     def __init__(self):
         super(DummyCom, self).__init__()
-
+        #The agent runs a separated thread for advising
+        thread = Thread(target = self.advise)#, args = (self, ))
+        thread.start()
+        
+        
 
 
     def select_action(self,state):
         """ When this method is called, the agent executes an action. """
         if self.exploring:
-            advised = ask_advice(self.get_Unum(),state)
+            advised = advice.ask_advice(self.get_Unum(),state)
             if advised:
-                print "ADVISED: "+advised
+                print "ADVISED: "+''.join(str(e) for e in advised)
 
-            reads = verify_advice(self.get_Unum())            
-
-            if reads:
-                print reads
-                for ad in reads:
-                    advisee = ad[0]
-                    state = ad[1]
-                    give_advice(advisee,self.get_Unum(),self.MOVE)
+            
             
 
             self.steps = self.steps+1
@@ -60,23 +59,6 @@ class DummyCom(Agent):
         """ After executing an action, the agent is informed about the state-reward-state tuple """
         pass
     
-    def say(self,message):
-        """ The say method stores the message in a file named by the agent's Unum"""
-        #The last message is overwritten
-        fileSay = open(self.messageFolder+str(self.hfo.get_Unum()), 'w+')
-        fileSay.write(message)
-        fileSay.close()
-
-    def hear(self):
-        """This implementation reads the directory and return all messages"""
-        messages = []
-        import os
-        for fileD in os.listdir(self.messageFolder):
-            if(fileD != str(self.hfo.get_Unum())):
-                fileR = open(self.messageFolder+fileD)
-                line = fileR.readline()
-                messages.append(line)
-        return messages
         
     def step(self, state, action):
         """ Perform a training step """
@@ -89,4 +71,17 @@ class DummyCom(Agent):
         actionPrime = self.select_action(statePrime)
         return status, statePrime, actionPrime
 
+    def advise(self):
+        while self.spentBudget < self.budget:
+            reads = advice.verify_advice(self.get_Unum())            
+
+            if reads:
+                print reads
+            for ad in reads:
+                advisee = ad[0]
+                state = ad[1]
+                if state != "":
+                    advice.give_advice(advisee,self.get_Unum(),self.get_Unum())
+                    self.spentBudget = self.spentBudget + 1
+                    print str(self.spentBudget)
    
