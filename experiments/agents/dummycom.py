@@ -33,18 +33,18 @@ class DummyCom(Agent):
     def select_action(self,state):
         """ When this method is called, the agent executes an action. """
         if self.exploring:
-            advised = ask_advice(self.getUnum(),state)
+            advised = ask_advice(self.get_Unum(),state)
             if advised:
                 print "ADVISED: "+advised
 
-            reads = verify_advice(self.getUnum())            
+            reads = verify_advice(self.get_Unum())            
 
             if reads:
                 print reads
                 for ad in reads:
                     advisee = ad[0]
                     state = ad[1]
-                    give_advice(advisee,self.getUnum(),self.MOVE)
+                    give_advice(advisee,self.get_Unum(),self.MOVE)
             
 
             self.steps = self.steps+1
@@ -63,7 +63,7 @@ class DummyCom(Agent):
     def say(self,message):
         """ The say method stores the message in a file named by the agent's Unum"""
         #The last message is overwritten
-        fileSay = open(self.messageFolder+str(self.hfo.getUnum()), 'w+')
+        fileSay = open(self.messageFolder+str(self.hfo.get_Unum()), 'w+')
         fileSay.write(message)
         fileSay.close()
 
@@ -72,7 +72,7 @@ class DummyCom(Agent):
         messages = []
         import os
         for fileD in os.listdir(self.messageFolder):
-            if(fileD != str(self.hfo.getUnum())):
+            if(fileD != str(self.hfo.get_Unum())):
                 fileR = open(self.messageFolder+fileD)
                 line = fileR.readline()
                 messages.append(line)

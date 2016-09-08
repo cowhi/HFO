@@ -70,7 +70,7 @@ class Agent(object):
         print('***** Connecting to HFO server')
         self.hfo = HFOEnvironment()
         self.hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
-                          'bin/teams/base/config/formations-dt', 6000,
+                          '/bin/teams/base/config/formations-dt', 6000,
                           'localhost', 'base_left', False)
         #self.unum = self.hfo.getUnum()
         self.unum = 0
@@ -183,3 +183,7 @@ class Agent(object):
         # and makes easier the state translation for the advising
         stateFeatures = np.delete(stateFeatures, [self.FRIEND1_NUMBER, self.FRIEND2_NUMBER])
         return stateFeatures
+        
+        
+    def get_Unum(self):
+        return self.hfo.getUnum()
