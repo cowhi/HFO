@@ -26,7 +26,7 @@ class SARSA(Agent):
         self.alpha = alpha
         self.gamma = gamma
         self.decayRate = decayRate
-        self.cmac = CMAC(1,0.1,0.1)
+        self.cmac = CMAC(1,0.5,0.1)
 
     def quantize_features(self, features):
         """ CMAC utilities for all agent """
