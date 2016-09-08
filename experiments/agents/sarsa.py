@@ -64,7 +64,7 @@ class SARSA(object):
         else:
             self.qTable[(state, action)] = oldv + self.alpha * (value - oldv)
 
-    def train(self, state, action):
+    def step(self, state, action):
         """ Perform a complete training step """
         # perform action and observe reward & statePrime
         self.hfo.act(action)

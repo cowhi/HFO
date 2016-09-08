@@ -113,7 +113,7 @@ def main():
             #statePrime = get_transformed_features(hfo.getState())
 
             #AGENT.observe_reward(state,action,reward,statePrime)
-            status, state, agent = AGENT.train(state, action)
+            status, state, agent = AGENT.step(state, action)
 
         # Check the outcome of the trial
         print('***** %s: Trial ended with %s'% (str(AGENT.unum), AGENT.hfo.statusToString(status)))
@@ -136,7 +136,7 @@ def main():
                 action = AGENT.select_action(state)
                 while eval_status == AGENT.IN_GAME:
                     eval_frame += 1
-                    eval_status, state, agent = AGENT.eval(state, action)
+                    eval_status, state, agent = AGENT.step(state, action)
                     #eval_state = get_local_features(hfo.getState())
                     #eval_action = AGENT.select_action(eval_state)
                     #execute_action(hfo,eval_action)

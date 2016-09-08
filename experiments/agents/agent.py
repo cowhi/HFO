@@ -89,12 +89,7 @@ class Agent(object):
         pass
 
     @abc.abstractmethod
-    def train(self, state, action):
-        """ Perform a complete training step """
-        pass
-
-    @abc.abstractmethod
-    def eval(self, state, action):
+    def step(self, state, action):
         """ Perform a complete training step """
         pass
 
