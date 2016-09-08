@@ -13,6 +13,7 @@ from sarsa import SARSA
 from threading import Thread
 import advice_util as advice
 import numpy as np
+import math
 
 
 class AdHoc(SARSA):
@@ -92,6 +93,19 @@ class AdHoc(SARSA):
         
         
         #Call default sarsa method if no action was selected
+        
+    def calc_prob_adv(self,importance,midpoint,typeProb):
+        """Calculates the probability of giving/receiving advice
+        importance - the current state importance
+        midpoint - the midpoint for the logistic function
+        typeProb - ASK or ADVISE
+        """
+        signal = 1 if typeProb == self.ASK else -1
+        k = 3        
+        
+        prob = 1 / (1 + math.exp(signal * k * (importance-midpoint)))
+        return prob
+        
         
             
     def advise(self):

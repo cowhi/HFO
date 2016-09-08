@@ -69,7 +69,7 @@ class SARSA(Agent):
         if self.exploring and random.random() < self.epsilon:
             return random.choice(actions)
         else:
-            qValues = [self.get_Q(state, action) for action in actions]
+            qValues = [self.get_Q(tuple(self.quantize_features(state)), action) for action in actions]
             maxQ = max(qValues)
             count = qValues.count(maxQ)
             if count > 1:
