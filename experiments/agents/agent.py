@@ -68,8 +68,29 @@ class Agent(object):
       FRIEND2_PROXIMITY, FRIEND2_ANGLE, FRIEND2_NUMBER, OPP_PROXIMITY, \
       OPP_ANGLE, OPP_NUMBER = range(25)
 
+    #def __init__(self, friends=3, opps=1):
     def __init__(self):
         """ Initializes an agent for a given environment. """
+        '''
+        if friends == 0:
+            self.actions = [self.MOVE, self.SHOOT, self.DRIBBLE]
+        elif friends == 1:
+            self.actions = [self.MOVE, self.SHOOT, self.DRIBBLE, self.PASS]
+        else:
+            self.actions = [self.MOVE, self.SHOOT, self.DRIBBLE, \
+                            self.PASSnear, self.PASSfar]
+        # every agent has those state features
+        # friendly players goal opening angle
+        for friend in range(friends):
+            self.
+        # friendly players proximity to opponent
+
+        # friendly players pass opening angle
+
+        # friendly players proxmity, angle & unum
+
+        # opposing players proximity. angle & unum
+        '''
 
         print('***** Connecting to HFO server')
         self.hfo = HFOEnvironment()
@@ -107,9 +128,11 @@ class Agent(object):
         +1 when the agent's team scores a goal and 0 otherwise"""
         if(status == self.CAPTURED_BY_DEFENSE):
              return -1.0
+        #elif(status == self.OUT_OF_BOUNDS):
+        #     return -1.0
         elif(status == self.GOAL):
              return 1.0
-        return -1.0
+        return 0.0
 
     def execute_action(self, action):
         """Executes the action in the HFO server"""
@@ -186,9 +209,46 @@ class Agent(object):
 
         #Removes the agent Unum... makes the friendly agents differentiable only by their feature values
         # and makes easier the state translation for the advising
-        stateFeatures = np.delete(stateFeatures, [self.FRIEND1_NUMBER, self.FRIEND2_NUMBER])
+        stateFeatures = np.delete(stateFeatures,
+                                    [self.X_POSITION,
+                                     self.Y_POSITION,
+                                     self.ORIENTATION,
+                                     self.BALL_PROXIMITY,
+                                     self.BALL_ANGLE,
+                                     self.ABLE_KICK,
+                                     self.FRIEND1_OPP_PROXIMITY,
+                                     self.FRIEND2_OPP_PROXIMITY,
+                                     self.FRIEND1_OPENING,
+                                     self.FRIEND2_OPENING,
+                                     self.FRIEND1_PROXIMITY,
+                                     self.FRIEND1_ANGLE,
+                                     self.FRIEND1_NUMBER,
+                                     self.FRIEND2_PROXIMITY,
+                                     self.FRIEND2_ANGLE,
+                                     self.FRIEND2_NUMBER,
+                                     self.OPP_PROXIMITY,
+                                     self.OPP_ANGLE,
+                                     self.OPP_NUMBER])
+
         return tuple(stateFeatures.tolist())
 
+    '''
+    def get_transformed_features(self, stateFeatures):
+        """Erases the irrelevant features (such as agent Unums) and sort agents by
+        their distance"""
+        transformedFeatures = []
+        transformedFeatures[self.CENTER_PROXIMITY] = stateFeatures[self.CENTER_PROXIMITY]
+        transformedFeatures[self.GOAL_ANGLE] = stateFeatures[self.GOAL_ANGLE]
+        transformedFeatures[self.GOAL_OPENING] = stateFeatures[self.GOAL_OPENING]
+        transformedFeatures[self.OPP_PROXIMITY] = stateFeatures[self.OPP_PROXIMITY]
+        if(stateFeatures[self.FRIEND1_PROXIMITY] > stateFeatures[self.FRIEND2_PROXIMITY]):
+            transformedFeatures[self.FRIEND1_GOAL_OPPENING] = stateFeatures[self.FRIEND1_GOAL_OPPENING]
+            transformedFeatures[self.FRIEND2_GOAL_OPPENING] = stateFeatures[self.FRIEND2_GOAL_OPPENING]
+        else:
+            transformedFeatures[self.FRIEND1_GOAL_OPPENING] = stateFeatures[self.FRIEND2_GOAL_OPPENING]
+            transformedFeatures[self.FRIEND2_GOAL_OPPENING] = stateFeatures[self.FRIEND1_GOAL_OPPENING]
+        return tuple(transformedFeatures.tolist())
+    '''
 
     def get_Unum(self):
         return self.hfo.getUnum()

@@ -91,7 +91,7 @@ def main():
         stateFeatures = AGENT.hfo.getState()
         state = AGENT.get_transformed_features(stateFeatures)
         #print('***** %s: state type: %s, len: %s' % (str(AGENT.unum), str(type(state)), str(len(state))))
-        action = AGENT.select_action(tuple(stateFeatures))
+        action = AGENT.select_action(tuple(stateFeatures), state)
         while status == AGENT.IN_GAME:
             frame += 1
             status, state, action = AGENT.step(state, action)
@@ -111,8 +111,9 @@ def main():
             for eval_trials in range(1,parameter.evaluation_duration+1):
                 eval_frame = 0
                 eval_status = AGENT.IN_GAME
-                state = AGENT.get_transformed_features(AGENT.hfo.getState())
-                action = AGENT.select_action(state)
+                stateFeatures = AGENT.hfo.getState()
+                state = AGENT.get_transformed_features(stateFeatures)
+                action = AGENT.select_action(tuple(stateFeatures), state)
                 while eval_status == AGENT.IN_GAME:
                     eval_frame += 1
                     eval_status, state, action = AGENT.step(state, action)
@@ -135,10 +136,9 @@ def main():
         # Quit if the server goes down
         if status == AGENT.SERVER_DOWN:
             AGENT.hfo.act(QUIT)
-            print('***** %s: Agent --> %s'% (str(AGENT.unum), str(AGENT)))
             print('***** %s: Shutting down agent' % str(AGENT.unum))
             break
-
+    print('***** %s: Agent --> %s'% (str(AGENT.unum), str(AGENT)))
     eval_csv_file.close()
     train_csv_file.close()
 

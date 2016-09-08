@@ -17,14 +17,14 @@ class SARSA(Agent):
                "Training steps: " + str(self.training_steps_total) + ", " + \
                "Q-Table size: " + str(len(self.qTable))
 
-    def __init__(self, epsilon=1, alpha=0.1, gamma=0.99):
+    def __init__(self, epsilon=0.1, alpha=0.1, gamma=0.99):
         super(SARSA, self).__init__()
         self.name = "SARSA"
         self.qTable = {}
         self.epsilon = epsilon
         self.alpha = alpha
         self.gamma = gamma
-        self.cmac = CMAC(1,0.5,0.1)
+        self.cmac = CMAC(1,0.1,0.1)
 
     def quantize_features(self, features):
         """ CMAC utilities for all agent """
@@ -56,12 +56,12 @@ class SARSA(Agent):
             #turns on the exploration again
     '''
 
-    def select_action(self, state):
+    def select_action(self, stateFeatures, state):
         """Executes the epsilon-greedy exploration strategy"""
         #stores last CMAC result
-        self.lastState = state
+        #self.lastState = state
         # select applicable actions
-        if state[5] == 1: # State[5] is 1 when the player can kick the ball
+        if stateFeatures[5] == 1: # State[5] is 1 when the player can kick the ball
             actions = [self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
         else:
             actions = [self.MOVE]
@@ -99,7 +99,7 @@ class SARSA(Agent):
         statePrime = self.get_transformed_features(stateFeatures)
         reward = self.get_reward(status)
         # select actionPrime
-        actionPrime = self.select_action(tuple(stateFeatures))
+        actionPrime = self.select_action(tuple(stateFeatures), statePrime)
         # calculate TDError
         #TDError = reward + self.gamma * self.get_Q(statePrime, actionPrime) - self.get_Q(state, action)
         # update eligibility trace Function for state and action
