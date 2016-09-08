@@ -1,5 +1,6 @@
 import logging
 from hfo import *
+from itertools import count
 
 _logger = logging.getLogger(__name__)
 
@@ -15,6 +16,9 @@ class Agent(object):
     hfo = None
     ''' State discretizations '''
     cmac = None
+
+    ''' Trick to count agents '''
+    _agent_count = count(0)
 
     ''' An enum of the possible HFO actions
       [Low-Level] Dash(power, relative_direction)
@@ -70,12 +74,13 @@ class Agent(object):
         print('***** Connecting to HFO server')
         self.hfo = HFOEnvironment()
         self.hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
-                          '/bin/teams/base/config/formations-dt', 6000,
+                          './bin/teams/base/config/formations-dt', 6000,
                           'localhost', 'base_left', False)
         #self.unum = self.hfo.getUnum()
-        self.unum = 0
+        self.unum = self._agent_count.next()
         self.exploring = True
-       
+        self.training_steps_total = 0
+
 
     @abc.abstractmethod
     def select_action(self,state):
@@ -104,7 +109,7 @@ class Agent(object):
              return -1.0
         elif(status == self.GOAL):
              return 1.0
-        return 0.0
+        return -1.0
 
     def execute_action(self, action):
         """Executes the action in the HFO server"""
@@ -113,7 +118,7 @@ class Agent(object):
             self.hfo.act(action)
         else:
             #In the statespace_util file
-            action, parameter = self.translate_action(action, hfo.getState())
+            action, parameter = self.translate_action(action, self.hfo.getState())
             self.hfo.act(action, parameter)
 
     def translate_action(self, action, stateFeatures):
@@ -182,8 +187,8 @@ class Agent(object):
         #Removes the agent Unum... makes the friendly agents differentiable only by their feature values
         # and makes easier the state translation for the advising
         stateFeatures = np.delete(stateFeatures, [self.FRIEND1_NUMBER, self.FRIEND2_NUMBER])
-        return stateFeatures
-        
-        
+        return tuple(stateFeatures.tolist())
+
+
     def get_Unum(self):
         return self.hfo.getUnum()

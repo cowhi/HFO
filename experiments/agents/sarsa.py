@@ -1,33 +1,48 @@
 import random
 from cmac import CMAC
+from .agent import Agent
 
-
-class SARSA(object):
+class SARSA(Agent):
 
     lastState = None
 
-    def __init__(self, epsilon=0.1, alpha=0.2, gamma=0.9):
-        super(SARSA, self).__init__()
-        self.qTable = {}
+    def __str__(self):
+        """ Overwrites the object.__str__ method.
 
+        Returns:
+            string (str): Important parameters of the object.
+        """
+        return "Agent: " + str(self.unum) + ", " + \
+               "Type: " + str(self.name) + ", " + \
+               "Training steps: " + str(self.training_steps_total) + ", " + \
+               "Q-Table size: " + str(len(self.qTable))
+
+    def __init__(self, epsilon=1, alpha=0.1, gamma=0.99):
+        super(SARSA, self).__init__()
+        self.name = "SARSA"
+        self.qTable = {}
         self.epsilon = epsilon
         self.alpha = alpha
         self.gamma = gamma
         self.cmac = CMAC(1,0.5,0.1)
 
-    def transform_features(self, features):
+    def quantize_features(self, features):
         """ CMAC utilities for all agent """
-        data = []
-        for feature in features:
-            quantized_features = self.cmac.quantize(feature)
-            data.append([quantized_features])
-        return data
+        return self.cmac.quantize(features)
+        #data = []
+        #for feature in features:
+        #    quantized_features = self.cmac.quantize(feature)
+        #    data.append([quantized_features])
+        #return data
 
 
     def get_Q(self, state, action):
         return self.qTable.get((state, action), 0.0)
 
-
+    def observe_reward(self,state,action,reward,statePrime):
+        """ After executing an action, the agent is informed about the state-reward-state tuple """
+        pass
+    '''
     def observe_reward(self,state,action,reward,statePrime):
         """ After executing an action, the agent is informed about the state-action-reward-state tuple """
         if self.exploring:
@@ -39,29 +54,30 @@ class SARSA(object):
             #Executes Q-update
             self.learn(lastState,action,reward,self.lastState,nextAction)
             #turns on the exploration again
-
+    '''
 
     def select_action(self, state):
         """Executes the epsilon-greedy exploration strategy"""
-        #Processes the state using cmac
-        state = self.transformFeatures(state)
         #stores last CMAC result
         self.lastState = state
+        # select applicable actions
+        if state[5] == 1: # State[5] is 1 when the player can kick the ball
+            actions = [self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
+        else:
+            actions = [self.MOVE]
         # epsilon greedy action selection
         if self.exploring and random.random() < self.epsilon:
-            action = random.choice(self.actions)
+            return random.choice(actions)
         else:
-            qValues = [self.get_Q(state, a) for a in self.actions]
+            qValues = [self.get_Q(state, action) for action in actions]
             maxQ = max(qValues)
             count = qValues.count(maxQ)
             if count > 1:
-                best = [i for i in range(len(self.actions)) if qValues[i] == maxQ]
-                i = random.choice(best)
+                best = [i for i in range(len(actions)) if qValues[i] == maxQ]
+                return self.actions[random.choice(best)]
             else:
-                i = qValues.index(maxQ)
+                return self.actions[qValues.index(maxQ)]
 
-            action = self.actions[i]
-        return action
 
     def learn(self, state1, action1, reward, state2, action2):
         qnext = self.get_Q(state2, action2)
@@ -77,16 +93,20 @@ class SARSA(object):
     def step(self, state, action):
         """ Perform a complete training step """
         # perform action and observe reward & statePrime
-        self.hfo.act(action)
+        self.execute_action(action)
         status = self.hfo.step()
-        statePrime = self.get_transformed_features(hfo.getState())
+        stateFeatures = self.hfo.getState()
+        statePrime = self.get_transformed_features(stateFeatures)
         reward = self.get_reward(status)
         # select actionPrime
-        actionPrime = self.select_action(statePrime)
+        actionPrime = self.select_action(tuple(stateFeatures))
         # calculate TDError
         #TDError = reward + self.gamma * self.get_Q(statePrime, actionPrime) - self.get_Q(state, action)
         # update eligibility trace Function for state and action
         # update update ALL Q values and eligibility trace values
         # ???
-        self.learn(state, action, reward, statePrime, actionPrime)
-        return statePrime, actionPrime
+        if self.exploring:
+            self.learn(tuple(self.quantize_features(state)), action, reward,
+                       tuple(self.quantize_features(statePrime)), actionPrime)
+            self.training_steps_total += 1
+        return status, statePrime, actionPrime
