@@ -51,7 +51,7 @@ def ask_advice(uNum,state):
                 line = fileR.readline()
                 advice.append(line)
                 os.remove(adviceFolder+fileD)
-    return advice
+     return advice
     
 def verify_advice(uNum):
     """This method should be executed to verify if another agent is asking for advice

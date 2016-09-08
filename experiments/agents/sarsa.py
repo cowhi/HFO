@@ -1,4 +1,5 @@
 import random
+from cmac import CMAC
 
 
 class SARSA(object):
@@ -12,6 +13,15 @@ class SARSA(object):
         self.epsilon = epsilon
         self.alpha = alpha
         self.gamma = gamma
+        self.cmac = CMAC(1,0.5,0.1)
+
+    def transform_features(self, features):
+        """ CMAC utilities for all agent """
+        data = []
+        for feature in features:
+            quantized_features = self.cmac.quantize(feature)
+            data.append([quantized_features])
+        return data
 
 
     def get_Q(self, state, action):

@@ -18,14 +18,15 @@ from advice_util import ask_advice,verify_advice,give_advice
 
 from agent import Agent
 
+
 class DummyCom(Agent):
 
    
     steps = 0
 
 
-    def __init__(self,hfo):
-        super(DummyCom, self).__init__(hfo)
+    def __init__(self):
+        super(DummyCom, self).__init__()
 
 
 
@@ -76,3 +77,16 @@ class DummyCom(Agent):
                 line = fileR.readline()
                 messages.append(line)
         return messages
+        
+    def step(self, state, action):
+        """ Perform a training step """
+        #Execute the action in the environment
+        self.execute_action(action)
+        # Advance the environment and get the game status
+        status = self.hfo.step()
+        statePrime = self.get_transformed_features(self.hfo.getState())
+        
+        actionPrime = self.select_action(statePrime)
+        return status, statePrime, actionPrime
+
+   

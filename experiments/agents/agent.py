@@ -1,6 +1,6 @@
 import logging
 from hfo import *
-from cmac import CMAC
+
 _logger = logging.getLogger(__name__)
 
 import abc
@@ -75,8 +75,7 @@ class Agent(object):
         #self.unum = self.hfo.getUnum()
         self.unum = 0
         self.exploring = True
-        self.cmac = CMAC(1,0.5,0.1)
-
+       
 
     @abc.abstractmethod
     def select_action(self,state):
@@ -97,13 +96,6 @@ class Agent(object):
         """ The agent keeps track if it should explore in the current state (used for evaluations) """
         self.exploring = exploring
 
-    def transform_features(self, features):
-        """ CMAC utilities for all agent """
-        data = []
-        for feature in features:
-            quantized_features = self.cmac.quantize(feature)
-            data.append([quantized_features])
-        return data
 
     def get_reward(self, status):
         """The Reward Function returns -1 when a defensive agent captures the ball,
