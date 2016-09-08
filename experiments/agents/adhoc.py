@@ -171,6 +171,7 @@ class AdHoc(SARSA):
                                 self.spentBudget = self.spentBudget + 1
                     
                     
-   
+    def get_used_budget(self):
+        return self.spentBudgetAsk
         
       

@@ -253,3 +253,7 @@ class Agent(object):
 
     def get_Unum(self):
         return self.hfo.getUnum()
+        
+    def get_used_budget(self):
+        """Returns the ask budget the agent already used"""
+        return 0
