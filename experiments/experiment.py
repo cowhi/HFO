@@ -76,7 +76,7 @@ def main():
     print('***** %s: Setting up result log files' % str(AGENT.unum))
     train_csv_file = open(parameter.log_file+"_train", "wb")
     train_csv_writer = csv.writer(train_csv_file)
-    train_csv_writer.writerow(("trial","frames_trial","goals_trial","used_budget"))
+    train_csv_writer.writerow(("trial","frames_trial","goals_trial"))
     train_csv_file.flush()
     eval_csv_file = open(parameter.log_file+"_eval", "wb")
     eval_csv_writer = csv.writer(eval_csv_file)
@@ -127,13 +127,13 @@ def main():
                 avg_goal_time = time_to_goal/goals
             else:
                 avg_goal_time = 0.0
-                
-            used_budget = AGENT.get_used_budget()
             #print('***** %s: Average Time to Goal: %s' % (str(AGENT.unum), str(avg_goal_time)))
             # save stuff
-            eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time),str(used_budget)))
+            eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time)))
             eval_csv_file.flush()
             AGENT.set_exploring(True)
+        # reset agent trace
+        AGENT.stateActionTrace = {}
 
         # Quit if the server goes down
         if status == AGENT.SERVER_DOWN:

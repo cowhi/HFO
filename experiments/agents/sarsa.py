@@ -17,14 +17,15 @@ class SARSA(Agent):
                "Training steps: " + str(self.training_steps_total) + ", " + \
                "Q-Table size: " + str(len(self.qTable))
 
-    def __init__(self, epsilon=0.1, alpha=0.1, gamma=0.99):
+    def __init__(self, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
         super(SARSA, self).__init__()
         self.name = "SARSA"
         self.qTable = {}
-        self.stateTrace = {}
+        self.stateActionTrace = {}
         self.epsilon = epsilon
         self.alpha = alpha
         self.gamma = gamma
+        self.decayRate = decayRate
         self.cmac = CMAC(1,0.1,0.1)
 
     def quantize_features(self, features):
@@ -99,16 +100,25 @@ class SARSA(Agent):
         status = self.hfo.step()
         stateFeatures = self.hfo.getState()
         statePrime = self.get_transformed_features(stateFeatures)
+        stateQuantized = tuple(self.quantize_features(state))
+        statePrimeQuantized = tuple(self.quantize_features(statePrime))
         reward = self.get_reward(status)
         # select actionPrime
         actionPrime = self.select_action(tuple(stateFeatures), statePrime)
-        # calculate TDError
-        #TDError = reward + self.gamma * self.get_Q(statePrime, actionPrime) - self.get_Q(state, action)
-        # update eligibility trace Function for state and action
-        # update update ALL Q values and eligibility trace values
-        # ???
+
         if self.exploring:
-            self.learn(tuple(self.quantize_features(state)), action, reward,
-                       tuple(self.quantize_features(statePrime)), actionPrime)
+            # calculate TDError
+            TDError = reward + self.gamma * self.get_Q(statePrimeQuantized, actionPrime) - self.get_Q(stateQuantized, action)
+            # update trace value
+            self.stateActionTrace[(stateQuantized, action)] = self.stateActionTrace.get((stateQuantized, action), 0) + 1
+            for stateAction in self.stateActionTrace:
+                # update update ALL Q values and eligibility trace values
+                self.qTable[stateAction] = self.qTable.get(stateAction, 0) + TDError * self.alpha * self.stateActionTrace.get(stateAction, 0)
+                # update eligibility trace Function for state and action
+                self.stateActionTrace[stateAction] = self.gamma * self.decayRate * self.stateActionTrace.get(stateAction, 0)
+            #self.learn(stateQuantized, action, reward,
+            #           statePrimeQuantized, actionPrime)
             self.training_steps_total += 1
+        if status != self.IN_GAME:
+            self.stateActionTrace = {}
         return status, statePrime, actionPrime
