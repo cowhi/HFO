@@ -128,11 +128,11 @@ class Agent(object):
         +1 when the agent's team scores a goal and 0 otherwise"""
         if(status == self.CAPTURED_BY_DEFENSE):
              return -1.0
-        #elif(status == self.OUT_OF_BOUNDS):
-        #     return -1.0
+        elif(status == self.OUT_OF_BOUNDS):
+             return -1.0
         elif(status == self.GOAL):
              return 1.0
-        return 0.0
+        return 0
 
     def execute_action(self, action):
         """Executes the action in the HFO server"""
@@ -230,6 +230,7 @@ class Agent(object):
                                      self.OPP_PROXIMITY,
                                      self.OPP_ANGLE,
                                      self.OPP_NUMBER])
+                                
 
         return tuple(stateFeatures.tolist())
 

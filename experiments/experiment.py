@@ -74,13 +74,13 @@ def main():
     #print('***** %s: %s Agent online' % (str(AGENT.unum), str(parameter.agent)))
     print('***** %s: Agent online --> %s' % (str(AGENT.unum), str(AGENT)))
     print('***** %s: Setting up result log files' % str(AGENT.unum))
-    train_csv_file = open(parameter.log_file+"_train", "wb")
+    train_csv_file = open(parameter.log_file+"_train_"+str(AGENT.get_Unum()), "wb")
     train_csv_writer = csv.writer(train_csv_file)
-    train_csv_writer.writerow(("trial","frames_trial","goals_trial"))
+    train_csv_writer.writerow(("trial","frames_trial","goals_trial","used_budget"))
     train_csv_file.flush()
-    eval_csv_file = open(parameter.log_file+"_eval", "wb")
+    eval_csv_file = open(parameter.log_file+"_eval_"+str(AGENT.get_Unum()), "wb")
     eval_csv_writer = csv.writer(eval_csv_file)
-    eval_csv_writer.writerow(("trial","goal_percentage","avg_goal_time"))
+    eval_csv_writer.writerow(("trial","goal_percentage","avg_goal_time","used_budget"))
     eval_csv_file.flush()
 
     print('***** %s: Start training' % str(AGENT.unum))
@@ -99,7 +99,7 @@ def main():
         #print('***** %s: Agent --> %s'% (str(AGENT.unum), str(AGENT)))
         reward = AGENT.get_reward(status)
         # save stuff
-        train_csv_writer.writerow((trial,frame,reward))
+        train_csv_writer.writerow((trial,frame,reward,str(AGENT.get_used_budget())))
         train_csv_file.flush()
 
         # perform an evaluation trial
@@ -129,7 +129,7 @@ def main():
                 avg_goal_time = 0.0
             #print('***** %s: Average Time to Goal: %s' % (str(AGENT.unum), str(avg_goal_time)))
             # save stuff
-            eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time)))
+            eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time),str(AGENT.get_used_budget())))
             eval_csv_file.flush()
             AGENT.set_exploring(True)
         # reset agent trace
