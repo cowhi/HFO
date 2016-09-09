@@ -42,6 +42,10 @@ do
     DURATION="${i#*=}"
     shift
     ;;
+    -s=*|--seed=*)
+    SEED="${i#*=}"
+    shift
+    ;;
   esac
   shift
 done
@@ -65,7 +69,7 @@ if [ -z "${DEFENSE_AGENTS+x}" ]; then
   DEFENSE_AGENTS=0
 fi
 if [ -z "${MODE+x}" ]; then
-  MODE="--no-sync"
+  MODE="--headless"
   # headless, no-sync (watching in slow pace),
 fi
 if [ -z "${INTERVAL+x}" ]; then
@@ -73,6 +77,9 @@ if [ -z "${INTERVAL+x}" ]; then
 fi
 if [ -z "${DURATION+x}" ]; then
   DURATION=5
+fi
+if [ -z "${SEED+x}" ]; then
+  SEED=12345
 fi
 
 #Now the number of trials is incremented to take into account how many
@@ -95,20 +102,56 @@ echo "[$(date +"%Y-%m-%d_%H:%M:%S")] MAKE LOG DIRECTORY: ${_dir}"
 
 mkdir -p ${_dir};
 
+EXPERIMENT_LOG="${_dir}EXPERIMENT_LOG"
+touch "${EXPERIMENT_LOG}"
+echo "${_now}" >> ${EXPERIMENT_LOG}
+echo "=====================================" >> ${EXPERIMENT_LOG}
+echo \
+"./experiments/run.sh\
+  --runs=${RUNS} --trials=${TRIALS}\
+  --max-frames-per-trial=${MAX_FRAMES}\
+  --agent=${AGENT}\
+  --offense-agents=${OFFENSE_AGENTS}\
+  --defense-agents=${DEFENSE_AGENTS}\
+  --mode=${MODE}\
+  --evaluation_interval=${INTERVAL}\
+  --evaluation_duration=${DURATION}\
+  --seed=${SEED}" >> ${EXPERIMENT_LOG}
+echo "=====================================" >> ${EXPERIMENT_LOG}
+
+
 killall -9 rcssserver
 
 for ((run=1; run<=${RUNS}; run++ ))
 do
   echo "[$(date +"%Y-%m-%d_%H:%M:%S")] STARTING RUN ${run} =================="
   echo "[$(date +"%Y-%m-%d_%H:%M:%S")] STARTING HFO SERVER"
+
+  SERVER_LOG="${_dir}SERVER_LOG_${run}"
+  touch "${SERVER_LOG}"
+  echo "${_now}" >> ${SERVER_LOG}
+  echo "=====================================" >> ${SERVER_LOG}
+  echo \
+  "./bin/HFO\
+  --log-dir ${_dir}\
+  --offense-agents ${OFFENSE_AGENTS}\
+  --defense-npcs ${DEFENSE_AGENTS}\
+  --trials ${TRIALS_TOTAL}\
+  --frames-per-trial ${MAX_FRAMES}\
+  --seed ${SEED}\
+  ${MODE}\
+  --fullstate >> ${SERVER_LOG} &" >> ${SERVER_LOG}
+  echo "=====================================" >> ${SERVER_LOG}
+
   ./bin/HFO \
   --log-dir "${_dir}" \
   --offense-agents "${OFFENSE_AGENTS}" \
   --defense-npcs "${DEFENSE_AGENTS}" \
   --trials "${TRIALS_TOTAL}" \
   --frames-per-trial "${MAX_FRAMES}" \
-  --headless \
-  --fullstate &
+  --seed "${SEED}" \
+  "${MODE}" \
+  --fullstate >> ${SERVER_LOG} &
 
   # maybe add:
   #--ball-x-min 0.4 \
@@ -122,8 +165,19 @@ do
   do
    sleep 5
     echo "[$(date +"%Y-%m-%d_%H:%M:%S")] STARTING AGENT ${agent}"
+
+    AGENT_LOG="${_dir}AGENT_LOG_${run}_${agent}"
+    touch "${AGENT_LOG}"
+    echo "${_now}" >> ${AGENT_LOG}
+    echo "=====================================" >> ${AGENT_LOG}
+    echo \
+    "${BASE_DIR}/experiment.py -a ${AGENT} -i ${INTERVAL} -d\
+    ${DURATION} -t ${TRIALS} -l ${_dir}${AGENT}_${run} -s ${SEED}\
+    >> ${AGENT_LOG} & >> ${AGENT_LOG}" >> ${AGENT_LOG}
+    echo "=====================================" >> ${AGENT_LOG}
     "${BASE_DIR}"/experiment.py -a "${AGENT}" -i "${INTERVAL}" -d \
-    "${DURATION}" -t "${TRIALS}" -l "${_dir}${AGENT}"_"${run}"  &
+    "${DURATION}" -t "${TRIALS}" -l "${_dir}${AGENT}"_"${run}" -s "${SEED}" \
+    >> ${AGENT_LOG} &
   done
   wait ${HFO_PID}
   sleep 5

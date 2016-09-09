@@ -17,8 +17,8 @@ class SARSA(Agent):
                "Training steps: " + str(self.training_steps_total) + ", " + \
                "Q-Table size: " + str(len(self.qTable))
 
-    def __init__(self, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
-        super(SARSA, self).__init__()
+    def __init__(self, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, seed=12345):
+        super(SARSA, self).__init__(seed)
         self.name = "SARSA"
         self.qTable = {}
         self.stateActionTrace = {}
