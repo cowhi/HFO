@@ -97,7 +97,7 @@ def give_advice(uNumAdvisee,uNumAdvisor,action):
     
 def recover_state(textualState):
     """ Transforms a text state read in an advice file to the numpy matrix"""    
-    splittedState = textualState.split(";")#Remove last empty element
+    splittedState = textualState.split(";")[:-1]#Remove last empty element
     splittedState = np.asfarray(splittedState, dtype='float')
     return splittedState
     
