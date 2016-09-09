@@ -24,7 +24,7 @@ class AdHoc(SARSA):
     spentBudgetAsk = 0
     spentBudgetAdvise = 0
     
-    scalingVisits = math.exp(1)
+    scalingVisits = math.exp(10)
     
     #These two variables are used to control the advising thread
     ableToAdvise = False
@@ -38,7 +38,7 @@ class AdHoc(SARSA):
     ASK,ADVISE = range(2)
     visitTable = None
     
-    def __init__(self, budgetAsk=1000, budgetAdvise=1000,stateImportanceMetric=VISIT_IMPORTANCE, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
+    def __init__(self, budgetAsk=50, budgetAdvise=50,stateImportanceMetric=VISIT_IMPORTANCE, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
         super(AdHoc, self).__init__()
         self.name = "AdHoc"
         self.visitTable = {}
@@ -52,7 +52,7 @@ class AdHoc(SARSA):
         
     def select_action(self, stateFeatures, state):
         """Changes the exploration strategy"""
-        if self.exploring and self.spentBudgetAsk < self.budgetAsk:
+        if self.exploring and self.spentBudgetAsk < self.budgetAsk and stateFeatures[self.ABLE_KICK] == 1:
             #Check if it should ask for advice
             ask = self.check_ask(state)
             if ask:
@@ -98,6 +98,7 @@ class AdHoc(SARSA):
         processedState = self.quantize_features(state)
         numberVisits = self.number_visits(processedState)
          
+        
         if numberVisits == 0:
             return 0
             
@@ -142,7 +143,7 @@ class AdHoc(SARSA):
         ##
         processedState = self.quantize_features(state)
         numberVisits = self.number_visits(processedState)
-        print str(numberVisits)+"  -  "+str(prob)
+        #print str(numberVisits)+"  -  "+str(prob)
         ##
         
         if random.random() < prob and prob > 0.1:
@@ -159,7 +160,7 @@ class AdHoc(SARSA):
         typeProb - ASK or ADVISE
         """
         signal = 1 if typeProb == self.ASK else -1
-        k = 5    
+        k = 10    
         
         prob = 1 / (1 + math.exp(signal * k * (importance-midpoint)))
         return prob
@@ -192,12 +193,14 @@ class AdHoc(SARSA):
         
     def midpoint(self,typeMid):
         """Calculates the midpoint"""
-        numVisits = 1
-        impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
+        
         if typeMid == self.ADVISE:
-            #For now, the same as ask
-            return impMid
+           numVisits = 100
+           impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
+           return impMid
         elif typeMid == self.ASK:
+            numVisits = 10
+            impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
             return impMid
             
         #Error
