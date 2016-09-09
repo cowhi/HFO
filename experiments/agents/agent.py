@@ -1,6 +1,7 @@
 import logging
 from hfo import *
 from itertools import count
+import random
 
 _logger = logging.getLogger(__name__)
 
@@ -69,7 +70,7 @@ class Agent(object):
       OPP_ANGLE, OPP_NUMBER = range(25)
 
     #def __init__(self, friends=3, opps=1):
-    def __init__(self):
+    def __init__(self, seed=12345):
         """ Initializes an agent for a given environment. """
         '''
         if friends == 0:
@@ -91,7 +92,8 @@ class Agent(object):
 
         # opposing players proximity. angle & unum
         '''
-
+        # set the agent seed
+        random.seed(seed)
         print('***** Connecting to HFO server')
         self.hfo = HFOEnvironment()
         self.hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
