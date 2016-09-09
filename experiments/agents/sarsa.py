@@ -26,7 +26,7 @@ class SARSA(Agent):
         self.alpha = alpha
         self.gamma = gamma
         self.decayRate = decayRate
-        self.cmac = CMAC(7,0.5,0.1)
+        self.cmac = CMAC(20,0.2,0.1)
 
     def quantize_features(self, features):
         """ CMAC utilities for all agent """
@@ -40,7 +40,7 @@ class SARSA(Agent):
                 data.append(var[i])
         #returns the output as a tuple
         return tuple(data)
-            
+
         #data = []
         #for feature in features:
         #    quantized_features = self.cmac.quantize(feature)
@@ -74,7 +74,7 @@ class SARSA(Agent):
         #self.lastState = state
         # select applicable actions
         if stateFeatures[5] == 1: # State[5] is 1 when the player can kick the ball
-            actions = [self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
+            actions = [self.DRIBBLE, self.SHOOT, self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
         else:
             return self.MOVE
         # epsilon greedy action selection
@@ -87,9 +87,9 @@ class SARSA(Agent):
             count = qValues.count(maxQ)
             if count > 1 and self.exploring:
                 best = [i for i in range(len(actions)) if qValues[i] == maxQ]
-                return self.actions[random.choice(best)]
+                return actions[random.choice(best)]
             else:
-                return self.actions[qValues.index(maxQ)]
+                return actions[qValues.index(maxQ)]
 
 
     def learn(self, state1, action1, reward, state2, action2):

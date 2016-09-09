@@ -155,4 +155,4 @@ class HFOEnvironment(object):
   # my stuff
   def getUnum(self):
     """ Returns the uniform number """
-    return hfo_lib.getUnum()
+    return hfo_lib.getUnum(self.obj)

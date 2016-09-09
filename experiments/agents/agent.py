@@ -85,7 +85,7 @@ class Agent(object):
             self.
         # friendly players proximity to opponent
 
-        # friendly players pass opening angle1. 
+        # friendly players pass opening angle1.
 
         # friendly players proxmity, angle & unum
 
@@ -97,8 +97,8 @@ class Agent(object):
         self.hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
                           './bin/teams/base/config/formations-dt', 6000,
                           'localhost', 'base_left', False)
-        #self.unum = self.hfo.getUnum()
-        self.unum = self._agent_count.next()
+        self.unum = self.hfo.getUnum()
+        #self.unum = self._agent_count.next()
         self.exploring = True
         self.training_steps_total = 0
 
@@ -236,7 +236,7 @@ class Agent(object):
                                      self.OPP_ANGLE,
                                      self.OPP_NUMBER#])
                                      ,self.OPPONENT_PROXIMITY])
-                                
+
 
         return tuple(stateFeatures.tolist())
 
@@ -260,7 +260,7 @@ class Agent(object):
 
     def get_Unum(self):
         return self.hfo.getUnum()
-        
+
     def get_used_budget(self):
         """Returns the ask budget the agent already used"""
         return 0

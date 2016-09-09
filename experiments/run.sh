@@ -108,9 +108,11 @@ do
   --trials "${TRIALS_TOTAL}" \
   --frames-per-trial "${MAX_FRAMES}" \
   --headless \
-  --ball-x-min 0.4 \
-  --ball-x-max 0.5 \
   --fullstate &
+
+  # maybe add:
+  #--ball-x-min 0.4 \
+  #--ball-x-max 0.5 \
   # instead of headless: --no-sync \
 
   HFO_PID=$!
@@ -121,7 +123,7 @@ do
    sleep 5
     echo "[$(date +"%Y-%m-%d_%H:%M:%S")] STARTING AGENT ${agent}"
     "${BASE_DIR}"/experiment.py -a "${AGENT}" -i "${INTERVAL}" -d \
-    "${DURATION}" -t "${TRIALS}" -l "${_dir}${AGENT}"_"${run}"_"${agent}"  &
+    "${DURATION}" -t "${TRIALS}" -l "${_dir}${AGENT}"_"${run}"  &
   done
   wait ${HFO_PID}
   sleep 5
