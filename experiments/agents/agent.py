@@ -131,7 +131,7 @@ class Agent(object):
         elif(status == self.OUT_OF_BOUNDS):
              return -1.0
         elif(status == self.OUT_OF_TIME):
-             return -1.0
+             return 0
         elif(status == self.GOAL):
              return 1.0
         return 0
@@ -221,7 +221,7 @@ class Agent(object):
                                      self.ORIENTATION,
                                      self.BALL_PROXIMITY,
                                      self.BALL_ANGLE,
-                                     self.ABLE_KICK,
+                                     #self.ABLE_KICK,
                                      self.FRIEND1_OPP_PROXIMITY,
                                      self.FRIEND2_OPP_PROXIMITY,
                                      self.FRIEND1_OPENING,
@@ -234,7 +234,8 @@ class Agent(object):
                                      self.FRIEND2_NUMBER,
                                      self.OPP_PROXIMITY,
                                      self.OPP_ANGLE,
-                                     self.OPP_NUMBER])
+                                     self.OPP_NUMBER#])
+                                     ,self.OPPONENT_PROXIMITY])
                                 
 
         return tuple(stateFeatures.tolist())

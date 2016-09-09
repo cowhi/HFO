@@ -26,11 +26,21 @@ class SARSA(Agent):
         self.alpha = alpha
         self.gamma = gamma
         self.decayRate = decayRate
-        self.cmac = CMAC(1,0.5,0.1)
+        self.cmac = CMAC(7,0.5,0.1)
 
     def quantize_features(self, features):
         """ CMAC utilities for all agent """
-        return self.cmac.quantize(features)
+        quantVar = self.cmac.quantize(features)
+        data = []
+        #len(quantVar[0]) is the number of variables
+        for i in range(0,len(quantVar[0])):
+            #Transforms n tuples into a single array
+            for var in quantVar:
+                #copy each tuple value to the output
+                data.append(var[i])
+        #returns the output as a tuple
+        return tuple(data)
+            
         #data = []
         #for feature in features:
         #    quantized_features = self.cmac.quantize(feature)
@@ -66,16 +76,16 @@ class SARSA(Agent):
         if stateFeatures[5] == 1: # State[5] is 1 when the player can kick the ball
             actions = [self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
         else:
-            actions = [self.MOVE]
+            return self.MOVE
         # epsilon greedy action selection
         if self.exploring and random.random() < self.epsilon:
             return random.choice(actions)
         else:
             cmacState = self.quantize_features(state)
-            qValues = [self.get_Q(tuple(cmacState), action) for action in actions]
+            qValues = [self.get_Q(cmacState, action) for action in actions]
             maxQ = max(qValues)
             count = qValues.count(maxQ)
-            if count > 1:
+            if count > 1 and self.exploring:
                 best = [i for i in range(len(actions)) if qValues[i] == maxQ]
                 return self.actions[random.choice(best)]
             else:
@@ -100,11 +110,11 @@ class SARSA(Agent):
         status = self.hfo.step()
         stateFeatures = self.hfo.getState()
         statePrime = self.get_transformed_features(stateFeatures)
-        stateQuantized = tuple(self.quantize_features(state))
-        statePrimeQuantized = tuple(self.quantize_features(statePrime))
+        stateQuantized = self.quantize_features(state)
+        statePrimeQuantized = self.quantize_features(statePrime)
         reward = self.get_reward(status)
         # select actionPrime
-        actionPrime = self.select_action(tuple(stateFeatures), statePrime)
+        actionPrime = self.select_action(stateFeatures, statePrime)
 
         if self.exploring:
             # calculate TDError

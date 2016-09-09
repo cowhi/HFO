@@ -91,7 +91,8 @@ def main():
         stateFeatures = AGENT.hfo.getState()
         state = AGENT.get_transformed_features(stateFeatures)
         #print('***** %s: state type: %s, len: %s' % (str(AGENT.unum), str(type(state)), str(len(state))))
-        action = AGENT.select_action(tuple(stateFeatures), state)
+        #action = AGENT.select_action(tuple(stateFeatures), state)
+        action = AGENT.select_action(stateFeatures, state)
         while status == AGENT.IN_GAME:
             frame += 1
             status, state, action = AGENT.step(state, action)
@@ -113,7 +114,8 @@ def main():
                 eval_status = AGENT.IN_GAME
                 stateFeatures = AGENT.hfo.getState()
                 state = AGENT.get_transformed_features(stateFeatures)
-                action = AGENT.select_action(tuple(stateFeatures), state)
+                #action = AGENT.select_action(tuple(stateFeatures), state)
+                action = AGENT.select_action(stateFeatures, state)
                 while eval_status == AGENT.IN_GAME:
                     eval_frame += 1
                     eval_status, state, action = AGENT.step(state, action)
