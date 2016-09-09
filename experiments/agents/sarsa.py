@@ -17,7 +17,8 @@ class SARSA(Agent):
                "Training steps: " + str(self.training_steps_total) + ", " + \
                "Q-Table size: " + str(len(self.qTable))
 
-    def __init__(self, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, seed=12345):
+    def __init__(self, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, seed=12345,
+                 cmac_level=10, cmac_quantization=0.2, cmac_beta=0.1):
         super(SARSA, self).__init__(seed)
         self.name = "SARSA"
         self.qTable = {}
@@ -26,7 +27,8 @@ class SARSA(Agent):
         self.alpha = alpha
         self.gamma = gamma
         self.decayRate = decayRate
-        self.cmac = CMAC(20,0.3,0.1)
+        self.cmac = CMAC(cmac_level,cmac_quantization,cmac_beta)
+        print('***** %s: Agent uses CMAC(%s,%s,%s)' % (str(self.unum),str(cmac_level), str(cmac_quantization), str(cmac_beta)))
 
     def quantize_features(self, features):
         """ CMAC utilities for all agent """
