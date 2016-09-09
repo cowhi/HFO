@@ -32,18 +32,22 @@ def ask_advice(uNum,state):
        state - the advisee state after it is processed in the statespace_util methods
        """
      askFilePath = askFolder+str(uNum)
-     fileSay = open(askFilePath, 'w+')
+     
      stateString = ""
      for x in state:
          stateString = stateString + str(x) + ";"
          
+     fileSay = open(askFilePath, 'w+')
      fileSay.write(stateString)
      fileSay.close()
      
      sleep(askTimeout/1000)
      
      #Starts erasing the file
-     os.remove(askFilePath)
+     try:
+         os.remove(askFilePath)
+     except OSError:
+         pass
      
      #reads if there is any advice to be read
      advice = []
@@ -52,10 +56,13 @@ def ask_advice(uNum,state):
             #Check if this advice is for the local agent
             if(adviseeNum == uNum):
                 #Read the advice and delete the file
-                fileR = open(adviceFolder+fileD)
-                line = fileR.readline()
-                advice.append(line)
-                os.remove(adviceFolder+fileD)
+                try:
+                    fileR = open(adviceFolder+fileD)
+                    line = fileR.readline()
+                    advice.append(line)
+                    os.remove(adviceFolder+fileD)
+                except IOError:
+                    pass
      return advice
     
 def verify_advice(uNum):
@@ -72,6 +79,7 @@ def verify_advice(uNum):
                 try:             
                     fileR = open(askFolder+fileD)
                     state = fileR.readline()
+                    fileR.close()
                     requirements.append([int(fileD),state])
                 except IOError:
                     pass
@@ -89,7 +97,7 @@ def give_advice(uNumAdvisee,uNumAdvisor,action):
     
 def recover_state(textualState):
     """ Transforms a text state read in an advice file to the numpy matrix"""    
-    splittedState = textualState.split(";")[:-1]#Remove last empty element
+    splittedState = textualState.split(";")#Remove last empty element
     splittedState = np.asfarray(splittedState, dtype='float')
     return splittedState
     

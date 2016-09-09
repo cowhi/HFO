@@ -12,6 +12,7 @@ This agent act as SARSA, and the exploration strategy is changed according to ou
 from sarsa import SARSA
 from threading import Thread
 import advice_util as advice
+import random
 
 import math
 
@@ -22,6 +23,8 @@ class AdHoc(SARSA):
     budgetAdvise = 0
     spentBudgetAsk = 0
     spentBudgetAdvise = 0
+    
+    scalingVisits = math.exp(1)
     
     #These two variables are used to control the advising thread
     ableToAdvise = False
@@ -35,10 +38,10 @@ class AdHoc(SARSA):
     ASK,ADVISE = range(2)
     visitTable = None
     
-    def __init__(self, budgetAsk=0, budgetAdvise=0,stateImportanceMetric=VISIT_IMPORTANCE, epsilon=0.1, alpha=0.2, gamma=0.9):
+    def __init__(self, budgetAsk=1000, budgetAdvise=1000,stateImportanceMetric=VISIT_IMPORTANCE, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
         super(AdHoc, self).__init__()
         self.name = "AdHoc"
-        self.qTable = {}
+        self.visitTable = {}
         self.budgetAsk = budgetAsk
         self.budgetAdvise = budgetAdvise
         
@@ -47,22 +50,22 @@ class AdHoc(SARSA):
         self.ableToAdvise = True
         self.stateImportanceMetric = stateImportanceMetric
         
-    def select_action(self, state):
+    def select_action(self, stateFeatures, state):
         """Changes the exploration strategy"""
-        if self.exploring and self.spentBudgetAsk < self.spentBudgetAsk:
+        if self.exploring and self.spentBudgetAsk < self.budgetAsk:
             #Check if it should ask for advice
             ask = self.check_ask(state)
             if ask:
                 #Ask for advice
-                advised = advice.ask_advice(self.get_Unum(),state)
+                advised = advice.ask_advice(self.get_Unum(),stateFeatures)
                 if advised:
                     self.spentBudgetAsk = self.spentBudgetAsk + 1
-                    action = self.combineAdvice()
+                    action = self.combineAdvice(advised)
                     return action
                     
-        return super.select_action(state)
+        return super(AdHoc, self).select_action(stateFeatures,state)
         
-    def check_advise(self,state): 
+    def check_advise(self,stateFeatures,state): 
         """Returns if the agent should advice in this state.
         The advised action is also returned in the positive case"""
             
@@ -72,13 +75,20 @@ class AdHoc(SARSA):
         
         #Calculates the probability
         prob = self.calc_prob_adv(importance,midpoint,self.ADVISE)
-        
+        ##
+        processedState = tuple(self.quantize_features(state))
+        numberVisits = self.number_visits(processedState)
+        #print str(numberVisits)+"  -  "+str(prob)
+        ##
         #Check if the agent should advise
-        if self.random() < prob and prob > 0.1:
-            advisedAction = self.select_action(state)
+        if random.random() < prob and prob > 0.1:
+            advisedAction = self.select_action(stateFeatures,state)
             return True,advisedAction          
             
         return False,None
+        
+    def combineAdvice(self,advised):
+        return int(max(set(advised), key=advised.count))
         
     def state_importance(self,state,typeProb):
         """Calculates the state importance
@@ -118,7 +128,7 @@ class AdHoc(SARSA):
         if self.exploring:
                 processedState = tuple(self.quantize_features(state))
                 self.visitTable[processedState] = self.visitTable.get(processedState,0.0) + 1
-        super.step(state,action)
+        return super(AdHoc, self).step(state,action)
         
         
     def check_ask(self,state):
@@ -129,7 +139,13 @@ class AdHoc(SARSA):
         #Calculates the probability
         prob = self.calc_prob_adv(importance,midpoint,self.ASK)
         
-        if self.random() < prob and prob > 0.1:
+        ##
+        processedState = tuple(self.quantize_features(state))
+        numberVisits = self.number_visits(processedState)
+        print str(numberVisits)+"  -  "+str(prob)
+        ##
+        
+        if random.random() < prob and prob > 0.1:
             return True
         return False
         
@@ -161,17 +177,31 @@ class AdHoc(SARSA):
                 #Is there anyone asking for advice?
                 if reads:
                     for ad in reads:
-                        advisee = ad[0]
-                        state = advice.recover_state(ad[1])
-                        if state != "":
+                        advisee = ad[0]    
+                        if ad[1] != "":
+                            stateFeatures = advice.recover_state(ad[1])
                             #Check if the agent should advise
-                            advise,advisedAction = self.check_advise(state)
+                            advise,advisedAction = self.check_advise(stateFeatures,self.get_transformed_features(stateFeatures))
                             if advise:
                                 advice.give_advice(int(advisee),self.get_Unum(),advisedAction)
-                                self.spentBudget = self.spentBudget + 1
+                                self.spentBudgetAdvise = self.spentBudgetAdvise + 1
                     
                     
     def get_used_budget(self):
         return self.spentBudgetAsk
         
-      
+    def midpoint(self,typeMid):
+        """Calculates the midpoint"""
+        numVisits = 100
+        impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
+        if typeMid == self.ADVISE:
+            #For now, the same as ask
+            return impMid
+        elif typeMid == self.ASK:
+            return impMid
+            
+        #Error
+        return None
+        
+    def number_visits(self,state):
+        return self.visitTable.get(state,0.0)

@@ -108,6 +108,8 @@ do
   --trials "${TRIALS_TOTAL}" \
   --frames-per-trial "${MAX_FRAMES}" \
   --headless \
+  --ball-x-min 0.4 \
+  --ball-x-max 0.5 \
   --fullstate &
   # instead of headless: --no-sync \
 

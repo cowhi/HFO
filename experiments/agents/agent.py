@@ -95,7 +95,7 @@ class Agent(object):
         print('***** Connecting to HFO server')
         self.hfo = HFOEnvironment()
         self.hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
-                          './bin/teams/base/config/formations-dt', 6000,
+                          '/home/leno/HFO/HFO-master/bin/teams/base/config/formations-dt', 6000,
                           'localhost', 'base_left', False)
         #self.unum = self.hfo.getUnum()
         self.unum = self._agent_count.next()
@@ -130,6 +130,8 @@ class Agent(object):
              return -1.0
         elif(status == self.OUT_OF_BOUNDS):
              return -1.0
+        elif(status == self.OUT_OF_TIME):
+             return -1.0
         elif(status == self.GOAL):
              return 1.0
         return 0
@@ -162,6 +164,8 @@ class Agent(object):
             argument = nearest
         elif(action == self.PASSfar):
             argument = farthest
+        else:
+            print "ERROR ACTION: "+str(action)
 
         return actionRet, argument
 
@@ -210,6 +214,7 @@ class Agent(object):
         # Remaining features:
         # CENTER_PROXIMITY, GOAL_ANGLE, GOAL_OPENING, OPPONENT_PROXIMITY,
         # FRIEND1_GOAL_OPPENING. FRIEND2_GOAL_OPPENING
+        #stateFeatures = np.delete(stateFeatures,[self.FRIEND1_NUMBER,self.FRIEND2_NUMBER])
         stateFeatures = np.delete(stateFeatures,
                                     [self.X_POSITION,
                                      self.Y_POSITION,
