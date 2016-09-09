@@ -76,7 +76,7 @@ class AdHoc(SARSA):
         #Calculates the probability
         prob = self.calc_prob_adv(importance,midpoint,self.ADVISE)
         ##
-        processedState = tuple(self.quantize_features(state))
+        processedState = self.quantize_features(state)
         numberVisits = self.number_visits(processedState)
         #print str(numberVisits)+"  -  "+str(prob)
         ##
@@ -95,7 +95,7 @@ class AdHoc(SARSA):
         state - the state
         typeProb - is the state importance being calculated in regard to
         the number of visits or also by Q-table values?"""
-        processedState = tuple(self.quantize_features(state))
+        processedState = self.quantize_features(state)
         numberVisits = self.number_visits(processedState)
          
         if numberVisits == 0:
@@ -126,7 +126,7 @@ class AdHoc(SARSA):
     def step(self, state, action):
         """Modifies the default step action just to include a state visit counter"""
         if self.exploring:
-                processedState = tuple(self.quantize_features(state))
+                processedState = self.quantize_features(state)
                 self.visitTable[processedState] = self.visitTable.get(processedState,0.0) + 1
         return super(AdHoc, self).step(state,action)
         
@@ -140,7 +140,7 @@ class AdHoc(SARSA):
         prob = self.calc_prob_adv(importance,midpoint,self.ASK)
         
         ##
-        processedState = tuple(self.quantize_features(state))
+        processedState = self.quantize_features(state)
         numberVisits = self.number_visits(processedState)
         print str(numberVisits)+"  -  "+str(prob)
         ##
@@ -159,7 +159,7 @@ class AdHoc(SARSA):
         typeProb - ASK or ADVISE
         """
         signal = 1 if typeProb == self.ASK else -1
-        k = 3        
+        k = 5    
         
         prob = 1 / (1 + math.exp(signal * k * (importance-midpoint)))
         return prob
@@ -192,7 +192,7 @@ class AdHoc(SARSA):
         
     def midpoint(self,typeMid):
         """Calculates the midpoint"""
-        numVisits = 100
+        numVisits = 1
         impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
         if typeMid == self.ADVISE:
             #For now, the same as ask
