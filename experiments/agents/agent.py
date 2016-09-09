@@ -97,7 +97,7 @@ class Agent(object):
         print('***** Connecting to HFO server')
         self.hfo = HFOEnvironment()
         self.hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
-                          '/home/leno/HFO/HFO-master/bin/teams/base/config/formations-dt', 6000,
+                          './bin/teams/base/config/formations-dt', 6000,
                           'localhost', 'base_left', False)
         self.unum = self.hfo.getUnum()
         #self.unum = self._agent_count.next()
