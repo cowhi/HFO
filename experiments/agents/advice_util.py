@@ -47,6 +47,7 @@ def ask_advice(uNum,state):
      try:
          os.remove(askFilePath)
      except OSError:
+         print "ADVICEUTIL 50"
          pass
      
      #reads if there is any advice to be read
@@ -62,6 +63,7 @@ def ask_advice(uNum,state):
                     advice.append(line)
                     os.remove(adviceFolder+fileD)
                 except IOError:
+                    print "ADVICEUTIL 66"
                     pass
      return advice
     
@@ -82,6 +84,7 @@ def verify_advice(uNum):
                     fileR.close()
                     requirements.append([int(fileD),state])
                 except IOError:
+                    print "IOERROR 87"
                     pass
     return requirements
     

@@ -26,9 +26,7 @@ class AdHoc(SARSA):
     
     scalingVisits = math.exp(10)
     
-    #These two variables are used to control the advising thread
-    ableToAdvise = False
-    quitAdvising = False
+
     
     #Enum for importance metrics
     VISIT_IMPORTANCE, Q_IMPORTANCE = range(2)
@@ -38,7 +36,7 @@ class AdHoc(SARSA):
     ASK,ADVISE = range(2)
     visitTable = None
     
-    def __init__(self, budgetAsk=50, budgetAdvise=50,stateImportanceMetric=VISIT_IMPORTANCE, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
+    def __init__(self, budgetAsk, budgetAdvise,stateImportanceMetric, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
         super(AdHoc, self).__init__()
         self.name = "AdHoc"
         self.visitTable = {}
@@ -47,7 +45,7 @@ class AdHoc(SARSA):
         
         thread = Thread(target = self.advise)
         thread.start()
-        self.ableToAdvise = True
+        
         self.stateImportanceMetric = stateImportanceMetric
         
     def select_action(self, stateFeatures, state):
@@ -76,8 +74,8 @@ class AdHoc(SARSA):
         #Calculates the probability
         prob = self.calc_prob_adv(importance,midpoint,self.ADVISE)
         ##
-        processedState = self.quantize_features(state)
-        numberVisits = self.number_visits(processedState)
+        #processedState = self.quantize_features(state)
+        #numberVisits = self.number_visits(processedState)
         #print str(numberVisits)+"  -  "+str(prob)
         ##
         #Check if the agent should advise
@@ -171,7 +169,7 @@ class AdHoc(SARSA):
         """Method executed in a parallel thread.
         The agent checks if there is another friendly agent asking for advice,
         and helps him if possible"""
-        while self.spentBudgetAdvise < self.budgetAdvise and not self.quitAdvising:
+        while self.spentBudgetAdvise < self.budgetAdvise:
             if self.exploring:            
                 reads = advice.verify_advice(self.get_Unum())            
                 
