@@ -16,6 +16,7 @@ import random
 
 import math
 
+import abc
 
 class AdHoc(SARSA):
     
@@ -109,14 +110,19 @@ class AdHoc(SARSA):
             maxQ = -float("inf")
             minQ = float("inf")
             #Get max and min Q value
-            for act in self.actions:
-                actQ = self.qTable.get(processedState,act)
-                if actQ > maxQ:
-                    maxQ = actQ
-                if actQ < minQ:
-                    minQ = actQ
+            actions = [self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
+            for act in actions:
+                if (processedState,act) in self.qTable:
+                    actQ = self.qTable.get((processedState, act))
+                    if actQ > maxQ:
+                        maxQ = actQ
+                    if actQ < minQ:
+                        minQ = actQ
              
-            qImportance = math.fabs(maxQ - minQ) * len(self.actions.count)
+            # print "MaxQ "+str(maxQ)
+            # print "MinQ "+str(minQ)
+            # print "len "+str(len(actions))
+            qImportance = math.fabs(maxQ - minQ) * len(actions)
             
             return visitImportance * qImportance        
         #If the agent got here, it is an error
@@ -188,21 +194,11 @@ class AdHoc(SARSA):
                     
     def get_used_budget(self):
         return self.spentBudgetAsk
-        
+    @abc.abstractmethod
     def midpoint(self,typeMid):
         """Calculates the midpoint"""
+        pass
         
-        if typeMid == self.ADVISE:
-           numVisits = 100
-           impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
-           return impMid
-        elif typeMid == self.ASK:
-            numVisits = 10
-            impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
-            return impMid
-            
-        #Error
-        return None
         
     def number_visits(self,state):
         return self.visitTable.get(state,0.0)

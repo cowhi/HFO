@@ -213,6 +213,7 @@ class Agent(object):
         stateFeatures[self.FRIEND2_PROXIMITY] = farthestProximity
         stateFeatures[self.FRIEND2_ANGLE] = farthestAngle
 
+
         # Remaining features:
         # CENTER_PROXIMITY, GOAL_ANGLE, GOAL_OPENING, OPPONENT_PROXIMITY,
         # FRIEND1_GOAL_OPPENING. FRIEND2_GOAL_OPPENING

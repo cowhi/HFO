@@ -7,7 +7,7 @@ Loads everything from adhoc.py, this class only defines parameters for the visit
 ad hoc advising
 """
 from adhoc import AdHoc
-
+import math
 class AdHocVisit(AdHoc):
         #Enum for importance metrics
     VISIT_IMPORTANCE, Q_IMPORTANCE = range(2)
@@ -16,3 +16,16 @@ class AdHocVisit(AdHoc):
         super(AdHocVisit, self).__init__(budgetAsk,budgetAdvise,stateImportanceMetric)
         
         
+    def midpoint(self,typeMid):
+        """Calculates the midpoint"""     
+        if typeMid == self.ADVISE:
+           numVisits = 100
+           impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
+           return impMid
+        elif typeMid == self.ASK:
+            numVisits = 10
+            impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
+            return impMid
+            
+        #Error
+        return None
