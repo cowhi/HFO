@@ -16,6 +16,7 @@ import random
 
 import math
 
+import abc
 
 class AdHoc(SARSA):
     
@@ -26,9 +27,7 @@ class AdHoc(SARSA):
     
     scalingVisits = math.exp(10)
     
-    #These two variables are used to control the advising thread
-    ableToAdvise = False
-    quitAdvising = False
+
     
     #Enum for importance metrics
     VISIT_IMPORTANCE, Q_IMPORTANCE = range(2)
@@ -38,7 +37,7 @@ class AdHoc(SARSA):
     ASK,ADVISE = range(2)
     visitTable = None
     
-    def __init__(self, budgetAsk=50, budgetAdvise=50,stateImportanceMetric=VISIT_IMPORTANCE, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
+    def __init__(self, budgetAsk, budgetAdvise,stateImportanceMetric, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
         super(AdHoc, self).__init__()
         self.name = "AdHoc"
         self.visitTable = {}
@@ -47,7 +46,7 @@ class AdHoc(SARSA):
         
         thread = Thread(target = self.advise)
         thread.start()
-        self.ableToAdvise = True
+        
         self.stateImportanceMetric = stateImportanceMetric
         
     def select_action(self, stateFeatures, state):
@@ -76,8 +75,8 @@ class AdHoc(SARSA):
         #Calculates the probability
         prob = self.calc_prob_adv(importance,midpoint,self.ADVISE)
         ##
-        processedState = self.quantize_features(state)
-        numberVisits = self.number_visits(processedState)
+        #processedState = self.quantize_features(state)
+        #numberVisits = self.number_visits(processedState)
         #print str(numberVisits)+"  -  "+str(prob)
         ##
         #Check if the agent should advise
@@ -111,14 +110,19 @@ class AdHoc(SARSA):
             maxQ = -float("inf")
             minQ = float("inf")
             #Get max and min Q value
-            for act in self.actions:
-                actQ = self.qTable.get(processedState,act)
-                if actQ > maxQ:
-                    maxQ = actQ
-                if actQ < minQ:
-                    minQ = actQ
+            actions = [self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
+            for act in actions:
+                if (processedState,act) in self.qTable:
+                    actQ = self.qTable.get((processedState, act))
+                    if actQ > maxQ:
+                        maxQ = actQ
+                    if actQ < minQ:
+                        minQ = actQ
              
-            qImportance = math.fabs(maxQ - minQ) * len(self.actions.count)
+            # print "MaxQ "+str(maxQ)
+            # print "MinQ "+str(minQ)
+            # print "len "+str(len(actions))
+            qImportance = math.fabs(maxQ - minQ) * len(actions)
             
             return visitImportance * qImportance        
         #If the agent got here, it is an error
@@ -171,7 +175,7 @@ class AdHoc(SARSA):
         """Method executed in a parallel thread.
         The agent checks if there is another friendly agent asking for advice,
         and helps him if possible"""
-        while self.spentBudgetAdvise < self.budgetAdvise and not self.quitAdvising:
+        while self.spentBudgetAdvise < self.budgetAdvise:
             if self.exploring:            
                 reads = advice.verify_advice(self.get_Unum())            
                 
@@ -190,21 +194,11 @@ class AdHoc(SARSA):
                     
     def get_used_budget(self):
         return self.spentBudgetAsk
-        
+    @abc.abstractmethod
     def midpoint(self,typeMid):
         """Calculates the midpoint"""
+        pass
         
-        if typeMid == self.ADVISE:
-           numVisits = 100
-           impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
-           return impMid
-        elif typeMid == self.ASK:
-            numVisits = 10
-            impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
-            return impMid
-            
-        #Error
-        return None
         
     def number_visits(self,state):
         return self.visitTable.get(state,0.0)
