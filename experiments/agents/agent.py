@@ -96,9 +96,10 @@ class Agent(object):
         random.seed(seed)
         print('***** Connecting to HFO server')
         self.hfo = HFOEnvironment()
-        self.hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
+        serverResponse = self.hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
                           './bin/teams/base/config/formations-dt', 6000,
                           'localhost', 'base_left', False)
+        print('*****************--> %s'% str(serverResponse))
         self.unum = self.hfo.getUnum()
         #self.unum = self._agent_count.next()
         self.exploring = True
