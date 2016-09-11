@@ -1,10 +1,9 @@
 import random
+import sys
 from cmac import CMAC
 from .agent import Agent
 
 class SARSA(Agent):
-
-    lastState = None
 
     def __str__(self):
         """ Overwrites the object.__str__ method.
@@ -18,8 +17,8 @@ class SARSA(Agent):
                "Q-Table size: " + str(len(self.qTable))
 
     def __init__(self, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, seed=12345,
-                 cmac_level=20, cmac_quantization=0.2, cmac_beta=0.1):
-        super(SARSA, self).__init__(seed)
+                 cmac_level=20, cmac_quantization=0.5, cmac_beta=0.1, port=12345):
+        super(SARSA, self).__init__(seed, port)
         self.name = "SARSA"
         self.qTable = {}
         self.stateActionTrace = {}
@@ -43,11 +42,6 @@ class SARSA(Agent):
         #returns the output as a tuple
         return tuple(data)
 
-        #data = []
-        #for feature in features:
-        #    quantized_features = self.cmac.quantize(feature)
-        #    data.append([quantized_features])
-        #return data
 
 
     def get_Q(self, state, action):

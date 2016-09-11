@@ -1,9 +1,5 @@
-import logging
 from hfo import *
-from itertools import count
 import random
-
-_logger = logging.getLogger(__name__)
 
 import abc
 
@@ -14,12 +10,9 @@ class Agent(object):
     __metaclass__ = abc.ABCMeta
 
     ''' The HFO object '''
-    hfo = None
+    #hfo = None
     ''' State discretizations '''
-    cmac = None
-
-    ''' Trick to count agents '''
-    _agent_count = count(0)
+    #cmac = None
 
     ''' An enum of the possible HFO actions
       [Low-Level] Dash(power, relative_direction)
@@ -70,7 +63,7 @@ class Agent(object):
       OPP_ANGLE, OPP_NUMBER = range(25)
 
     #def __init__(self, friends=3, opps=1):
-    def __init__(self, seed=12345):
+    def __init__(self, seed=12345, port=12345):
         """ Initializes an agent for a given environment. """
         '''
         if friends == 0:
@@ -92,18 +85,21 @@ class Agent(object):
 
         # opposing players proximity. angle & unum
         '''
-        # set the agent seed
-        random.seed(seed)
-        print('***** Connecting to HFO server')
+        print('***** Connecting to HFO server on port %s' % str(port))
         self.hfo = HFOEnvironment()
-        serverResponse = self.hfo.connectToServer(HIGH_LEVEL_FEATURE_SET,
-                          './bin/teams/base/config/formations-dt', 6000,
-                          'localhost', 'base_left', False)
-        print('*****************--> %s'% str(serverResponse))
+        serverResponse = self.hfo.connectToServer(
+                feature_set=HIGH_LEVEL_FEATURE_SET,
+                config_dir='./bin/teams/base/config/formations-dt',
+                server_port=port,
+                server_addr='localhost',
+                team_name='base_left',
+                play_goalie=False)
+        print('***** Problems while connecting? %s'% str(serverResponse))
         self.unum = self.hfo.getUnum()
-        #self.unum = self._agent_count.next()
         self.exploring = True
         self.training_steps_total = 0
+        # set the agent seed
+        random.seed(seed)
 
 
     @abc.abstractmethod

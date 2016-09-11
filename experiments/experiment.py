@@ -29,6 +29,7 @@ def get_args():
     parser.add_argument('-d','--evaluation_duration',type=int, default=5)
     parser.add_argument('-s','--seed',type=int, default=12345)
     parser.add_argument('-l','--log_file',default='Dummy_1_1')
+    parser.add_argument('-p','--port',type=int, default=12345)
     return parser.parse_args()
 
 '''
@@ -71,7 +72,7 @@ def main():
     except ImportError:
         sys.stderr.write("ERROR: missing python module: " + parameter.agent + "\n")
         sys.exit(1)
-    AGENT = AgentClass(parameter.seed)
+    AGENT = AgentClass(parameter.seed, parameter.port)
     #print('***** %s: %s Agent online' % (str(AGENT.unum), str(parameter.agent)))
     print('***** %s: Agent online --> %s' % (str(AGENT.unum), str(AGENT)))
     print('***** %s: Setting up train log files' % str(AGENT.unum))
