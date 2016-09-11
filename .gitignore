@@ -82,6 +82,7 @@ soccerwindow2-prefix/
 log/
 bin/log/
 experiments/LOGS/
+experiments/TEST/
 
 # jupyter stuff
 .ipynb_checkpoints/
