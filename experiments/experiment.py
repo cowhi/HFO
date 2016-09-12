@@ -87,26 +87,7 @@ def main():
     eval_csv_file.flush()
 
     print('***** %s: Start training' % str(AGENT.unum))
-    for trial in range(1,parameter.learning_trials+1):
-        #print('***** %s: Starting Learning Trial %d' % (str(AGENT.unum),trial))
-        status = AGENT.IN_GAME
-        frame = 0
-        stateFeatures = AGENT.hfo.getState()
-        state = AGENT.get_transformed_features(stateFeatures)
-        #print('***** %s: state type: %s, len: %s' % (str(AGENT.unum), str(type(state)), str(len(state))))
-        #action = AGENT.select_action(tuple(stateFeatures), state)
-        action = AGENT.select_action(stateFeatures, state)
-        #print "Selected action --- "+str(action)
-        while status == AGENT.IN_GAME:
-            frame += 1
-            status, state, action = AGENT.step(state, action)
-        #print('***** %s: Trial ended with %s'% (str(AGENT.unum), AGENT.hfo.statusToString(status)))
-        #print('***** %s: Agent --> %s'% (str(AGENT.unum), str(AGENT)))
-        reward = AGENT.get_reward(status)
-        # save stuff
-        train_csv_writer.writerow((trial,frame,reward,str(AGENT.get_used_budget())))
-        train_csv_file.flush()
-
+    for trial in range(0,parameter.learning_trials+1):
         # perform an evaluation trial
         if(trial % parameter.evaluation_interval == 0):
             #print('***** %s: Running evaluation trials' % str(AGENT.unum) )
@@ -138,8 +119,31 @@ def main():
             eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time),str(AGENT.get_used_budget())))
             eval_csv_file.flush()
             AGENT.set_exploring(True)
-        # reset agent trace
+            # reset agent trace
+            AGENT.stateActionTrace = {} 
+           
+        
+        #print('***** %s: Starting Learning Trial %d' % (str(AGENT.unum),trial))
+        status = AGENT.IN_GAME
+        frame = 0
+        stateFeatures = AGENT.hfo.getState()
+        state = AGENT.get_transformed_features(stateFeatures)
+        #print('***** %s: state type: %s, len: %s' % (str(AGENT.unum), str(type(state)), str(len(state))))
+        #action = AGENT.select_action(tuple(stateFeatures), state)
+        action = AGENT.select_action(stateFeatures, state)
+        #print "Selected action --- "+str(action)
+        while status == AGENT.IN_GAME:
+            frame += 1
+            status, state, action = AGENT.step(state, action)
+        #print('***** %s: Trial ended with %s'% (str(AGENT.unum), AGENT.hfo.statusToString(status)))
+        #print('***** %s: Agent --> %s'% (str(AGENT.unum), str(AGENT)))
+        reward = AGENT.get_reward(status)
+        # save stuff
+        train_csv_writer.writerow((trial,frame,reward,str(AGENT.get_used_budget())))
+        train_csv_file.flush()
         AGENT.stateActionTrace = {}
+
+
 
         # Quit if the server goes down
         if status == AGENT.SERVER_DOWN:
