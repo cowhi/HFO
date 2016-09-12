@@ -41,7 +41,7 @@ def ask_advice(uNum,state):
      fileSay.write(stateString)
      fileSay.close()
      
-     sleep(askTimeout/1000)
+     sleep(askTimeout/1000.0)
      
      #Starts erasing the file
      try:

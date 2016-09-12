@@ -195,7 +195,7 @@ class AdHoc(SARSA):
                             if advise:
                                 advice.give_advice(int(advisee),self.get_Unum(),advisedAction)
                                 self.spentBudgetAdvise = self.spentBudgetAdvise + 1
-            sleep(10.0/1000)
+          
                     
                     
     def get_used_budget(self):

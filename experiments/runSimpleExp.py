@@ -13,8 +13,8 @@ import time
 
 
 numberRuns = 10
-start = 5
-agent = "AdHocVisit" 
+start = 0
+agent = "Torrey" 
 
 
 
@@ -23,7 +23,7 @@ def thread_server(command):
         print "Starting server...."
         subprocess.check_call(command,shell='True')
     except subprocess.CalledProcessError:
-        print "Failed... Starting Over"
+        print "Failed Server... Starting Over"
         global okThreads
         okThreads = False
     
@@ -33,7 +33,7 @@ def thread_agent(command):
         print "Starting Agent...."
         subprocess.check_call(command,shell='True')
     except subprocess.CalledProcessError:
-        print "Failed... Starting Over"
+        print "Failed Agent... Starting Over"
         global okThreads
         okThreads = False
     
@@ -71,7 +71,7 @@ def runExp(trial,agent):
     threadAgent3.start()
          
     #Wait for server
-    threadServer.join()
+    #threadServer.join()
     threadAgent1.join()
     threadAgent2.join()
     threadAgent3.join()

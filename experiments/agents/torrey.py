@@ -10,16 +10,17 @@ from sarsa import SARSA
 from threading import Thread
 import advice_util as advice
 import math
-
+import agent
 
 
 class Torrey(SARSA):
     
     budget = 0
     spentBudget = 0
+    lastStatus = agent.IN_GAME
     
-    def __init__(self, budget=100,threshold = 0.5):
-        super(Torrey, self).__init__()
+    def __init__(self, budget=100,threshold = 0.01,seed=12345, port=12345):
+        super(Torrey, self).__init__(seed=seed,port=port)
         self.name = "Torrey"
         
         self.budget = budget
@@ -28,7 +29,11 @@ class Torrey(SARSA):
         thread = Thread(target = self.advise)
         thread.start()
         
-         
+    def step(self, state, action):
+        """Modifies the default step action just to include a state visit counter"""
+        status, statePrime, actionPrime = super(Torrey, self).step(state,action)
+        self.lastStatus = status
+        return status, statePrime, actionPrime        
     
     def select_action(self, stateFeatures, state):
         """Changes the exploration strategy"""
@@ -48,7 +53,7 @@ class Torrey(SARSA):
         """Method executed in a parallel thread.
         The agent checks if there is another friendly agent asking for advice,
         and helps him if possible"""
-        while self.spentBudget < self.budget:
+        while self.spentBudget < self.budget and not self.lastStatus == self.SERVER_DOWN:
             if self.exploring:            
                 reads = advice.verify_advice(self.get_Unum())            
                 
@@ -63,6 +68,7 @@ class Torrey(SARSA):
                             if advise:
                                 advice.give_advice(int(advisee),self.get_Unum(),advisedAction)
                                 self.spentBudget = self.spentBudget + 1
+                                #print "ADVISED***"
                                 
     def check_advise(self,stateFeatures,state): 
         """Returns if the agent should advice in this state.
@@ -70,7 +76,8 @@ class Torrey(SARSA):
             
         
         importance = self.state_importance(state)
-       
+        #if importance>0:
+        #print "Importance "+str(importance) 
         if importance > self.threshold:
             advisedAction = self.select_action(stateFeatures,state)
             return True,advisedAction          
@@ -96,12 +103,13 @@ class Torrey(SARSA):
                     maxQ = actQ
                 if actQ < minQ:
                     minQ = actQ
-         
-        if(maxQ==-float('Inf') or minQ==float('Inf')):
-            return 0
-        #print "MaxQ "+str(maxQ)
+        
+        #print "MaxQ "+str(maxQ)+"   - MinQ "+str(minQ)
         #print "MinQ "+str(minQ)
         # print "len "+str(len(actions))
+        if(maxQ==-float('Inf') or minQ==float('Inf')):
+            return 0
+
         qImportance = math.fabs(maxQ - minQ) 
         
         return qImportance        
