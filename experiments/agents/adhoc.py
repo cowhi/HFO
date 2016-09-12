@@ -15,6 +15,7 @@ import advice_util as advice
 import random
 from time import sleep
 import math
+import agent
 
 import abc
 
@@ -27,7 +28,7 @@ class AdHoc(SARSA):
     
     scalingVisits = math.exp(10)
     
-
+    lastStatus = agent.IN_GAME
     
     #Enum for importance metrics
     VISIT_IMPORTANCE, Q_IMPORTANCE = range(2)
@@ -133,7 +134,9 @@ class AdHoc(SARSA):
         if self.exploring:
                 processedState = self.quantize_features(state)
                 self.visitTable[processedState] = self.visitTable.get(processedState,0.0) + 1
-        return super(AdHoc, self).step(state,action)
+        status, statePrime, actionPrime = super(AdHoc, self).step(state,action)
+        self.lastStatus = status
+        return status, statePrime, actionPrime
         
         
     def check_ask(self,state):
@@ -177,7 +180,7 @@ class AdHoc(SARSA):
         """Method executed in a parallel thread.
         The agent checks if there is another friendly agent asking for advice,
         and helps him if possible"""
-        while self.spentBudgetAdvise < self.budgetAdvise:
+        while self.spentBudgetAdvise < self.budgetAdvise and not self.lastStatus == self.SERVER_DOWN:
             if self.exploring:            
                 reads = advice.verify_advice(self.get_Unum())            
                 
