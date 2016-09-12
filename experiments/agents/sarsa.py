@@ -19,7 +19,7 @@ class SARSA(Agent):
                "Q-Table size: " + str(len(self.qTable))
 
     def __init__(self, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, seed=12345,
-                 cmac_level=20, cmac_quantization=0.5, cmac_beta=0.1, port=12345):
+                 cmac_level=20, cmac_quantization=0.3, cmac_beta=0.1, port=12345):
         super(SARSA, self).__init__(seed, port)
         self.name = "SARSA"
         self.qTable = {}
