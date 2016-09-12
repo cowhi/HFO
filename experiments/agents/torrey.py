@@ -53,7 +53,9 @@ class Torrey(SARSA):
         """Method executed in a parallel thread.
         The agent checks if there is another friendly agent asking for advice,
         and helps him if possible"""
-        while self.spentBudget < self.budget and not self.lastStatus == self.SERVER_DOWN:
+        global okThreads
+        okThreads = True
+        while self.spentBudget < self.budget and not self.lastStatus == self.SERVER_DOWN and okThreads:
             if self.exploring:            
                 reads = advice.verify_advice(self.get_Unum())            
                 
@@ -107,7 +109,7 @@ class Torrey(SARSA):
         #print "MaxQ "+str(maxQ)+"   - MinQ "+str(minQ)
         #print "MinQ "+str(minQ)
         # print "len "+str(len(actions))
-        if(maxQ==-float('Inf') or minQ==float('Inf')):
+        if(minQ==float('Inf')):
             return 0
 
         qImportance = math.fabs(maxQ - minQ) 

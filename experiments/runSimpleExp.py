@@ -48,7 +48,7 @@ def runExp(trial,agent):
     serverPath = "/home/leno/HFO/HFO-master/bin/HFO "
     experimentAgentParam = "-p 12341 -s 12345  -i 10 -d 100 -t 500 -l "
     
-    serverParam = "--offense-agents=3 --defense-npcs=1 --fullstate --headless --trials=5500 --port 12341 --frames-per-trial 200"
+    serverParam = "--offense-agents=3 --defense-npcs=1 --fullstate --headless --trials=5601 --port 12341 --frames-per-trial 200"
     
     serverScript = serverPath + serverParam
     global okThreads
