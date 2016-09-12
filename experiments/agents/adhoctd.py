@@ -12,8 +12,8 @@ class AdHocTD(AdHoc):
         #Enum for importance metrics
     VISIT_IMPORTANCE, Q_IMPORTANCE = range(2)
     
-    def __init__(self, budgetAsk=100, budgetAdvise=100,stateImportanceMetric=Q_IMPORTANCE, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
-        super(AdHocTD, self).__init__(budgetAsk,budgetAdvise,stateImportanceMetric)
+    def __init__(self, budgetAsk=100, budgetAdvise=100,stateImportanceMetric=Q_IMPORTANCE,seed=12345, port=12345, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
+        super(AdHocTD, self).__init__(budgetAsk,budgetAdvise,stateImportanceMetric,seed=seed,port=port)
     
     def midpoint(self,typeMid):
         """Calculates the midpoint"""     

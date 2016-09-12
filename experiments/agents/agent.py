@@ -89,7 +89,7 @@ class Agent(object):
         self.hfo = HFOEnvironment()
         serverResponse = self.hfo.connectToServer(
                 feature_set=HIGH_LEVEL_FEATURE_SET,
-                config_dir='/home/leno/HFO/HFO-master/bin/teams/base/config/formations-dt',
+                config_dir='./bin/teams/base/config/formations-dt',
                 server_port=port,
                 server_addr='localhost',
                 team_name='base_left',

@@ -13,7 +13,7 @@ from sarsa import SARSA
 from threading import Thread
 import advice_util as advice
 import random
-
+from time import sleep
 import math
 
 import abc
@@ -37,8 +37,8 @@ class AdHoc(SARSA):
     ASK,ADVISE = range(2)
     visitTable = None
     
-    def __init__(self, budgetAsk, budgetAdvise,stateImportanceMetric, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
-        super(AdHoc, self).__init__()
+    def __init__(self, budgetAsk, budgetAdvise,stateImportanceMetric,seed=12345, port=12345,epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
+        super(AdHoc, self).__init__(seed=seed,port=port)
         self.name = "AdHoc"
         self.visitTable = {}
         self.budgetAsk = budgetAsk
@@ -138,20 +138,22 @@ class AdHoc(SARSA):
         
     def check_ask(self,state):
         """Returns if the agent should ask for advise in this state"""
-        importance = self.state_importance(state,self.VISIT_IMPORTANCE)
-        midpoint = self.midpoint(self.ASK)
         
-        #Calculates the probability
-        prob = self.calc_prob_adv(importance,midpoint,self.ASK)
-        
-        ##
-        processedState = self.quantize_features(state)
-        numberVisits = self.number_visits(processedState)
-        #print str(numberVisits)+"  -  "+str(prob)
-        ##
-        
-        if random.random() < prob and prob > 0.1:
-            return True
+        if self.exploring:
+            importance = self.state_importance(state,self.VISIT_IMPORTANCE)
+            midpoint = self.midpoint(self.ASK)
+            
+            #Calculates the probability
+            prob = self.calc_prob_adv(importance,midpoint,self.ASK)
+            
+            ##
+            #processedState = self.quantize_features(state)
+            #numberVisits = self.number_visits(processedState)
+            #print str(numberVisits)+"  -  "+str(prob)
+            ##
+            
+            if random.random() < prob and prob > 0.1:
+                return True
         return False
         
         
@@ -190,6 +192,7 @@ class AdHoc(SARSA):
                             if advise:
                                 advice.give_advice(int(advisee),self.get_Unum(),advisedAction)
                                 self.spentBudgetAdvise = self.spentBudgetAdvise + 1
+            sleep(10.0/1000)
                     
                     
     def get_used_budget(self):
