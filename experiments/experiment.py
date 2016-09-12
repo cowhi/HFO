@@ -20,9 +20,7 @@ AGENT = None
 hfo = None
 
 def get_args():
-    parser = argparse.ArgumentParser(
-            description="Agent parameter"
-    )
+    parser = argparse.ArgumentParser()
     parser.add_argument('-a','--agent',default='Dummy')
     parser.add_argument('-t','--learning_trials',type=int, default=10)
     parser.add_argument('-i','--evaluation_interval',type=int, default=5)
@@ -72,16 +70,16 @@ def main():
     except ImportError:
         sys.stderr.write("ERROR: missing python module: " + parameter.agent + "\n")
         sys.exit(1)
-    AGENT = AgentClass(parameter.seed, parameter.port)
+    AGENT = AgentClass(seed=parameter.seed, port=parameter.port)
     #print('***** %s: %s Agent online' % (str(AGENT.unum), str(parameter.agent)))
     print('***** %s: Agent online --> %s' % (str(AGENT.unum), str(AGENT)))
     print('***** %s: Setting up train log files' % str(AGENT.unum))
-    train_csv_file = open(str(parameter.log_file) + "_" + str(AGENT.unum) + "_train", "wb")
+    train_csv_file = open(parameter.log_file + "_" + str(AGENT.unum) + "_train", "wb")
     train_csv_writer = csv.writer(train_csv_file)
     train_csv_writer.writerow(("trial","frames_trial","goals_trial","used_budget"))
     train_csv_file.flush()
     print('***** %s: Setting up eval log files' % str(AGENT.unum))
-    eval_csv_file = open(str(parameter.log_file) + "_" + str(AGENT.unum) + "_eval", "wb")
+    eval_csv_file = open(parameter.log_file + "_" + str(AGENT.unum) + "_eval", "wb")
     eval_csv_writer = csv.writer(eval_csv_file)
     eval_csv_writer.writerow(("trial","goal_percentage","avg_goal_time","used_budget"))
     eval_csv_file.flush()
@@ -96,6 +94,7 @@ def main():
         #print('***** %s: state type: %s, len: %s' % (str(AGENT.unum), str(type(state)), str(len(state))))
         #action = AGENT.select_action(tuple(stateFeatures), state)
         action = AGENT.select_action(stateFeatures, state)
+        #print "Selected action --- "+str(action)
         while status == AGENT.IN_GAME:
             frame += 1
             status, state, action = AGENT.step(state, action)
