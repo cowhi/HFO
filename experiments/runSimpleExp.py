@@ -43,24 +43,34 @@ def thread_agent(command):
 
 
 def runExp(trial,agent):
-    resultPath = "/home/leno/HFO/HFO-master/log/"
+    resultPath = "/home/leno/HFO/HFO-master/log/"+agent+"/_0_"
     sourcePath = 'python /home/leno/Dropbox/DO\ -\ Felipe\ Leno\ da\ Silva/Artigos/NovoArtigo/HFO/experiments/experiment.py '
     serverPath = "/home/leno/HFO/HFO-master/bin/HFO "
+    experimentAgentParam = "-p 12341 -s 12345  -i 10 -d 100 -t 500 -l "
     
-    experimentAgentParam = "-p 12341 -s 12345  -i 10 -d 100 -t 500 -l "+resultPath
     serverParam = "--offense-agents=3 --defense-npcs=1 --fullstate --headless --trials=5500 --port 12341 --frames-per-trial 200"
     
     serverScript = serverPath + serverParam
     global okThreads
     okThreads = True
    
+   
     
-    experimentRunAgent = experimentAgentParam + "t"+str(trial)+"/"+agent + " -a "+agent
-    agentScript = sourcePath + experimentRunAgent
+
+
     threadServer = Thread(target = thread_server, args=(serverScript,))
-    threadAgent1 = Thread(target = thread_agent, args=(agentScript,))
-    threadAgent2 = Thread(target = thread_agent, args=(agentScript,))
-    threadAgent3 = Thread(target = thread_agent, args=(agentScript,))
+
+    resultPath1 = resultPath + str(trial)+"_AGENT_1_RESULTS"
+    agentScript1 = sourcePath + experimentAgentParam + resultPath1 +  " -a "+agent
+    threadAgent1 = Thread(target = thread_agent, args=(agentScript1,))
+    
+    resultPath2 = resultPath + str(trial)+"_AGENT_2_RESULTS"
+    agentScript2 = sourcePath + experimentAgentParam + resultPath2 +  " -a "+agent
+    threadAgent2 = Thread(target = thread_agent, args=(agentScript2,))
+    
+    resultPath3 = resultPath + str(trial)+"_AGENT_3_RESULTS"
+    agentScript3 = sourcePath + experimentAgentParam + resultPath3 +  " -a "+agent
+    threadAgent3 = Thread(target = thread_agent, args=(agentScript3,))
         
     threadServer.start()
     sleep(5)
