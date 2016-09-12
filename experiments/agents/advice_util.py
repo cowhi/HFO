@@ -14,10 +14,10 @@ import numpy as np
 
 #When the agent asks for advice, it will create a file named by its uNum in this folder
 #The file content will be the state
-askFolder = "messages/ask/" 
+askFolder = "./experiments/messages/ask/"
 #When an agent gives advice it will create a file in this folder.
 #The file name will be <uNumAdvisee>-<uNumAdvisor> and the content is the advised action
-adviceFolder = "messages/advice/"
+adviceFolder = "./experiments/messages/advice/"
 
 #The time the agent waits for advice (ms)
 askTimeout = 20.0
@@ -32,24 +32,24 @@ def ask_advice(uNum,state):
        state - the advisee state after it is processed in the statespace_util methods
        """
      askFilePath = askFolder+str(uNum)
-     
+
      stateString = ""
      for x in state:
          stateString = stateString + str(x) + ";"
-         
+
      fileSay = open(askFilePath, 'w+')
      fileSay.write(stateString)
      fileSay.close()
-     
+
      sleep(askTimeout/1000.0)
-     
+
      #Starts erasing the file
      try:
          os.remove(askFilePath)
      except OSError:
          #print "ADVICEUTIL 50"
          pass
-     
+
      #reads if there is any advice to be read
      advice = []
      for fileD in os.listdir(adviceFolder):
@@ -66,7 +66,7 @@ def ask_advice(uNum,state):
                     #print "ADVICEUTIL 66"
                     pass
      return advice
-    
+
 def verify_advice(uNum):
     """This method should be executed to verify if another agent is asking for advice
     uNum - The uNum of the potential advisor
@@ -74,11 +74,11 @@ def verify_advice(uNum):
     requirements = []
     #Checks the folder
     for fileD in os.listdir(askFolder):
-        #only reads advice requirements of other agents        
+        #only reads advice requirements of other agents
         if(uNum!=int(fileD)):
             #Check if the agent has already advised for that advice request
             if not os.path.exists(adviceFolder+fileD+"-"+str(uNum)):
-                try:             
+                try:
                     fileR = open(askFolder+fileD)
                     state = fileR.readline()
                     fileR.close()
@@ -87,7 +87,7 @@ def verify_advice(uNum):
                     #print "IOERROR 87"
                     pass
     return requirements
-    
+
 def give_advice(uNumAdvisee,uNumAdvisor,action):
     """This method is executed when the agent is giving advice
         A file is created in the adviceFolder named as <advisee>-<advisor>
@@ -97,13 +97,9 @@ def give_advice(uNumAdvisee,uNumAdvisor,action):
     fileAd= open(filePath, 'w+')
     fileAd.write(str(action))
     fileAd.close()
-    
+
 def recover_state(textualState):
-    """ Transforms a text state read in an advice file to the numpy matrix"""    
+    """ Transforms a text state read in an advice file to the numpy matrix"""
     splittedState = textualState.split(";")[:-1]#Remove last empty element
     splittedState = np.asfarray(splittedState, dtype='float')
     return splittedState
-    
-    
-    
-    
