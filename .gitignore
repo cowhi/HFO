@@ -84,6 +84,7 @@ bin/log/
 experiments/LOGS/
 experiments/TEST/
 experiments/EVAL/
+experiments/messages/
 
 # jupyter stuff
 .ipynb_checkpoints/

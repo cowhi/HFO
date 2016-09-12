@@ -147,40 +147,48 @@ def summarize_experiment_data(source):
                 csvfile.flush()
 
 
-def draw_graph(source1 = None, source2 = None, source3 = None, source4 = None, what = "__SUMMARY_goalpercentages"):
+def draw_graph(source1 = None, name1 = "Algo1",
+               source2 = None, name2 = "Algo2",
+               source3 = None, name3 = "Algo3",
+               source4 = None, name4 = "Algo4",
+               what = "__SUMMARY_goalpercentages"):
     plt.figure(figsize=(10,6), dpi=80)
     if source1 != None:
         summary1File = os.path.join(source1, what)
         summary1Content = np.loadtxt(open(summary1File, "rb"), skiprows=1, delimiter=",", unpack=True)
         X1 = summary1Content[0]
         Y11, Y12, Y13 = summary1Content[1],summary1Content[2],summary1Content[3]
-        plt.fill_between(X1, Y11, Y12, facecolor='blue', alpha=0.2)
-        plt.fill_between(X1, Y11, Y13, facecolor='blue', alpha=0.2)
-        plt.plot(X1,Y11,label='gp1', color='blue')
+        if what != "__SUMMARY_budgets":
+            plt.fill_between(X1, Y11, Y12, facecolor='blue', alpha=0.2)
+            plt.fill_between(X1, Y11, Y13, facecolor='blue', alpha=0.2)
+        plt.plot(X1,Y11,label=name1, color='blue')
     if source2 != None:
         summary2File = os.path.join(source2, what)
         summary2Content = np.loadtxt(open(summary2File, "rb"), skiprows=1, delimiter=",", unpack=True)
         X2 = summary2Content[0]
         Y21, Y22, Y23 = summary2Content[1],summary2Content[2],summary2Content[3]
-        plt.fill_between(X2, Y21, Y22, facecolor='green', alpha=0.2)
-        plt.fill_between(X2, Y21, Y23, facecolor='green', alpha=0.2)
-        plt.plot(X2,Y21,label='gp2', color='green')
+        if what != "__SUMMARY_budgets":
+            plt.fill_between(X2, Y21, Y22, facecolor='green', alpha=0.2)
+            plt.fill_between(X2, Y21, Y23, facecolor='green', alpha=0.2)
+        plt.plot(X2,Y21,label=name2, color='green')
     if source3 != None:
         summary3File = os.path.join(source3, what)
         summary3Content = np.loadtxt(open(summary3File, "rb"), skiprows=1, delimiter=",", unpack=True)
         X3 = summary3Content[0]
         Y31, Y32, Y33 = summary3Content[1],summary3Content[2],summary3Content[3]
-        plt.fill_between(X3, Y31, Y32, facecolor='red', alpha=0.2)
-        plt.fill_between(X3, Y31, Y33, facecolor='red', alpha=0.2)
-        plt.plot(X3,Y31,label='gp3', color='red')
+        if what != "__SUMMARY_budgets":
+            plt.fill_between(X3, Y31, Y32, facecolor='red', alpha=0.2)
+            plt.fill_between(X3, Y31, Y33, facecolor='red', alpha=0.2)
+        plt.plot(X3,Y31,label=name3, color='red')
     if source4 != None:
         summary4File = os.path.join(source4, what)
         summary4Content = np.loadtxt(open(summary4File, "rb"), skiprows=1, delimiter=",", unpack=True)
         X4 = summary4Content[0]
         Y41, Y42, Y43 = summary4Content[1],summary4Content[2],summary4Content[3]
-        plt.fill_between(X4, Y41, Y42, facecolor='yellow', alpha=0.2)
-        plt.fill_between(X4, Y41, Y43, facecolor='yellow', alpha=0.2)
-        plt.plot(X4,Y41,label='gp4', color='yellow')
+        if what != "__SUMMARY_budgets":
+            plt.fill_between(X4, Y41, Y42, facecolor='yellow', alpha=0.2)
+            plt.fill_between(X4, Y41, Y43, facecolor='yellow', alpha=0.2)
+        plt.plot(X4,Y41,label=name4, color='yellow')
 
     if what == "__SUMMARY_goalpercentages":
         plt.title('Goal Percentage per Trial')
