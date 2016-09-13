@@ -1,0 +1,246 @@
+[2016-09-12_21:15:36] START EXPERIMENT
+=====================================
+./experiments/run.sh    --runs=20 --trials=500    --max-frames-per-trial=200    --max_untouched=200    --agent=Torrey    --offense-agents=3    --defense-agents=1    --mode=--headless    --evaluation_interval=10    --evaluation_duration=100    --seed=12345    --port=12345    --parallel_server=1
+=====================================
+[2016-09-12_21:15:36] GET BASE DIRECTORY: /home/ruben/playground/HFO/experiments
+[2016-09-12_21:15:36] MAKE LOG DIRECTORY: /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/
+[2016-09-12_21:15:38] STARTING RUN 1 ==================
+[2016-09-12_21:15:40] STARTING HFO SERVER
+[2016-09-12_21:15:40] HFO SERVER PID: 11446
+[2016-09-12_21:15:50] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_1_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_1_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_1_AGENT_1_LOG
+[2016-09-12_21:15:55] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_1_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_1_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_1_AGENT_2_LOG
+[2016-09-12_21:16:00] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_1_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_1_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_1_AGENT_3_LOG
+[2016-09-12_21:39:23] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_1.hfo’
+[2016-09-12_21:39:23] END EXPERIMENT [DURATION=1428s]
+[2016-09-12_21:40:23] STARTING RUN 2 ==================
+[2016-09-12_21:40:25] STARTING HFO SERVER
+[2016-09-12_21:40:25] HFO SERVER PID: 21876
+[2016-09-12_21:40:35] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_2_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_2_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_2_AGENT_1_LOG
+[2016-09-12_21:40:40] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_2_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_2_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_2_AGENT_2_LOG
+[2016-09-12_21:40:45] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_2_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_2_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_2_AGENT_3_LOG
+[2016-09-12_22:03:18] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_2.hfo’
+[2016-09-12_22:03:18] END EXPERIMENT [DURATION=2863s]
+[2016-09-12_22:04:18] STARTING RUN 3 ==================
+[2016-09-12_22:04:20] STARTING HFO SERVER
+[2016-09-12_22:04:20] HFO SERVER PID: 31872
+[2016-09-12_22:04:30] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_3_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_3_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_3_AGENT_1_LOG
+[2016-09-12_22:04:35] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_3_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_3_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_3_AGENT_2_LOG
+[2016-09-12_22:04:40] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_3_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_3_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_3_AGENT_3_LOG
+[2016-09-12_22:29:27] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_3.hfo’
+[2016-09-12_22:29:27] END EXPERIMENT [DURATION=4432s]
+[2016-09-12_22:30:27] STARTING RUN 4 ==================
+[2016-09-12_22:30:29] STARTING HFO SERVER
+[2016-09-12_22:30:29] HFO SERVER PID: 10821
+[2016-09-12_22:30:39] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_4_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_4_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_4_AGENT_1_LOG
+[2016-09-12_22:30:44] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_4_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_4_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_4_AGENT_2_LOG
+[2016-09-12_22:30:49] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_4_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_4_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_4_AGENT_3_LOG
+[2016-09-12_22:51:01] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_4.hfo’
+[2016-09-12_22:51:01] END EXPERIMENT [DURATION=5726s]
+[2016-09-12_22:52:01] STARTING RUN 5 ==================
+[2016-09-12_22:52:03] STARTING HFO SERVER
+[2016-09-12_22:52:03] HFO SERVER PID: 19921
+[2016-09-12_22:52:13] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_5_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_5_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_5_AGENT_1_LOG
+[2016-09-12_22:52:18] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_5_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_5_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_5_AGENT_2_LOG
+[2016-09-12_22:52:23] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_5_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_5_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_5_AGENT_3_LOG
+[2016-09-12_23:21:44] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_5.hfo’
+[2016-09-12_23:21:44] END EXPERIMENT [DURATION=7569s]
+[2016-09-12_23:22:44] STARTING RUN 6 ==================
+[2016-09-12_23:22:46] STARTING HFO SERVER
+[2016-09-12_23:22:46] HFO SERVER PID: 32738
+[2016-09-12_23:22:57] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_6_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_6_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_6_AGENT_1_LOG
+[2016-09-12_23:23:02] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_6_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_6_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_6_AGENT_2_LOG
+[2016-09-12_23:23:07] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_6_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_6_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_6_AGENT_3_LOG
+[2016-09-12_23:48:21] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_6.hfo’
+[2016-09-12_23:48:21] END EXPERIMENT [DURATION=9166s]
+[2016-09-12_23:49:21] STARTING RUN 7 ==================
+[2016-09-12_23:49:23] STARTING HFO SERVER
+[2016-09-12_23:49:23] HFO SERVER PID: 11841
+[2016-09-12_23:49:33] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_7_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_7_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_7_AGENT_1_LOG
+[2016-09-12_23:49:38] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_7_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_7_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_7_AGENT_2_LOG
+[2016-09-12_23:49:43] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_7_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_7_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_7_AGENT_3_LOG
+[2016-09-13_00:17:02] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_7.hfo’
+[2016-09-13_00:17:02] END EXPERIMENT [DURATION=10887s]
+[2016-09-13_00:18:02] STARTING RUN 8 ==================
+[2016-09-13_00:18:04] STARTING HFO SERVER
+[2016-09-13_00:18:04] HFO SERVER PID: 23897
+[2016-09-13_00:18:14] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_8_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_8_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_8_AGENT_1_LOG
+[2016-09-13_00:18:19] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_8_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_8_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_8_AGENT_2_LOG
+[2016-09-13_00:18:24] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_8_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_8_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_8_AGENT_3_LOG
+[2016-09-13_00:43:51] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_8.hfo’
+[2016-09-13_00:43:51] END EXPERIMENT [DURATION=12496s]
+[2016-09-13_00:44:51] STARTING RUN 9 ==================
+[2016-09-13_00:44:53] STARTING HFO SERVER
+[2016-09-13_00:44:53] HFO SERVER PID: 2970
+[2016-09-13_00:45:03] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_9_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_9_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_9_AGENT_1_LOG
+[2016-09-13_00:45:08] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_9_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_9_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_9_AGENT_2_LOG
+[2016-09-13_00:45:13] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_9_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_9_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_9_AGENT_3_LOG
+[2016-09-13_01:11:57] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_9.hfo’
+[2016-09-13_01:11:57] END EXPERIMENT [DURATION=14182s]
+[2016-09-13_01:12:57] STARTING RUN 10 ==================
+[2016-09-13_01:12:59] STARTING HFO SERVER
+[2016-09-13_01:12:59] HFO SERVER PID: 14908
+[2016-09-13_01:13:09] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_10_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_10_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_10_AGENT_1_LOG
+[2016-09-13_01:13:14] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_10_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_10_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_10_AGENT_2_LOG
+[2016-09-13_01:13:19] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_10_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_10_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_10_AGENT_3_LOG
+[2016-09-13_02:07:35] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_10.hfo’
+[2016-09-13_02:07:35] END EXPERIMENT [DURATION=17520s]
+[2016-09-13_02:08:35] STARTING RUN 11 ==================
+[2016-09-13_02:08:37] STARTING HFO SERVER
+[2016-09-13_02:08:37] HFO SERVER PID: 6086
+[2016-09-13_02:08:47] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_11_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_11_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_11_AGENT_1_LOG
+[2016-09-13_02:08:52] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_11_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_11_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_11_AGENT_2_LOG
+[2016-09-13_02:08:57] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_11_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_11_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_11_AGENT_3_LOG
+[2016-09-13_02:16:20] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_11.hfo’
+[2016-09-13_02:16:20] END EXPERIMENT [DURATION=18045s]
+[2016-09-13_02:17:20] STARTING RUN 12 ==================
+[2016-09-13_02:17:22] STARTING HFO SERVER
+[2016-09-13_02:17:22] HFO SERVER PID: 9844
+[2016-09-13_02:17:32] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_12_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_12_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_12_AGENT_1_LOG
+[2016-09-13_02:17:37] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_12_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_12_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_12_AGENT_2_LOG
+[2016-09-13_02:17:42] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_12_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_12_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_12_AGENT_3_LOG
+[2016-09-13_02:42:57] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_12.hfo’
+[2016-09-13_02:42:57] END EXPERIMENT [DURATION=19642s]
+[2016-09-13_02:43:57] STARTING RUN 13 ==================
+[2016-09-13_02:43:59] STARTING HFO SERVER
+[2016-09-13_02:43:59] HFO SERVER PID: 21033
+[2016-09-13_02:44:09] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_13_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_13_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_13_AGENT_1_LOG
+[2016-09-13_02:44:14] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_13_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_13_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_13_AGENT_2_LOG
+[2016-09-13_02:44:19] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_13_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_13_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_13_AGENT_3_LOG
+[2016-09-13_03:11:28] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_13.hfo’
+[2016-09-13_03:11:28] END EXPERIMENT [DURATION=21353s]
+[2016-09-13_03:12:28] STARTING RUN 14 ==================
+[2016-09-13_03:12:30] STARTING HFO SERVER
+[2016-09-13_03:12:30] HFO SERVER PID: 452
+[2016-09-13_03:12:40] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_14_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_14_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_14_AGENT_1_LOG
+[2016-09-13_03:12:45] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_14_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_14_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_14_AGENT_2_LOG
+[2016-09-13_03:12:50] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_14_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_14_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_14_AGENT_3_LOG
+[2016-09-13_03:39:44] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_14.hfo’
+[2016-09-13_03:39:44] END EXPERIMENT [DURATION=23049s]
+[2016-09-13_03:40:44] STARTING RUN 15 ==================
+[2016-09-13_03:40:46] STARTING HFO SERVER
+[2016-09-13_03:40:46] HFO SERVER PID: 12685
+[2016-09-13_03:40:56] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_15_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_15_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_15_AGENT_1_LOG
+[2016-09-13_03:41:01] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_15_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_15_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_15_AGENT_2_LOG
+[2016-09-13_03:41:06] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_15_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_15_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_15_AGENT_3_LOG
+[2016-09-13_04:04:38] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_15.hfo’
+[2016-09-13_04:04:38] END EXPERIMENT [DURATION=24543s]
+[2016-09-13_04:05:38] STARTING RUN 16 ==================
+[2016-09-13_04:05:40] STARTING HFO SERVER
+[2016-09-13_04:05:40] HFO SERVER PID: 23147
+[2016-09-13_04:05:50] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_16_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_16_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_16_AGENT_1_LOG
+[2016-09-13_04:05:55] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_16_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_16_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_16_AGENT_2_LOG
+[2016-09-13_04:06:00] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_16_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_16_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_16_AGENT_3_LOG
+[2016-09-13_04:29:33] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_16.hfo’
+[2016-09-13_04:29:33] END EXPERIMENT [DURATION=26038s]
+[2016-09-13_04:30:33] STARTING RUN 17 ==================
+[2016-09-13_04:30:35] STARTING HFO SERVER
+[2016-09-13_04:30:35] HFO SERVER PID: 1141
+[2016-09-13_04:30:45] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_17_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_17_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_17_AGENT_1_LOG
+[2016-09-13_04:30:50] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_17_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_17_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_17_AGENT_2_LOG
+[2016-09-13_04:30:55] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_17_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_17_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_17_AGENT_3_LOG
+[2016-09-13_04:57:53] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_17.hfo’
+[2016-09-13_04:57:53] END EXPERIMENT [DURATION=27738s]
+[2016-09-13_04:58:53] STARTING RUN 18 ==================
+[2016-09-13_04:58:55] STARTING HFO SERVER
+[2016-09-13_04:58:55] HFO SERVER PID: 13419
+[2016-09-13_04:59:05] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_18_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_18_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_18_AGENT_1_LOG
+[2016-09-13_04:59:10] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_18_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_18_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_18_AGENT_2_LOG
+[2016-09-13_04:59:15] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_18_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_18_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_18_AGENT_3_LOG
+[2016-09-13_05:22:47] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_18.hfo’
+[2016-09-13_05:22:47] END EXPERIMENT [DURATION=29232s]
+[2016-09-13_05:23:47] STARTING RUN 19 ==================
+[2016-09-13_05:23:49] STARTING HFO SERVER
+[2016-09-13_05:23:49] HFO SERVER PID: 23816
+[2016-09-13_05:23:59] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_19_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_19_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_19_AGENT_1_LOG
+[2016-09-13_05:24:04] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_19_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_19_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_19_AGENT_2_LOG
+[2016-09-13_05:24:09] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_19_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_19_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_19_AGENT_3_LOG
+[2016-09-13_05:49:58] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_19.hfo’
+[2016-09-13_05:49:58] END EXPERIMENT [DURATION=30863s]
+[2016-09-13_05:50:58] STARTING RUN 20 ==================
+[2016-09-13_05:51:00] STARTING HFO SERVER
+[2016-09-13_05:51:00] HFO SERVER PID: 3014
+[2016-09-13_05:51:10] STARTING AGENT 0_1
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_20_AGENT_1_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_20_AGENT_1_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_20_AGENT_1_LOG
+[2016-09-13_05:51:15] STARTING AGENT 0_2
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_20_AGENT_2_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_20_AGENT_2_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_20_AGENT_2_LOG
+[2016-09-13_05:51:20] STARTING AGENT 0_3
+/home/ruben/playground/HFO/experiments/experiment.py -p 12345 -a Torrey -i 10 -d      100 -t 500 -l /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_20_AGENT_3_RESULTS -s 12345      >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_20_AGENT_3_LOG & >> /home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/_0_20_AGENT_3_LOG
+[2016-09-13_06:20:21] SHUTTING DOWN SERVER 0 AND CLEANING UP
+‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete.hfo’ -> ‘/home/ruben/playground/HFO/experiments/EVAL/2016_09_12-21.15.35_Torrey_1_20/incomplete_20.hfo’
+[2016-09-13_06:20:21] END EXPERIMENT [DURATION=32686s]
