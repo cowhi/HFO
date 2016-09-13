@@ -62,7 +62,7 @@ def ask_advice(uNum,state):
                     line = fileR.readline()
                     advice.append(line)
                     os.remove(adviceFolder+fileD)
-                except IOError:
+                except (IOError,OSError) as a:
                     #print "ADVICEUTIL 66"
                     pass
      return advice

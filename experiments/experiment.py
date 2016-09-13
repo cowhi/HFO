@@ -36,7 +36,7 @@ def get_reward(status):
     +1 when the agent's team scores a goal and 0 otherwise"""
     if(status == CAPTURED_BY_DEFENSE):
          return -1.0
-    elif(status == GOAL):
+    elif(status == GOAL):100
          return 1.0
     return 0.0
 

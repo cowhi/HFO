@@ -5,6 +5,7 @@ Created on Mon Sep 12 09:59:59 2016
 @author: leno
 """
 import subprocess
+import sys
 from threading import Thread
 
 from time import sleep
@@ -12,9 +13,23 @@ import time
 
 
 
-numberRuns = 10
-start = 0
-agent = "Torrey" 
+def main(algName):
+
+    numberRuns = 20
+    start = 0
+    agent = algName 
+    n=start
+    start_time = time.time()
+    while n<numberRuns:
+        subprocess.call("killall -9 rcssserver",shell='True')
+        sleep(3)
+        run_time = time.time()
+        ok = runExp(n+1,agent)
+        if ok:
+            n = n+1
+            print "Run "+str(n)+" OK Run Time: " + str(time.time() - run_time) 
+
+    print "End of Experiment -- Total Time: "+ str(time.time()- start_time)
 
 
 
@@ -81,32 +96,24 @@ def runExp(trial,agent):
     threadAgent3.start()
          
     #Wait for server
+    while threadServer.isAlive() and okThreads:
+        sleep(10)
+        #print "Waiting..."
     #threadServer.join()
-    threadAgent1.join()
-    threadAgent2.join()
-    threadAgent3.join()
-    
+    #threadAgent1.join()
+    #threadAgent2.join()
+    #threadAgent3.join()
+    #print "OK"
     return okThreads 
     
     
     
-n=start
-start_time = time.time()
-while n<numberRuns:
-    subprocess.call("killall -9 rcssserver",shell='True')
-    run_time = time.time()
-    ok = runExp(n+1,agent)
-    if ok:
-        n = n+1
-        print "Run "+str(n)+" OK Run Time: " + str(time.time() - run_time) 
 
 
 
-print "End of Experiment -- Total Time: "+ str(time.time()- start_time)
 
-
-
-    
+if __name__ == '__main__':
+    main(sys.argv[1])
     
 
 
