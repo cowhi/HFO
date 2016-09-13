@@ -151,14 +151,14 @@ def draw_graph(source1 = None, name1 = "Algo1",
                source2 = None, name2 = "Algo2",
                source3 = None, name3 = "Algo3",
                source4 = None, name4 = "Algo4",
-               what = "__SUMMARY_goalpercentages"):
+               what = "__SUMMARY_goalpercentages",ci=True):
     plt.figure(figsize=(10,6), dpi=80)
     if source1 != None:
         summary1File = os.path.join(source1, what)
         summary1Content = np.loadtxt(open(summary1File, "rb"), skiprows=1, delimiter=",", unpack=True)
         X1 = summary1Content[0]
         Y11, Y12, Y13 = summary1Content[1],summary1Content[2],summary1Content[3]
-        if what != "__SUMMARY_budgets":
+        if what != "__SUMMARY_budgets" and ci:
             plt.fill_between(X1, Y11, Y12, facecolor='blue', alpha=0.2)
             plt.fill_between(X1, Y11, Y13, facecolor='blue', alpha=0.2)
         plt.plot(X1,Y11,label=name1, color='blue')
@@ -167,7 +167,7 @@ def draw_graph(source1 = None, name1 = "Algo1",
         summary2Content = np.loadtxt(open(summary2File, "rb"), skiprows=1, delimiter=",", unpack=True)
         X2 = summary2Content[0]
         Y21, Y22, Y23 = summary2Content[1],summary2Content[2],summary2Content[3]
-        if what != "__SUMMARY_budgets":
+        if what != "__SUMMARY_budgets" and ci: 
             plt.fill_between(X2, Y21, Y22, facecolor='green', alpha=0.2)
             plt.fill_between(X2, Y21, Y23, facecolor='green', alpha=0.2)
         plt.plot(X2,Y21,label=name2, color='green')
@@ -176,7 +176,7 @@ def draw_graph(source1 = None, name1 = "Algo1",
         summary3Content = np.loadtxt(open(summary3File, "rb"), skiprows=1, delimiter=",", unpack=True)
         X3 = summary3Content[0]
         Y31, Y32, Y33 = summary3Content[1],summary3Content[2],summary3Content[3]
-        if what != "__SUMMARY_budgets":
+        if what != "__SUMMARY_budgets" and ci:
             plt.fill_between(X3, Y31, Y32, facecolor='red', alpha=0.2)
             plt.fill_between(X3, Y31, Y33, facecolor='red', alpha=0.2)
         plt.plot(X3,Y31,label=name3, color='red')
@@ -185,7 +185,7 @@ def draw_graph(source1 = None, name1 = "Algo1",
         summary4Content = np.loadtxt(open(summary4File, "rb"), skiprows=1, delimiter=",", unpack=True)
         X4 = summary4Content[0]
         Y41, Y42, Y43 = summary4Content[1],summary4Content[2],summary4Content[3]
-        if what != "__SUMMARY_budgets":
+        if what != "__SUMMARY_budgets" and ci:
             plt.fill_between(X4, Y41, Y42, facecolor='yellow', alpha=0.2)
             plt.fill_between(X4, Y41, Y43, facecolor='yellow', alpha=0.2)
         plt.plot(X4,Y41,label=name4, color='yellow')
