@@ -85,6 +85,7 @@ experiments/LOGS/
 experiments/TEST/
 experiments/EVAL/
 experiments/messages/
+*_SERVER_LOG
 
 # jupyter stuff
 .ipynb_checkpoints/

@@ -1,4 +1,4 @@
-trial,goal_percentage,avg_goal_time,used_budget
+trial,mean,ci_down,ci_up
 10.0,61.54,42.64,80.44
 20.0,82.86,74.15,91.57
 30.0,90.05,85.10,95.01
