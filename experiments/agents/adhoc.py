@@ -9,7 +9,7 @@ This file implements our advisor-advisee proposal.
 This agent act as SARSA, and the exploration strategy is changed according to our proposal
 """
 
-from sarsa import SARSA
+from sarsatile import SARSATile
 from threading import Thread
 import advice_util as advice
 import random
@@ -19,7 +19,7 @@ import agent
 
 import abc
 
-class AdHoc(SARSA):
+class AdHoc(SARSATile):
     
     budgetAsk = 0
     budgetAdvise = 0

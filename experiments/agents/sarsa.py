@@ -33,7 +33,7 @@ class SARSA(Agent):
 
     def quantize_features(self, features):
         """ CMAC utilities for all agent """
-        quantVar = self.cmac.quantize(features)
+        quantVar = self.cmac.quantize(features)        
         data = []
         #len(quantVar[0]) is the number of variables
         for i in range(0,len(quantVar[0])):

@@ -5,7 +5,7 @@ Created on Tue Sep 13 17:13:25 2016
 @author: Felipe Leno
 Tile Coding simple implementation - based on the description given by http://web.cs.ucla.edu/~sherstov/pdf/sara05-tiling.pdf
 """
-
+import math
 class TileCoding():
     upperBoundVariable = None    
     lowerBoundVariable = None
@@ -41,20 +41,19 @@ class TileCoding():
     
     
     
-    def __init__(self, upperBoundVariables, lowerBoundVariables,tilesNumber,tileWidth):
-         self.upperBoundVariable = upperBoundVariables
-         self.lowerBoundVariable = lowerBoundVariables
+    def __init__(self, lowerBoundVariables, upperBoundVariables, tilesNumber,tileWidth):
+         self.upperBoundVariable = float(upperBoundVariables)
+         self.lowerBoundVariable = float(lowerBoundVariables)
          self.t = tilesNumber
-         self.w = tileWidth
+         self.w = float(tileWidth)
          
-         self.stepTile = (upperBoundVariables - lowerBoundVariables) / tilesNumber
+         self.stepTile = (self.upperBoundVariable - self.lowerBoundVariable) / (tilesNumber)
          
+         if(math.fabs(tileWidth) < math.fabs(self.stepTile)):
+             print "****Warning - The tileWidth is too low, this tile coding parameterization is prone to be misleading***"
          lastStep = lowerBoundVariables
          #Compute the tiles
          for i in range(0,self.t):
-             currentTile = [lastStep,lastStep+self.stepTile]
+             currentTile = [lastStep,lastStep+self.w]
              self.tileList.append(currentTile)
              lastStep = lastStep+self.stepTile
-             
-         
-    

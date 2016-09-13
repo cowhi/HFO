@@ -6,14 +6,14 @@ Created on Fri Sep  9 19:07:33 2016
 Torrey & Taylor importance Advising implementation
 """
 
-from sarsa import SARSA
+from sarsatile import SARSATile
 from threading import Thread
 import advice_util as advice
 import math
 import agent
 
 
-class Torrey(SARSA):
+class Torrey(SARSATile):
     
     budget = 0
     spentBudget = 0
