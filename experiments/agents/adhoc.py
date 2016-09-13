@@ -125,7 +125,7 @@ class AdHoc(SARSA):
             # print "len "+str(len(actions))
             qImportance = math.fabs(maxQ - minQ) * len(actions)
             
-            return visitImportance * qImportance        
+            return (visitImportance*0.5) * qImportance        
         #If the agent got here, it is an error
         return None
         
