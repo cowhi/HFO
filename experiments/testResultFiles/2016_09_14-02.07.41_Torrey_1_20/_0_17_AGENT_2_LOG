@@ -1,4 +1,4 @@
-[2016-09-14_08:27:55] STARTING AGENT 0_2
+[2016-09-14_09:48:47] STARTING AGENT 0_2
 =====================================
 =====================================
 New agent called
@@ -10,7 +10,7 @@ New agent called
  Copyright 2007 - 2011. Hidehisa Akiyama and Hiroki Shimora
  All rights reserved.
 ******************************************************************
-base_left 8: [0, 5]  see synch.
+base_left 8: [0, 6]  see synch.
 Feature 1 Violated Feature Bounds: -24 Expected min/max: [-5.25, 57.75]
 Feature 7 Violated Feature Bounds: 84.9779 Expected min/max: [0, 62.548]
 Feature 10 Violated Feature Bounds: 81.8413 Expected min/max: [0, 62.548]
@@ -33,4 +33,4 @@ Feature 17 Violated Feature Bounds: 62.8294 Expected min/max: [0, 62.548]
 Feature 17 Violated Feature Bounds: 62.8294 Expected min/max: [0, 62.548]
 Feature 17 Violated Feature Bounds: 62.8294 Expected min/max: [0, 62.548]
 Feature 17 Violated Feature Bounds: 62.8294 Expected min/max: [0, 62.548]
-***** 8: Agent --> Agent: 8, Type: Torrey, Training steps: 43499, Q-Table size: 315
+***** 8: Agent --> Agent: 8, Type: Torrey, Training steps: 42227, Q-Table size: 282

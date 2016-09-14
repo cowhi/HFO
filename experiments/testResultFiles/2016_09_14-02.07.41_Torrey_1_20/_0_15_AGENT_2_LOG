@@ -1,4 +1,4 @@
-[2016-09-14_08:27:55] STARTING AGENT 0_2
+[2016-09-14_08:54:23] STARTING AGENT 0_2
 =====================================
 =====================================
 New agent called
@@ -33,4 +33,4 @@ Feature 17 Violated Feature Bounds: 62.8294 Expected min/max: [0, 62.548]
 Feature 17 Violated Feature Bounds: 62.8294 Expected min/max: [0, 62.548]
 Feature 17 Violated Feature Bounds: 62.8294 Expected min/max: [0, 62.548]
 Feature 17 Violated Feature Bounds: 62.8294 Expected min/max: [0, 62.548]
-***** 8: Agent --> Agent: 8, Type: Torrey, Training steps: 43499, Q-Table size: 315
+***** 8: Agent --> Agent: 8, Type: Torrey, Training steps: 43002, Q-Table size: 320
