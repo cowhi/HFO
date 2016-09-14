@@ -30,16 +30,17 @@ def collect_experiment_data(source='/', runs=1, servers=1, agents=3):
             for run in range(0, runs):
                 evalFile = os.path.join(source, "_"+ str(server) +"_"+ str(run+1) +"_AGENT_"+ str(agent) +"_RESULTS_eval")
                 #print evalFile
-                _et, _egp, _egt, _eub = np.loadtxt(open(evalFile, "rb"), skiprows=1, delimiter=",", unpack=True)
-                if sum(evalTrials)==0:
-                    evalTrials = _et
-                #print(sum(_eub.shape), sum(evalTrials.shape))
-                if sum(_eub.shape) == sum(evalTrials.shape):
-                    goodRuns += 1
-                    for trial in _et:
-                        evalGoalPercentages[(agent,trial)].append(_egp)
-                        evalGoalTimes[(agent,trial)].append(_egt)
-                        evalUsedBudgets[(agent,trial)].append(_eub)
+                if os.path.isfile(evalFile):
+                    _et, _egp, _egt, _eub = np.loadtxt(open(evalFile, "rb"), skiprows=1, delimiter=",", unpack=True)
+                    if sum(evalTrials)==0:
+                        evalTrials = _et
+                    #print(sum(_eub.shape), sum(evalTrials.shape))
+                    if sum(_eub.shape) == sum(evalTrials.shape):
+                        goodRuns += 1
+                        for trial in _et:
+                            evalGoalPercentages[(agent,trial)].append(_egp)
+                            evalGoalTimes[(agent,trial)].append(_egt)
+                            evalUsedBudgets[(agent,trial)].append(_eub)
     goodRuns = int(goodRuns / agents)
     print('Could use %d runs from expected %d' % (goodRuns, runs))
     '''
@@ -98,7 +99,7 @@ def collect_experiment_data(source='/', runs=1, servers=1, agents=3):
             csvwriter.writerow((newrow))
             csvfile.flush()
 
-
+    '''
     with open(os.path.join(source, "__EVAL_budgets"), 'wb') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow((headerLine))
@@ -119,7 +120,7 @@ def collect_experiment_data(source='/', runs=1, servers=1, agents=3):
                 newrow.append("{:.2f}".format(j[i]))
             csvwriter.writerow((newrow))
             csvfile.flush()
-
+    '''
 
 def summarize_data(data, confidence=0.95):
     n = len(data)
@@ -130,8 +131,8 @@ def summarize_data(data, confidence=0.95):
 
 
 def summarize_experiment_data(source):
-    values = ["__EVAL_goalpercentages", "__EVAL_goaltimes", "__EVAL_budgets"]
-    #values = ["__EVAL_goalpercentages", "__EVAL_goaltimes"]
+    #values = ["__EVAL_goalpercentages", "__EVAL_goaltimes", "__EVAL_budgets"]
+    values = ["__EVAL_goalpercentages", "__EVAL_goaltimes"]
     for value in values:
         evalFile = os.path.join(source, value)
         #print(evalFile)
