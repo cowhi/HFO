@@ -18,11 +18,11 @@ class AdHocTD(AdHoc):
     def midpoint(self,typeMid):
         """Calculates the midpoint"""     
         if typeMid == self.ADVISE:
-           numVisits = 20
+           numVisits = 30
            impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
-           return (impMid*0.5) * 0.07
+           return (impMid*0.5)*0.8
         elif typeMid == self.ASK:
-            numVisits = 20
+            numVisits = 30
             impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
             return impMid
             

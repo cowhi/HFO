@@ -64,7 +64,7 @@ class AdHoc(SARSATile):
                         action = self.combineAdvice(advised)
                         return action
                     except:
-                        print "Exception when combining the advice "+advised
+                        print "Exception when combining the advice "
                     
         return super(AdHoc, self).select_action(stateFeatures,state)
         
