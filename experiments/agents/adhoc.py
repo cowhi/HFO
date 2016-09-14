@@ -64,7 +64,7 @@ class AdHoc(SARSATile):
                         action = self.combineAdvice(advised)
                         return action
                     except:
-                        print "Exception when combining the advice "
+                        print "Exception when combining the advice " + str(advised)
                     
         return super(AdHoc, self).select_action(stateFeatures,state)
         
@@ -126,9 +126,9 @@ class AdHoc(SARSATile):
             # print "MaxQ "+str(maxQ)
             # print "MinQ "+str(minQ)
             # print "len "+str(len(actions))
-            qImportance = math.fabs(maxQ - minQ) * len(actions)
+            qImportance = math.fabs(maxQ - minQ) #* len(actions)
             
-            return (visitImportance*0.5) * qImportance        
+            return (visitImportance*0.1) * qImportance        
         #If the agent got here, it is an error
         return None
         

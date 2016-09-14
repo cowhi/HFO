@@ -20,7 +20,7 @@ class AdHocTD(AdHoc):
         if typeMid == self.ADVISE:
            numVisits = 30
            impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
-           return (impMid*0.5)*0.8
+           return (impMid)*0.1*0.1
         elif typeMid == self.ASK:
             numVisits = 30
             impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
