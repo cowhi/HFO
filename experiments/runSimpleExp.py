@@ -17,7 +17,7 @@ def main(algName):
 
     #numberRuns = 20
     numberRuns = 3
-    start = 0
+    start = 1
     agent = algName 
     n=start
     start_time = time.time()

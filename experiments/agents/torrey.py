@@ -41,8 +41,11 @@ class Torrey(SARSATile):
             #Ask for advice
             advised = advice.ask_advice(self.get_Unum(),stateFeatures)
             if advised:
-                action = self.combineAdvice(advised)
-                return action
+                try:
+                    action = self.combineAdvice(advised)
+                    return action
+                except:
+                    print "Exception when combining the advice "+advised
                     
         return super(Torrey, self).select_action(stateFeatures,state)
         

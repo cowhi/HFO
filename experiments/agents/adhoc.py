@@ -59,9 +59,12 @@ class AdHoc(SARSATile):
                 #Ask for advice
                 advised = advice.ask_advice(self.get_Unum(),stateFeatures)
                 if advised:
-                    self.spentBudgetAsk = self.spentBudgetAsk + 1
-                    action = self.combineAdvice(advised)
-                    return action
+                    try:
+                        self.spentBudgetAsk = self.spentBudgetAsk + 1
+                        action = self.combineAdvice(advised)
+                        return action
+                    except:
+                        print "Exception when combining the advice "+advised
                     
         return super(AdHoc, self).select_action(stateFeatures,state)
         
