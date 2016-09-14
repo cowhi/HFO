@@ -23,7 +23,7 @@ class AdHocVisit(AdHoc):
            impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
            return impMid
         elif typeMid == self.ASK:
-            numVisits = 20
+            numVisits = 30
             impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
             return impMid
             
