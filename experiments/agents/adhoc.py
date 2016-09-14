@@ -202,7 +202,7 @@ class AdHoc(SARSATile):
                     
                     
     def get_used_budget(self):
-        return self.spentBudgetAsk
+        return self.spentBudgetAdvise
     @abc.abstractmethod
     def midpoint(self,typeMid):
         """Calculates the midpoint"""
