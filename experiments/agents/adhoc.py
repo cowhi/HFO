@@ -81,7 +81,8 @@ class AdHoc(SARSATile):
         ##
         #processedState = self.quantize_features(state)
         #numberVisits = self.number_visits(processedState)
-        #print str(numberVisits)+"  -  "+str(prob)
+        #if importance>0:        
+            #print str(importance)+"  -  "+str(prob)
         ##
         #Check if the agent should advise
         if random.random() < prob and prob > 0.1:
@@ -103,7 +104,7 @@ class AdHoc(SARSATile):
          
         
         if numberVisits == 0:
-            return 0
+            return 0.0
             
         visitImportance = numberVisits / (numberVisits + math.log(self.scalingVisits + numberVisits))
         
@@ -122,13 +123,16 @@ class AdHoc(SARSATile):
                         maxQ = actQ
                     if actQ < minQ:
                         minQ = actQ
-             
+            
             # print "MaxQ "+str(maxQ)
             # print "MinQ "+str(minQ)
             # print "len "+str(len(actions))
             qImportance = math.fabs(maxQ - minQ) #* len(actions)
-            
-            return (visitImportance*0.1) * qImportance        
+            if qImportance==float('inf'):
+                return 0.0
+            #if qImportance != 0:
+                #print str(qImportance) + " - "+str(visitImportance)
+            return   qImportance / (1-visitImportance)       
         #If the agent got here, it is an error
         return None
         

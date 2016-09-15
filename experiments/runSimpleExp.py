@@ -63,6 +63,7 @@ def runExp(trial,agent):
     sourcePath = 'python /home/leno/Dropbox/DO\ -\ Felipe\ Leno\ da\ Silva/Artigos/NovoArtigo/HFO/experiments/experiment.py '
     serverPath = "/home/leno/HFO/HFO-master/bin/HFO "
     experimentAgentParam = "-p 12341 -s 12345  -i 10 -d 100 -t 500 -l "
+    #experimentAgentParam = "-p 12341 -s 12345  -i 10 -d 1 -t 500 -l "
     
     serverParam = "--offense-agents=3 --defense-npcs=1 --fullstate --headless --trials=5601 --port 12341 --frames-per-trial 200"
     
