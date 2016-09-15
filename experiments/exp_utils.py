@@ -175,7 +175,7 @@ def draw_graph(source1 = None, name1 = "Algo1",
         if what != "__SUMMARY_budgets" and ci:
             plt.fill_between(X1, Y11, Y12, facecolor='blue', alpha=0.2)
             plt.fill_between(X1, Y11, Y13, facecolor='blue', alpha=0.2)
-        plt.plot(X1,Y11,label=name1, color='blue')
+        plt.plot(X1,Y11,label=name1, color='blue', linewidth=4.0)
     if source2 != None:
         summary2File = os.path.join(source2, what)
         summary2Content = np.loadtxt(open(summary2File, "rb"), skiprows=1, delimiter=",", unpack=True)
@@ -184,7 +184,7 @@ def draw_graph(source1 = None, name1 = "Algo1",
         if what != "__SUMMARY_budgets" and ci:
             plt.fill_between(X2, Y21, Y22, facecolor='green', alpha=0.2)
             plt.fill_between(X2, Y21, Y23, facecolor='green', alpha=0.2)
-        plt.plot(X2,Y21,label=name2, color='green')
+        plt.plot(X2,Y21,label=name2, color='green', linewidth=4.0)
     if source3 != None:
         summary3File = os.path.join(source3, what)
         summary3Content = np.loadtxt(open(summary3File, "rb"), skiprows=1, delimiter=",", unpack=True)
@@ -193,7 +193,7 @@ def draw_graph(source1 = None, name1 = "Algo1",
         if what != "__SUMMARY_budgets" and ci:
             plt.fill_between(X3, Y31, Y32, facecolor='red', alpha=0.2)
             plt.fill_between(X3, Y31, Y33, facecolor='red', alpha=0.2)
-        plt.plot(X3,Y31,label=name3, color='red')
+        plt.plot(X3,Y31,label=name3, color='red', linewidth=4.0)
     if source4 != None:
         summary4File = os.path.join(source4, what)
         summary4Content = np.loadtxt(open(summary4File, "rb"), skiprows=1, delimiter=",", unpack=True)
@@ -202,23 +202,24 @@ def draw_graph(source1 = None, name1 = "Algo1",
         if what != "__SUMMARY_budgets" and ci:
             plt.fill_between(X4, Y41, Y42, facecolor='yellow', alpha=0.2)
             plt.fill_between(X4, Y41, Y43, facecolor='yellow', alpha=0.2)
-        plt.plot(X4,Y41,label=name4, color='yellow')
+        plt.plot(X4,Y41,label=name4, color='yellow', linewidth=4.0)
 
     if what == "__SUMMARY_goalpercentages":
-        plt.title('Goal Percentage per Trial')
-        plt.ylabel('Goal %')
+        #plt.title('Goal Percentage per Trial')
+        plt.ylabel('Goal %', fontsize=20, fontweight='bold')
     elif what == "__SUMMARY_goaltimes":
-        plt.title('Average Frames to Goal per Trial')
-        plt.ylabel('Frames')
+        #plt.title('Average Frames to Goal per Trial')
+        plt.ylabel('Frames', fontsize=20, fontweight='bold')
     elif what == "__SUMMARY_budgets":
-        plt.title('Used Budget per Trial')
-        plt.ylabel('Budget')
+        #plt.title('Used Budget per Trial')
+        plt.ylabel('Budget', fontsize=20, fontweight='bold')
     else:
-        plt.title('Unknown')
+        #plt.title('Unknown')
         plt.ylabel('Unknown')
 
-    plt.xlabel('Trials')
-    plt.legend(loc='upper left')
+    plt.xlabel('Trials', fontsize=20, fontweight='bold')
+    plt.legend(loc='lower right',prop={'size':18, 'weight':'bold'})
+    plt.tick_params(axis='both', which='major', labelsize=18)
     plt.show()
 
 
