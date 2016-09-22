@@ -166,7 +166,7 @@ def draw_graph(source1 = None, name1 = "Algo1",
                source3 = None, name3 = "Algo3",
                source4 = None, name4 = "Algo4",
                what = "__SUMMARY_goalpercentages", ci = True):
-    plt.figure(figsize=(10,6), dpi=80)
+    plt.figure(figsize=(20,6), dpi=300)
     if source1 != None:
         summary1File = os.path.join(source1, what)
         summary1Content = np.loadtxt(open(summary1File, "rb"), skiprows=1, delimiter=",", unpack=True)
@@ -217,7 +217,7 @@ def draw_graph(source1 = None, name1 = "Algo1",
         #plt.title('Unknown')
         plt.ylabel('Unknown')
 
-    plt.xlabel('Trials', fontsize=20, fontweight='bold')
+    plt.xlabel('Training Episodes', fontsize=20, fontweight='bold')
     plt.legend(loc='lower right',prop={'size':18, 'weight':'bold'})
     plt.tick_params(axis='both', which='major', labelsize=18)
     plt.show()
