@@ -16,18 +16,30 @@ from hfo import *
 from agents.agent import Agent
 from statespace_util import *
 
-AGENT = None
-hfo = None
+
+
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-a','--agent',default='Dummy')
+    parser.add_argument('-n','--number_agents',type=int, default=3)
+    parser.add_argument('-a1','--agent1',  default='Dummy')
+    parser.add_argument('-a2','--agent2',  default='Dummy')
+    parser.add_argument('-a3','--agent3',  default='Dummy')
+    parser.add_argument('-a4','--agent4',  default='Dummy')
+    parser.add_argument('-a5','--agent5',  default='Dummy')
+    parser.add_argument('-a6','--agent6',  default='Dummy')
+    parser.add_argument('-a7','--agent7',  default='Dummy')
+    parser.add_argument('-a8','--agent8',  default='Dummy')
+    parser.add_argument('-a9','--agent9',  default='Dummy')
+    parser.add_argument('-a10','--agent10',default='Dummy')
+    parser.add_argument('-a11','--agent11',default='Dummy')
     parser.add_argument('-t','--learning_trials',type=int, default=10)
     parser.add_argument('-i','--evaluation_interval',type=int, default=5)
     parser.add_argument('-d','--evaluation_duration',type=int, default=5)
     parser.add_argument('-s','--seed',type=int, default=12345)
-    parser.add_argument('-l','--log_file',default='Dummy_1_1')
+    parser.add_argument('-l','--log_file',default='./LOG/')
     parser.add_argument('-p','--port',type=int, default=12345)
+    parser.add_argument('-r','--number_trial',type=int, default=1)
     return parser.parse_args()
 
 '''
@@ -57,54 +69,98 @@ def get_local_features(features):
     return get_transformed_features(features)
 '''
 
+def build_agents():
+    """Builds and returns the agent objects as specified by the arguments"""
+    agents = []    
+    
+    
+    parameter = get_args()
+    
+    for i in range(parameter.number_agents):
+        agentName = getattr(parameter,"agent"+str(i+1))
+        try:
+           AgentClass = getattr(
+                __import__('agents.' + (agentName).lower(),
+                        fromlist=[agentName]),
+                agentName)
+        except ImportError:
+           sys.stderr.write("ERROR: missing python module: " +agentName + "\n")
+           sys.exit(1)
+    
+        AGENT = AgentClass(seed=parameter.seed, port=parameter.port)
+        agents.append(AGENT)
+    return agents
+    
+
 def main():
     print('New agent called')
 
     print('***** Loading agent implementation')
-    parameter = get_args()
-    try:
-        AgentClass = getattr(
-                __import__('agents.' + (parameter.agent).lower(),
-                        fromlist=[parameter.agent]),
-                parameter.agent)
-    except ImportError:
-        sys.stderr.write("ERROR: missing python module: " + parameter.agent + "\n")
-        sys.exit(1)
-    AGENT = AgentClass(seed=parameter.seed, port=parameter.port)
+    agents = build_agents()
     #print('***** %s: %s Agent online' % (str(AGENT.unum), str(parameter.agent)))
-    print('***** %s: Agent online --> %s' % (str(AGENT.unum), str(AGENT)))
-    print('***** %s: Setting up train log files' % str(AGENT.unum))
+    print('***** %s: Agents online --> %s')
+   # print('***** %s: Agents online --> %s' % (str(AGENT.unum), str(AGENT)))
+   # print('***** %s: Setting up train log files' % str(AGENT.unum))
     #train_csv_file = open(parameter.log_file + "_" + str(AGENT.unum) + "_train", "wb")
-    train_csv_file = open(parameter.log_file + "_train", "wb")
+    
+    #Initiate agent Threads    
+    global okThreads
+    okThreads = True
+    
+    agentThreads = []
+    
+    #Initiating agent
+    for i in range(parameter.number_agents):
+        agentThreads[i] = Thread(target = thread_agent, args=(agent[i],agents,i,parameter))
+    
+    #Waiting for program termination
+    for i in range(parameter.number_agents):
+        agentThreads[i].join()
+    
+
+    
+    
+def thread_agent(agentObj,allAgents,agentIndex,mainParameters):
+    """This method is executed by each thread in the system and corresponds to the control
+    of one playing agent"""
+      
+    #Building Log folder name
+      
+    logFolder = mainParameters.log_file + getattr(parameter,"agent"+str(i+1))+"/_0_"+str(parameter.number_trial)+"_AGENT_"+str(agentIndex)+"_RESULTS"
+    
+    train_csv_file = open(logFolder + "_train", "wb")
     train_csv_writer = csv.writer(train_csv_file)
     train_csv_writer.writerow(("trial","frames_trial","goals_trial","used_budget"))
     train_csv_file.flush()
-    print('***** %s: Setting up eval log files' % str(AGENT.unum))
+    print('***** %s: Setting up eval log files' % str(agentObj.unum))
     #eval_csv_file = open(parameter.log_file + "_" + str(AGENT.unum) + "_eval", "wb")
-    eval_csv_file = open(parameter.log_file + "_eval", "wb")
+    eval_csv_file = open(logFolder + "_eval", "wb")
     eval_csv_writer = csv.writer(eval_csv_file)
     eval_csv_writer.writerow(("trial","goal_percentage","avg_goal_time","used_budget"))
     eval_csv_file.flush()
+    
+    #Setups advising
+    agentObj.setupAdvising(agentIndex,allAgents)
 
     print('***** %s: Start training' % str(AGENT.unum))
     for trial in range(0,parameter.learning_trials+1):
         # perform an evaluation trial
         if(trial % parameter.evaluation_interval == 0):
             #print('***** %s: Running evaluation trials' % str(AGENT.unum) )
-            AGENT.set_exploring(False)
+            agentObj.set_exploring(False)
             goals = 0.0
             time_to_goal = 0.0
             for eval_trials in range(1,parameter.evaluation_duration+1):
                 eval_frame = 0
-                eval_status = AGENT.IN_GAME
-                stateFeatures = AGENT.hfo.getState()
-                state = AGENT.get_transformed_features(stateFeatures)
+                eval_status = agentObj.IN_GAME
+                stateFeatures = agentObj.hfo.getState()
+                state = agentObj.get_transformed_features(stateFeatures)
                 #action = AGENT.select_action(tuple(stateFeatures), state)
-                action = AGENT.select_action(stateFeatures, state)
-                while eval_status == AGENT.IN_GAME:
+                action = agentObj.select_action(stateFeatures, state)
+                while eval_status == agentObj.IN_GAME:
                     eval_frame += 1
-                    eval_status, state, action = AGENT.step(state, action)
-                    if(eval_status == AGENT.GOAL):
+                    eval_status, state, action = agentObj.step(state, action)
+                    if(eval_status == agentObj.GOAL):
                         goals += 1.0
                         time_to_goal += eval_frame
                         #print('********** %s: GGGGOOOOOOOOOOLLLL: %s in %s' % (str(AGENT.unum), str(goals), str(time_to_goal)))
@@ -118,41 +174,41 @@ def main():
             # save stuff
             eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time),str(AGENT.get_used_budget())))
             eval_csv_file.flush()
-            AGENT.set_exploring(True)
+            agentObj.set_exploring(True)
             # reset agent trace
-            AGENT.stateActionTrace = {} 
+            agentObj.stateActionTrace = {} 
            
         
         #print('***** %s: Starting Learning Trial %d' % (str(AGENT.unum),trial))
-        status = AGENT.IN_GAME
+        status = agentObj.IN_GAME
         frame = 0
-        stateFeatures = AGENT.hfo.getState()
-        state = AGENT.get_transformed_features(stateFeatures)
+        stateFeatures = agentObj.hfo.getState()
+        state = agentObj.get_transformed_features(stateFeatures)
         #print('***** %s: state type: %s, len: %s' % (str(AGENT.unum), str(type(state)), str(len(state))))
         #action = AGENT.select_action(tuple(stateFeatures), state)
-        action = AGENT.select_action(stateFeatures, state)
+        action = agentObj.select_action(stateFeatures, state)
         #print "Selected action --- "+str(action)
-        while status == AGENT.IN_GAME:
+        while status == agentObj.IN_GAME:
             frame += 1
-            status, state, action = AGENT.step(state, action)
+            status, state, action = agentObj.step(state, action)
         #print('***** %s: Trial ended with %s'% (str(AGENT.unum), AGENT.hfo.statusToString(status)))
         #print('***** %s: Agent --> %s'% (str(AGENT.unum), str(AGENT)))
-        reward = AGENT.get_reward(status)
+        reward = agentObj.get_reward(status)
         # save stuff
-        train_csv_writer.writerow((trial,frame,reward,str(AGENT.get_used_budget())))
+        train_csv_writer.writerow((trial,frame,reward,str(agentObj.get_used_budget())))
         train_csv_file.flush()
-        AGENT.stateActionTrace = {}
+        agentObj.stateActionTrace = {}
 
 
 
         # Quit if the server goes down
-        if status == AGENT.SERVER_DOWN:
-            AGENT.hfo.act(QUIT)
-            print('***** %s: Shutting down agent' % str(AGENT.unum))
+        if status == agentObj.SERVER_DOWN:
+            agentObj.hfo.act(QUIT)
+            print('***** %s: Shutting down agent' % str(agentObj.unum))
             break
-    print('***** %s: Agent --> %s'% (str(AGENT.unum), str(AGENT)))
+    print('***** %s: Agent --> %s'% (str(agentObj.unum), str(agentObj)))
     eval_csv_file.close()
-    train_csv_writer.writerow(("-","-",str(AGENT)))
+    train_csv_writer.writerow(("-","-",str(agentObj)))
     train_csv_file.flush()
     train_csv_file.close()
 
