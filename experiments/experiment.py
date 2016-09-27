@@ -10,6 +10,8 @@ import os
 import csv
 import random, itertools
 from hfo import *
+from threading import Thread
+from time import sleep
 #from cmac import CMAC
 
 
@@ -37,9 +39,10 @@ def get_args():
     parser.add_argument('-i','--evaluation_interval',type=int, default=5)
     parser.add_argument('-d','--evaluation_duration',type=int, default=5)
     parser.add_argument('-s','--seed',type=int, default=12345)
-    parser.add_argument('-l','--log_file',default='./LOG/')
+    parser.add_argument('-l','--log_file',default='/home/leno/HFO/log/')
     parser.add_argument('-p','--port',type=int, default=12345)
     parser.add_argument('-r','--number_trial',type=int, default=1)
+    parser.add_argument('-e','--server_path',  default='/home/leno/HFO/bin/')
     return parser.parse_args()
 
 '''
@@ -78,6 +81,7 @@ def build_agents():
     
     for i in range(parameter.number_agents):
         agentName = getattr(parameter,"agent"+str(i+1))
+        print "AgentName: "+agentName
         try:
            AgentClass = getattr(
                 __import__('agents.' + (agentName).lower(),
@@ -87,35 +91,50 @@ def build_agents():
            sys.stderr.write("ERROR: missing python module: " +agentName + "\n")
            sys.exit(1)
     
-        AGENT = AgentClass(seed=parameter.seed, port=parameter.port)
+        print "Creating agent"
+        AGENT = AgentClass(seed=parameter.seed, port=parameter.port, serverPath = parameter.server_path)
+        print "OK Agent"
         agents.append(AGENT)
+        
     return agents
     
 
 def main():
-    print('New agent called')
-
-    print('***** Loading agent implementation')
+    parameter = get_args()
+    print parameter
+    print('***** Loading agent implementations')
     agents = build_agents()
     #print('***** %s: %s Agent online' % (str(AGENT.unum), str(parameter.agent)))
     print('***** %s: Agents online --> %s')
    # print('***** %s: Agents online --> %s' % (str(AGENT.unum), str(AGENT)))
    # print('***** %s: Setting up train log files' % str(AGENT.unum))
     #train_csv_file = open(parameter.log_file + "_" + str(AGENT.unum) + "_train", "wb")
-    
+    print "Agent Classes OK"
     #Initiate agent Threads    
-    global okThreads
-    okThreads = True
+    global okThread
+    okThread = True
     
     agentThreads = []
     
-    #Initiating agent
-    for i in range(parameter.number_agents):
-        agentThreads[i] = Thread(target = thread_agent, args=(agent[i],agents,i,parameter))
+    try:
+        #Initiating agent
+        for i in range(parameter.number_agents):
+            agentThreads.append(Thread(target = thread_agent, args=(agents[i],agents,i,parameter)))
+            agentThreads[i].start()
+            sleep(1)
+            
+            
+        #Waiting for program termination
+        for i in range(parameter.number_agents):
+            agentThreads[i].join()
+            
+    except Exception as e:
+        print e.__doc__
+        print e.message
+        okThread = False
+   
     
-    #Waiting for program termination
-    for i in range(parameter.number_agents):
-        agentThreads[i].join()
+
     
 
     
@@ -123,11 +142,16 @@ def main():
 def thread_agent(agentObj,allAgents,agentIndex,mainParameters):
     """This method is executed by each thread in the system and corresponds to the control
     of one playing agent"""
-      
-    #Building Log folder name
-      
-    logFolder = mainParameters.log_file + getattr(parameter,"agent"+str(i+1))+"/_0_"+str(parameter.number_trial)+"_AGENT_"+str(agentIndex)+"_RESULTS"
     
+    logFolder = mainParameters.log_file + getattr(mainParameters,"agent"+str(agentIndex+1))+"/_0_"+str(mainParameters.number_trial)+"_AGENT_"+str(agentIndex+1)+"_RESULTS"
+    
+    #Connecting agent to server 
+    print "******Connecting agent "+str(agentIndex)+"****"
+    agentObj.connectHFO()
+    #Building Log folder name
+    print "******Connected agent "+str(agentIndex)+"****"
+    
+   
     train_csv_file = open(logFolder + "_train", "wb")
     train_csv_writer = csv.writer(train_csv_file)
     train_csv_writer.writerow(("trial","frames_trial","goals_trial","used_budget"))
@@ -142,15 +166,15 @@ def thread_agent(agentObj,allAgents,agentIndex,mainParameters):
     #Setups advising
     agentObj.setupAdvising(agentIndex,allAgents)
 
-    print('***** %s: Start training' % str(AGENT.unum))
-    for trial in range(0,parameter.learning_trials+1):
+    print('***** %s: Start training' % str(agentObj.unum))
+    for trial in range(0,mainParameters.learning_trials+1):
         # perform an evaluation trial
-        if(trial % parameter.evaluation_interval == 0):
+        if(trial % mainParameters.evaluation_interval == 0):
             #print('***** %s: Running evaluation trials' % str(AGENT.unum) )
             agentObj.set_exploring(False)
             goals = 0.0
             time_to_goal = 0.0
-            for eval_trials in range(1,parameter.evaluation_duration+1):
+            for eval_trials in range(1,mainParameters.evaluation_duration+1):
                 eval_frame = 0
                 eval_status = agentObj.IN_GAME
                 stateFeatures = agentObj.hfo.getState()
@@ -164,7 +188,7 @@ def thread_agent(agentObj,allAgents,agentIndex,mainParameters):
                         goals += 1.0
                         time_to_goal += eval_frame
                         #print('********** %s: GGGGOOOOOOOOOOLLLL: %s in %s' % (str(AGENT.unum), str(goals), str(time_to_goal)))
-            goal_percentage = 100*goals/parameter.evaluation_duration
+            goal_percentage = 100*goals/mainParameters.evaluation_duration
             #print('***** %s: Goal Percentage: %s' % (str(AGENT.unum), str(goal_percentage)))
             if (goals != 0):
                 avg_goal_time = time_to_goal/goals
@@ -172,7 +196,7 @@ def thread_agent(agentObj,allAgents,agentIndex,mainParameters):
                 avg_goal_time = 0.0
             #print('***** %s: Average Time to Goal: %s' % (str(AGENT.unum), str(avg_goal_time)))
             # save stuff
-            eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time),str(AGENT.get_used_budget())))
+            eval_csv_writer.writerow((trial,"{:.2f}".format(goal_percentage),"{:.2f}".format(avg_goal_time),str(agentObj.get_used_budget())))
             eval_csv_file.flush()
             agentObj.set_exploring(True)
             # reset agent trace

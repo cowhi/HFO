@@ -19,8 +19,8 @@ class SARSA(Agent):
                "Q-Table size: " + str(len(self.qTable))
 
     def __init__(self, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, seed=12345,
-                 cmac_level=20, cmac_quantization=0.3, cmac_beta=0.1, port=12345):
-        super(SARSA, self).__init__(seed, port)
+                 cmac_level=20, cmac_quantization=0.3, cmac_beta=0.1, port=12345,serverPath = "/home/leno/HFO/bin/"):
+        super(SARSA, self).__init__(seed, port,serverPath=serverPath)
         self.name = "SARSA"
         self.qTable = {}
         self.stateActionTrace = {}
@@ -29,7 +29,7 @@ class SARSA(Agent):
         self.gamma = gamma
         self.decayRate = decayRate
         self.cmac = CMAC(cmac_level,cmac_quantization,cmac_beta)
-        print('***** %s: Agent uses CMAC(%s,%s,%s)' % (str(self.unum),str(cmac_level), str(cmac_quantization), str(cmac_beta)))
+        #print('***** %s: Agent uses CMAC(%s,%s,%s)' % (str(self.unum),str(cmac_level), str(cmac_quantization), str(cmac_beta)))
 
     def quantize_features(self, features):
         """ CMAC utilities for all agent """
@@ -44,7 +44,9 @@ class SARSA(Agent):
         #returns the output as a tuple
         return tuple(data)
 
-
+    def advise_action(self,uNum,state):
+        """Verifies if the agent can advice a friend, and return the action if possible"""
+        return None #No advising
 
     def get_Q(self, state, action):
         return self.qTable.get((state, action), 0.0)
@@ -131,3 +133,6 @@ class SARSA(Agent):
         if status != self.IN_GAME:
             self.stateActionTrace = {}
         return status, statePrime, actionPrime
+    def setupAdvising(self,agentIndex,allAgents):
+        """ This method is called in preparation for advising """
+        pass

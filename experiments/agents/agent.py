@@ -8,6 +8,9 @@ class Agent(object):
 
     """
     __metaclass__ = abc.ABCMeta
+    
+    connectPath = ""
+    connectPort = 0
 
     ''' The HFO object '''
     #hfo = None
@@ -63,7 +66,7 @@ class Agent(object):
       OPP_ANGLE, OPP_NUMBER = range(25)
 
     #def __init__(self, friends=3, opps=1):
-    def __init__(self, seed=12345, port=12345):
+    def __init__(self, seed=12345, port=12345, serverPath = "/home/leno/HFO/bin/"):
         """ Initializes an agent for a given environment. """
         '''
         if friends == 0:
@@ -85,23 +88,35 @@ class Agent(object):
 
         # opposing players proximity. angle & unum
         '''
-        print('***** Connecting to HFO server on port %s' % str(port))
         self.hfo = HFOEnvironment()
-        serverResponse = self.hfo.connectToServer(
-                feature_set=HIGH_LEVEL_FEATURE_SET,
-                config_dir='./bin/teams/base/config/formations-dt',
-                server_port=port,
-                server_addr='localhost',
-                team_name='base_left',
-                play_goalie=False)
-        print('***** Problems while connecting? %s'% str(serverResponse))
-        self.unum = self.hfo.getUnum()
+        self.connectPath = serverPath+'teams/base/config/formations-dt'
+        self.connectPort = port
         self.exploring = True
         self.training_steps_total = 0
         # set the agent seed
         random.seed(seed)
 
-
+    def connectHFO(self):
+        """Connects in the server"""
+        print('***** Connecting to HFO server on port %s' % str(self.connectPort))
+        serverResponse = self.hfo.connectToServer(
+                feature_set=HIGH_LEVEL_FEATURE_SET,
+                config_dir=self.connectPath,
+                server_port=self.connectPort,
+                server_addr='localhost',
+                team_name='base_left',
+                play_goalie=False)
+        print('***** Problems while connecting? %s'% str(serverResponse))
+        self.unum = self.hfo.getUnum()
+        
+    @abc.abstractmethod  
+    def advise_action(self,uNum,state):
+        """Verifies if the agent can advice a friend, and return the action if possible"""
+        pass
+    @abc.abstractmethod
+    def setupAdvising(self,agentIndex,allAgents):
+        """ This method is called in preparation for advising """
+        pass
     @abc.abstractmethod
     def select_action(self,state):
         """ When this method is called, the agent executes an action. """

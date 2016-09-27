@@ -18,7 +18,7 @@ def get_args():
     parser.add_argument('-l','--result_path', default = "/home/leno/HFO/log/")
     parser.add_argument('-n','--number_agents',type=int, default=3)
     parser.add_argument('-a','--agent_class',  default='Dummy')
-    parser.add_argument('-e','--server_path',  default='/home/leno/HFO/bin/HFO')
+    parser.add_argument('-e','--server_path',  default='/home/leno/HFO/bin/')
     parser.add_argument('-o','--opponents',  type=int, default=1)
     parser.add_argument('-t','--learning_trials',type=int, default=500)
     parser.add_argument('-i','--evaluation_interval',type=int, default=10)
@@ -50,22 +50,32 @@ def main():
 
 def thread_server(command): 
     global okThread
+    f = open("/home/leno/HFO/log/Dummy/logserver.txt","w")
+
     try:
         print "Starting server...."
-        subprocess.check_call(command,shell='True')
         okThread = True
-    except subprocess.CalledProcessError:
+        print command
+        subprocess.check_call(command,stdout = f, stderr = f, shell='True')
+
+    except subprocess.CalledProcessError as e:
         print "Failed Server... Starting Over"
+        subprocess.call("killall -9 rcssserver",shell='True')
         okThread = False
+        print e.__doc__
+        print e.message
+    f.close()
         
 def thread_agent(command): 
     global okThread
+    f = open("/home/leno/HFO/log/Dummy/logagent.txt","w")
     try:
         print "Starting Agent...."
-        subprocess.check_call(command,shell='True')
+        subprocess.check_call(command,stdout = f, stderr = f,shell='True')
     except subprocess.CalledProcessError:
         print "Failed Agent... Starting Over"
         okThread = False
+    f.close()
     
    
 
@@ -73,27 +83,25 @@ def thread_agent(command):
 
 
 def runExp(trial,agent,parameter):
-    #resultPath = "/home/leno/HFO/HFO-master/log/"+agent+"/_0_"
-    #sourcePath = 'python /home/leno/Dropbox/DO\ -\ Felipe\ Leno\ da\ Silva/Artigos/NovoArtigo/HFO/experiments/experiment.py '
-    #serverPath = "/home/leno/HFO/HFO-master/bin/HFO "
     experimentAgentParam = "-n "+str(parameter.number_agents)+" -p "+ str(parameter.port)+" -s "+str(parameter.seed) +  " -i " + str(parameter.evaluation_interval) \
-        + " -d "+ str(parameter.evaluation_duration) + " -t "+str(trial)+ " -l "+parameter.result_path
-    #experimentAgentParam = "-p 12341 -s 12345  -i 10 -d 1 -t 500 -l "
+        + " -d "+ str(parameter.evaluation_duration) + " -t "+str(trial)+ " -l "+parameter.result_path + " -e "+ parameter.server_path + " -r "+str(trial)
+
     
-    trialsServer = int(parameter.learning_trials + parameter.evaluation_duration * math.floor(parameter.learning_trials / parameter.evaluation_interval) + 1 )
-    serverParam = " --offense-agents="+str(parameter.number_agents)+" --defense-npcs="+str(parameter.opponents)+" --fullstate --headless "+\
+    trialsServer = int(parameter.learning_trials + parameter.evaluation_duration * (parameter.learning_trials / parameter.evaluation_interval + 1)  )
+    serverParam = "--offense-agents="+str(parameter.number_agents)+" --defense-npcs="+str(parameter.opponents)+" --fullstate --headless "+\
        "--trials="+str(trialsServer)+ " --port="+str(parameter.port)+" --frames-per-trial=200"
     
-    serverScript = parameter.server_path + serverParam
+    serverScript = parameter.server_path+ "HFO "+ serverParam
     
     
     global okThread
     okThread = False    
     
     while not okThread:
+        print serverScript
         threadServer = Thread(target = thread_server, args=(serverScript,))
         threadServer.start()
-        sleep(1)
+        sleep(5)
 
     """ resultPath1 = resultPath + str(trial)+"_AGENT_1_RESULTS"
     agentScript1 = sourcePath + experimentAgentParam + resultPath1 +  " -a "+agent
@@ -115,16 +123,19 @@ def runExp(trial,agent,parameter):
     #sleep(5)
     #threadAgent3.start()
     agentParam = experimentAgentParam 
-    for i in range(parameter.number_agents):
+    for i in range(1,parameter.number_agents+1):
         agentParam = agentParam+" -a"+str(i)+" "+agent
         
     okThread = True
     agentCommand = "python experiment.py "+agentParam
-    threadAgents = Thread(target = thread_agent, args=(agentCommand,))   
+    
+    threadAgents = Thread(target = thread_agent, args=(agentCommand,))  
+    
+    threadAgents.start()
     
    
     #Wait for server
-    while threadServer.isAlive() and okThreads:
+    while threadServer.isAlive() and threadAgents.isAlive() and okThread:
         sleep(5)
         #print "Waiting..."
     #threadServer.join()
@@ -132,7 +143,7 @@ def runExp(trial,agent,parameter):
     #threadAgent2.join()
     #threadAgent3.join()
     #print "OK"
-    return okThreads 
+    return okThread 
     
     
     

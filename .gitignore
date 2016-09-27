@@ -93,3 +93,6 @@ experiments/.ipynb_checkpoints/
 
 # cleaning up editor stuff
 *~
+
+
+build/

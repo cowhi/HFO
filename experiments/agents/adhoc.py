@@ -11,7 +11,7 @@ This agent act as SARSA, and the exploration strategy is changed according to ou
 
 from sarsatile import SARSATile
 from threading import Thread
-import advice_util as advice
+from advice_util import AdviceUtil
 import random
 from time import sleep
 import math
@@ -35,19 +35,17 @@ class AdHoc(SARSATile):
     
     stateImportanceMetric = None
     
+    adviceObject = None
+    
     ASK,ADVISE = range(2)
     visitTable = None
     
-    def __init__(self, budgetAsk, budgetAdvise,stateImportanceMetric,seed=12345, port=12345,epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9):
-        super(AdHoc, self).__init__(seed=seed,port=port)
+    def __init__(self, budgetAsk, budgetAdvise,stateImportanceMetric,seed=12345, port=12345,epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, serverPath = "/home/leno/HFO/bin/"):
+        super(AdHoc, self).__init__(seed=seed,port=port,serverPath = serverPath)
         self.name = "AdHoc"
         self.visitTable = {}
         self.budgetAsk = budgetAsk
-        self.budgetAdvise = budgetAdvise
-        
-        thread = Thread(target = self.advise)
-        thread.start()
-        
+        self.budgetAdvise = budgetAdvise        
         self.stateImportanceMetric = stateImportanceMetric
         
     def select_action(self, stateFeatures, state):
@@ -57,7 +55,7 @@ class AdHoc(SARSATile):
             ask = self.check_ask(state)
             if ask:
                 #Ask for advice
-                advised = advice.ask_advice(self.get_Unum(),stateFeatures)
+                advised = self.adviceObject.ask_advice(self.get_Unum(),stateFeatures)
                 if advised:
                     try:
                         self.spentBudgetAsk = self.spentBudgetAsk + 1
@@ -181,29 +179,25 @@ class AdHoc(SARSATile):
         prob = 1 / (1 + math.exp(signal * k * (importance-midpoint)))
         return prob
         
+    def advise_action(self,uNum,state):
+        """Verifies if the agent can advice a friend, and return the action if possible"""
+        if self.spentBudgetAdvise < self.budgetAdvise:
+            #Check if the agent should advise
+            advise,advisedAction = self.check_advise(state,self.get_transformed_features(state))
+            if advise: 
+                self.spentBudgetAdvise = self.spentBudgetAdvise + 1
+                return advisedAction
+        return None
         
-            
-    def advise(self):
-        """Method executed in a parallel thread.
-        The agent checks if there is another friendly agent asking for advice,
-        and helps him if possible"""
-        while self.spentBudgetAdvise < self.budgetAdvise and not self.lastStatus == self.SERVER_DOWN:
-            if self.exploring:            
-                reads = advice.verify_advice(self.get_Unum())            
-                
-                #Is there anyone asking for advice?
-                if reads:
-                    for ad in reads:
-                        advisee = ad[0]    
-                        if ad[1] != "":
-                            stateFeatures = advice.recover_state(ad[1])
-                            #Check if the agent should advise
-                            advise,advisedAction = self.check_advise(stateFeatures,self.get_transformed_features(stateFeatures))
-                            if advise:
-                                advice.give_advice(int(advisee),self.get_Unum(),advisedAction)
-                                self.spentBudgetAdvise = self.spentBudgetAdvise + 1
-          
-                    
+    
+    def setupAdvising(self,agentIndex,allAgents):
+        """ This method is called in preparation for advising """
+        self.adviceObject = AdviceUtil()
+        advisors = [x for i,x in enumerate(allAgents) if i!=agentIndex]
+        self.adviceObject.setupAdvisors(advisors)
+
+        
+                                
                     
     def get_used_budget(self):
         return self.spentBudgetAdvise
