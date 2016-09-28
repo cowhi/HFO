@@ -40,17 +40,20 @@ class AdHoc(SARSATile):
     ASK,ADVISE = range(2)
     visitTable = None
     
+    advisedState = None
+    
     def __init__(self, budgetAsk, budgetAdvise,stateImportanceMetric,seed=12345, port=12345,epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, serverPath = "/home/leno/HFO/bin/"):
         super(AdHoc, self).__init__(seed=seed,port=port,serverPath = serverPath)
         self.name = "AdHoc"
         self.visitTable = {}
+        self.advisedState = {}
         self.budgetAsk = budgetAsk
         self.budgetAdvise = budgetAdvise        
         self.stateImportanceMetric = stateImportanceMetric
         
-    def select_action(self, stateFeatures, state):
+    def select_action(self, stateFeatures, state, noAdvice=False):
         """Changes the exploration strategy"""
-        if self.exploring and self.spentBudgetAsk < self.budgetAsk and stateFeatures[self.ABLE_KICK] == 1:
+        if self.exploring and self.spentBudgetAsk < self.budgetAsk and stateFeatures[self.ABLE_KICK] == 1 and not noAdvice:
             #Check if it should ask for advice
             ask = self.check_ask(state)
             if ask:
@@ -58,6 +61,7 @@ class AdHoc(SARSATile):
                 advised = self.adviceObject.ask_advice(self.get_Unum(),stateFeatures)
                 if advised:
                     try:
+                        self.advisedState[state] = True
                         self.spentBudgetAsk = self.spentBudgetAsk + 1
                         action = self.combineAdvice(advised)
                         return action
@@ -84,7 +88,7 @@ class AdHoc(SARSATile):
         ##
         #Check if the agent should advise
         if random.random() < prob and prob > 0.1:
-            advisedAction = self.select_action(stateFeatures,state)
+            advisedAction = self.select_action(stateFeatures,state,True)
             return True,advisedAction          
             
         return False,None
@@ -147,7 +151,7 @@ class AdHoc(SARSATile):
     def check_ask(self,state):
         """Returns if the agent should ask for advise in this state"""
         
-        if self.exploring:
+        if self.exploring and not (self.quantize_features(state) in self.advisedState):
             importance = self.state_importance(state,self.VISIT_IMPORTANCE)
             midpoint = self.midpoint(self.ASK)
             

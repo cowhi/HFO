@@ -7,8 +7,7 @@ Torrey & Taylor importance Advising implementation
 """
 
 from sarsatile import SARSATile
-from threading import Thread
-import advice_util as advice
+from advice_util import AdviceUtil
 import math
 import agent
 
@@ -18,16 +17,15 @@ class Torrey(SARSATile):
     budget = 0
     spentBudget = 0
     lastStatus = agent.IN_GAME
+    adviceObject = None
     
-    def __init__(self, budget=100,threshold = 0.01,seed=12345, port=12345):
-        super(Torrey, self).__init__(seed=seed,port=port)
+    def __init__(self, budget=100,threshold = 0.01,seed=12345, port=12345, serverPath = "/home/leno/HFO/bin/"):
+        super(Torrey, self).__init__(seed=seed,port=port,serverPath=serverPath)
         self.name = "Torrey"
         
         self.budget = budget
         self.threshold = threshold
        
-        thread = Thread(target = self.advise)
-        thread.start()
         
     def step(self, state, action):
         """Modifies the default step action just to include a state visit counter"""
@@ -35,45 +33,34 @@ class Torrey(SARSATile):
         self.lastStatus = status
         return status, statePrime, actionPrime        
     
-    def select_action(self, stateFeatures, state):
+    def select_action(self, stateFeatures, state, noAdvice = False):
         """Changes the exploration strategy"""
-        if self.exploring and stateFeatures[self.ABLE_KICK] == 1:
+        if self.exploring and stateFeatures[self.ABLE_KICK] == 1 and not noAdvice:
             #Ask for advice
-            advised = advice.ask_advice(self.get_Unum(),stateFeatures)
+            advised = self.adviceObject.ask_advice(self.get_Unum(),stateFeatures)
             if advised:
-                try:
-                    action = self.combineAdvice(advised)
-                    return action
-                except:
-                    print "Exception when combining the advice "+advised
+                    try:
+                        action = self.combineAdvice(advised)
+                        return action
+                    except:
+                        print "Exception when combining the advice " + str(advised)
                     
         return super(Torrey, self).select_action(stateFeatures,state)
         
     def combineAdvice(self,advised):
-        return int(max(set(advised), key=advised.count))  
+        return int(max(set(advised), key=advised.count)) 
         
-    def advise(self):
-        """Method executed in a parallel thread.
-        The agent checks if there is another friendly agent asking for advice,
-        and helps him if possible"""
-        global okThreads
-        okThreads = True
-        while self.spentBudget < self.budget and not self.lastStatus == self.SERVER_DOWN and okThreads:
-            if self.exploring:            
-                reads = advice.verify_advice(self.get_Unum())            
-                
-                #Is there anyone asking for advice?
-                if reads:
-                    for ad in reads:
-                        advisee = ad[0]    
-                        if ad[1] != "":
-                            stateFeatures = advice.recover_state(ad[1])
-                            #Check if the agent should advise
-                            advise,advisedAction = self.check_advise(stateFeatures,self.get_transformed_features(stateFeatures))
-                            if advise:
-                                advice.give_advice(int(advisee),self.get_Unum(),advisedAction)
-                                self.spentBudget = self.spentBudget + 1
-                                #print "ADVISED***"
+    def advise_action(self,uNum,state):
+        """Verifies if the agent can advice a friend, and return the action if possible"""
+        if self.spentBudget < self.budget:
+            #Check if the agent should advise
+            advise,advisedAction = self.check_advise(state,self.get_transformed_features(state))
+            if advise:
+                 self.spentBudget = self.spentBudget + 1
+                 return advisedAction
+        return None    
+        
+   
                                 
     def check_advise(self,stateFeatures,state): 
         """Returns if the agent should advice in this state.
@@ -84,7 +71,7 @@ class Torrey(SARSATile):
         #if importance>0:
         #print "Importance "+str(importance) 
         if importance > self.threshold:
-            advisedAction = self.select_action(stateFeatures,state)
+            advisedAction = self.select_action(stateFeatures,state,True)
             return True,advisedAction          
             
         return False,None
@@ -122,3 +109,12 @@ class Torrey(SARSATile):
     def get_used_budget(self):
         """Returns the ask budget the agent already used"""
         return self.spentBudget
+        
+        
+    def setupAdvising(self,agentIndex,allAgents):
+        """ This method is called in preparation for advising """
+        self.adviceObject = AdviceUtil()
+        #Get the next agent
+        index = (agentIndex+1)%len(allAgents)
+        advisors = [allAgents[index]]
+        self.adviceObject.setupAdvisors(advisors)
