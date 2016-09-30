@@ -18,11 +18,12 @@ class Torrey(SARSATile):
     spentBudget = 0
     lastStatus = agent.IN_GAME
     adviceObject = None
+    advisedState = None
     
-    def __init__(self, budget=100,threshold = 0.01,seed=12345, port=12345, serverPath = "/home/leno/HFO/bin/"):
+    def __init__(self, budget=1000,threshold = 0.01,seed=12345, port=12345, serverPath = "/home/leno/HFO/bin/"):
         super(Torrey, self).__init__(seed=seed,port=port,serverPath=serverPath)
         self.name = "Torrey"
-        
+        self.advisedState = {}
         self.budget = budget
         self.threshold = threshold
        
@@ -31,15 +32,18 @@ class Torrey(SARSATile):
         """Modifies the default step action just to include a state visit counter"""
         status, statePrime, actionPrime = super(Torrey, self).step(state,action)
         self.lastStatus = status
+        if self.lastStatus != self.IN_GAME:
+            self.advisedState = {}
         return status, statePrime, actionPrime        
     
     def select_action(self, stateFeatures, state, noAdvice = False):
         """Changes the exploration strategy"""
-        if self.exploring and stateFeatures[self.ABLE_KICK] == 1 and not noAdvice:
+        if self.exploring and stateFeatures[self.ABLE_KICK] == 1 and not noAdvice and not (self.quantize_features(state) in self.advisedState):
             #Ask for advice
             advised = self.adviceObject.ask_advice(self.get_Unum(),stateFeatures)
             if advised:
                     try:
+                        self.advisedState[state] = True
                         action = self.combineAdvice(advised)
                         return action
                     except:

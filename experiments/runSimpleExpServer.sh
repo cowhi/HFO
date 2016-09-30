@@ -1,7 +1,5 @@
-for I in $(seq 1 1 10)
+# $1 is the port, $2 the number of repetitions /home/leno/HFO/bin/HFO --offense-agents=3 --defense-npcs=1 --fullstate --headless --trials=33100 --port=$1 --frames-per-trial=200
+for I in $(seq 1 1 $2)
 do
-	for J in $(seq 1 1 10)
-	do
-		/home/leno/HFO/bin/HFO --offense-agents=3 --defense-npcs=1 --fullstate --headless --trials=6050 --port=12345 --frames-per-trial=200
-	done
+/home/leno/HFO/bin/HFO --offense-agents=3 --defense-npcs=1 --fullstate --headless --trials=18050 --port=$1 --frames-per-trial=200
 done

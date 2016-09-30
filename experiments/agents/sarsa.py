@@ -86,7 +86,7 @@ class SARSA(Agent):
             qValues = [self.get_Q(cmacState, action) for action in actions]
             maxQ = max(qValues)
             count = qValues.count(maxQ)
-            if count > 1 and self.exploring:
+            if count > 1: #and self.exploring:
                 best = [i for i in range(len(actions)) if qValues[i] == maxQ]
                 return actions[random.choice(best)]
             else:

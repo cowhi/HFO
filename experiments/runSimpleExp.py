@@ -36,7 +36,7 @@ def main():
     n=0
     start_time = time.time()
     while n<numberRuns:
-        subprocess.call("killall -9 rcssserver",shell='True')
+        #subprocess.call("killall -9 rcssserver",shell='True')
         sleep(3)
         run_time = time.time()
         ok = runExp(n+1,agent,parameter)
@@ -60,7 +60,7 @@ def thread_server(command):
 
     except subprocess.CalledProcessError as e:
         print "Failed Server... Starting Over"
-        subprocess.call("killall -9 rcssserver",shell='True')
+        #subprocess.call("killall -9 rcssserver",shell='True')
         okThread = False
         print e.__doc__
         print e.message

@@ -12,7 +12,7 @@ class AdHocTD(AdHoc):
         #Enum for importance metrics
     VISIT_IMPORTANCE, Q_IMPORTANCE = range(2)
     
-    def __init__(self, budgetAsk=100, budgetAdvise=100,stateImportanceMetric=Q_IMPORTANCE,seed=12345, port=12345, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, serverPath = "/home/leno/HFO/bin/"):
+    def __init__(self, budgetAsk=1000, budgetAdvise=1000,stateImportanceMetric=Q_IMPORTANCE,seed=12345, port=12345, epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, serverPath = "/home/leno/HFO/bin/"):
         super(AdHocTD, self).__init__(budgetAsk,budgetAdvise,stateImportanceMetric,seed=seed,port=port,serverPath = serverPath)
         
     
@@ -20,11 +20,11 @@ class AdHocTD(AdHoc):
     def midpoint(self,typeMid):
         """Calculates the midpoint"""     
         if typeMid == self.ADVISE:
-           numVisits = 15
+           numVisits = 5
            impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
-           return 0.55 / (1-impMid) 
+           return 0.15 / (1-impMid) 
         elif typeMid == self.ASK:
-            numVisits = 30
+            numVisits = 10
             impMid = numVisits / (numVisits + math.log(self.scalingVisits + numVisits))
             return impMid
             

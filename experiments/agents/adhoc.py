@@ -145,6 +145,10 @@ class AdHoc(SARSATile):
                 self.visitTable[processedState] = self.visitTable.get(processedState,0.0) + 1
         status, statePrime, actionPrime = super(AdHoc, self).step(state,action)
         self.lastStatus = status
+        
+        if self.lastStatus != self.IN_GAME:
+            self.advisedState = {}
+        
         return status, statePrime, actionPrime
         
         
