@@ -79,7 +79,7 @@ class SARSA(Agent):
             return self.MOVE
         # epsilon greedy action selection
         if self.exploring and random.random() < self.epsilon:
-            actionsRandom = [self.DRIBBLE, self.SHOOT, self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
+            actionsRandom = [ self.SHOOT,self.DRIBBLE, self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
             return random.choice(actionsRandom)
         else:
             cmacState = self.quantize_features(state)
@@ -88,6 +88,8 @@ class SARSA(Agent):
             count = qValues.count(maxQ)
             if count > 1: #and self.exploring:
                 best = [i for i in range(len(actions)) if qValues[i] == maxQ]
+                if not self.exploring:
+                    return actions[best[0]]
                 return actions[random.choice(best)]
             else:
                 return actions[qValues.index(maxQ)]
