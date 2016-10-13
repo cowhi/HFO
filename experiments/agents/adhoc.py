@@ -209,7 +209,7 @@ class AdHoc(SARSATile):
             #Check if the agent should advise
             advise,advisedAction = self.check_advise(state,self.get_transformed_features(state))
             if advise:
-                if adviseeAction!=None and advisedAction!=adviseeAction:
+                if adviseeAction is None or advisedAction!=adviseeAction:
                     self.spentBudgetAdvise = self.spentBudgetAdvise + 1
                     return advisedAction
         return None

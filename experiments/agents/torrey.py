@@ -19,6 +19,7 @@ class Torrey(SARSATile):
     lastStatus = agent.IN_GAME
     adviceObject = None
     advisedState = None
+    informAction = None
     
     def __init__(self, budget=1000,threshold = 0.01,seed=12345, port=12345, serverPath = "/home/leno/HFO/bin/"):
         super(Torrey, self).__init__(seed=seed,port=port,serverPath=serverPath)
@@ -26,6 +27,7 @@ class Torrey(SARSATile):
         self.advisedState = {}
         self.budget = budget
         self.threshold = threshold
+        self.informAction = False
        
         
     def step(self, state, action):
@@ -40,7 +42,11 @@ class Torrey(SARSATile):
         """Changes the exploration strategy"""
         if self.exploring and stateFeatures[self.ABLE_KICK] == 1 and not noAdvice and not (self.quantize_features(state) in self.advisedState):
             #Ask for advice
-            advised = self.adviceObject.ask_advice(self.get_Unum(),stateFeatures)
+            if self.informAction:
+                normalAction = super(Torrey, self).select_action(stateFeatures,state)
+            else:
+                normalAction = None
+            advised = self.adviceObject.ask_advice(self.get_Unum(),stateFeatures,normalAction)
             if advised:
                     try:
                         self.advisedState[state] = True
@@ -48,20 +54,24 @@ class Torrey(SARSATile):
                         return action
                     except:
                         print "Exception when combining the advice " + str(advised)
+            #No need to compute again the intended action
+            if self.informAction:
+                return normalAction
                     
         return super(Torrey, self).select_action(stateFeatures,state)
         
     def combineAdvice(self,advised):
         return int(max(set(advised), key=advised.count)) 
         
-    def advise_action(self,uNum,state):
+    def advise_action(self,uNum,state,intendedAction=None):
         """Verifies if the agent can advice a friend, and return the action if possible"""
         if self.spentBudget < self.budget:
             #Check if the agent should advise
             advise,advisedAction = self.check_advise(state,self.get_transformed_features(state))
             if advise:
-                 self.spentBudget = self.spentBudget + 1
-                 return advisedAction
+                 if intendedAction is None or advisedAction!=intendedAction:
+                     self.spentBudget = self.spentBudget + 1
+                     return advisedAction
         return None    
         
    
