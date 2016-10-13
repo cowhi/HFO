@@ -41,6 +41,8 @@ class AdHoc(SARSATile):
     visitTable = None
     
     advisedState = None
+    informAction = None #must be informed in subclass    
+    
     
     def __init__(self, budgetAsk, budgetAdvise,stateImportanceMetric,seed=12345, port=12345,epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, serverPath = "/home/leno/HFO/bin/"):
         super(AdHoc, self).__init__(seed=seed,port=port,serverPath = serverPath)
@@ -57,8 +59,18 @@ class AdHoc(SARSATile):
             #Check if it should ask for advice
             ask = self.check_ask(state)
             if ask:
+                #----
                 #Ask for advice
-                advised = self.adviceObject.ask_advice(self.get_Unum(),stateFeatures)
+                #----
+            
+                #In case the agent will communicate its intended action
+                if self.informAction:
+                    normalAction = super(AdHoc, self).select_action(stateFeatures,state)
+                else:
+                    normalAction = None                    
+            
+                advised = self.adviceObject.ask_advice(self.get_Unum(),stateFeatures,normalAction)
+                
                 if advised:
                     try:
                         self.advisedState[state] = True
@@ -67,19 +79,23 @@ class AdHoc(SARSATile):
                         return action
                     except:
                         print "Exception when combining the advice " + str(advised)
+                #No need to compute two times the intended action
+                if self.informAction:
+                    return normalAction
                     
         return super(AdHoc, self).select_action(stateFeatures,state)
-        
+      
+    @abc.abstractmethod
     def check_advise(self,stateFeatures,state): 
         """Returns if the agent should advice in this state.
         The advised action is also returned in the positive case"""
             
         
-        importance = self.state_importance(state,self.stateImportanceMetric)
-        midpoint = self.midpoint(self.ADVISE)
+        #importance = self.state_importance(state,self.stateImportanceMetric)
+        #midpoint = self.midpoint(self.ADVISE)
         
         #Calculates the probability
-        prob = self.calc_prob_adv(importance,midpoint,self.ADVISE)
+        #prob = self.calc_prob_adv(importance,midpoint,self.ADVISE)
         ##
         #processedState = self.quantize_features(state)
         #numberVisits = self.number_visits(processedState)
@@ -87,11 +103,11 @@ class AdHoc(SARSATile):
             #print str(importance)+"  -  "+str(prob)
         ##
         #Check if the agent should advise
-        if random.random() < prob and prob > 0.1:
-            advisedAction = self.select_action(stateFeatures,state,True)
-            return True,advisedAction          
+        #if random.random() < prob and prob > 0.1:
+            #advisedAction = self.select_action(stateFeatures,state,True)
+            #return True,advisedAction          
             
-        return False,None
+        #return False,None
         
     def combineAdvice(self,advised):
         return int(max(set(advised), key=advised.count))
@@ -151,16 +167,16 @@ class AdHoc(SARSATile):
         
         return status, statePrime, actionPrime
         
-        
+    @abc.abstractmethod    
     def check_ask(self,state):
         """Returns if the agent should ask for advise in this state"""
         
-        if self.exploring and not (self.quantize_features(state) in self.advisedState):
-            importance = self.state_importance(state,self.VISIT_IMPORTANCE)
-            midpoint = self.midpoint(self.ASK)
+        #if self.exploring and not (self.quantize_features(state) in self.advisedState):
+        #    importance = self.state_importance(state,self.VISIT_IMPORTANCE)
+        #    midpoint = self.midpoint(self.ASK)
             
             #Calculates the probability
-            prob = self.calc_prob_adv(importance,midpoint,self.ASK)
+        #    prob = self.calc_prob_adv(importance,midpoint,self.ASK)
             
             ##
             #processedState = self.quantize_features(state)
@@ -168,9 +184,9 @@ class AdHoc(SARSATile):
             #print str(numberVisits)+"  -  "+str(prob)
             ##
             
-            if random.random() < prob and prob > 0.1:
-                return True
-        return False
+        #    if random.random() < prob and prob > 0.1:
+        #        return True
+        #return False
         
         
         #Call default sarsa method if no action was selected
@@ -187,14 +203,15 @@ class AdHoc(SARSATile):
         prob = 1 / (1 + math.exp(signal * k * (importance-midpoint)))
         return prob
         
-    def advise_action(self,uNum,state):
+    def advise_action(self,uNum,state,adviseeAction=None):
         """Verifies if the agent can advice a friend, and return the action if possible"""
         if self.spentBudgetAdvise < self.budgetAdvise:
             #Check if the agent should advise
             advise,advisedAction = self.check_advise(state,self.get_transformed_features(state))
-            if advise: 
-                self.spentBudgetAdvise = self.spentBudgetAdvise + 1
-                return advisedAction
+            if advise:
+                if adviseeAction!=None and advisedAction!=adviseeAction:
+                    self.spentBudgetAdvise = self.spentBudgetAdvise + 1
+                    return advisedAction
         return None
         
     
