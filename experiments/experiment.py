@@ -235,7 +235,8 @@ def thread_agent(agentObj,allAgents,agentIndex,mainParameters):
     train_csv_writer.writerow(("-","-",str(agentObj)))
     train_csv_file.flush()
     train_csv_file.close()
-
+    agentObj.hfo.act(QUIT)
+    agentObj.finish_training()
 
 if __name__ == '__main__':
     main()

@@ -275,6 +275,10 @@ class Agent(object):
 
     def get_Unum(self):
         return self.hfo.getUnum()
+    
+    def finish_training(self):
+        """End the training"""
+        pass
 
     def get_used_budget(self):
         """Returns the ask budget the agent already used"""

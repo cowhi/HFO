@@ -165,7 +165,11 @@ def draw_graph(source1 = None, name1 = "Algo1",
                source2 = None, name2 = "Algo2",
                source3 = None, name3 = "Algo3",
                source4 = None, name4 = "Algo4",
-               what = "__SUMMARY_goalpercentages", ci = True):
+               source5 = None, name5 = "Algo5",
+               what = "__SUMMARY_goalpercentages", ci = True,
+               #Parameters introduced to allow plot control
+               xMin = None, xMax = None, yMin=None, yMax=None
+               ):
     plt.figure(figsize=(20,6), dpi=300)
     if source1 != None:
         summary1File = os.path.join(source1, what)
@@ -176,6 +180,10 @@ def draw_graph(source1 = None, name1 = "Algo1",
             plt.fill_between(X1, Y11, Y12, facecolor='blue', alpha=0.2)
             plt.fill_between(X1, Y11, Y13, facecolor='blue', alpha=0.2)
         plt.plot(X1,Y11,label=name1, color='blue', linewidth=4.0)
+        if not yMin is None:
+            plt.ylim([yMin,yMax])
+        if not xMin is None:
+            plt.xlim([xMin,xMax])
     if source2 != None:
         summary2File = os.path.join(source2, what)
         summary2Content = np.loadtxt(open(summary2File, "rb"), skiprows=1, delimiter=",", unpack=True)
@@ -185,6 +193,10 @@ def draw_graph(source1 = None, name1 = "Algo1",
             plt.fill_between(X2, Y21, Y22, facecolor='green', alpha=0.2)
             plt.fill_between(X2, Y21, Y23, facecolor='green', alpha=0.2)
         plt.plot(X2,Y21,label=name2, color='green', linewidth=4.0)
+        if not yMin is None:
+            plt.ylim([yMin,yMax])
+        if not xMin is None:
+            plt.xlim([xMin,xMax])
     if source3 != None:
         summary3File = os.path.join(source3, what)
         summary3Content = np.loadtxt(open(summary3File, "rb"), skiprows=1, delimiter=",", unpack=True)
@@ -194,6 +206,10 @@ def draw_graph(source1 = None, name1 = "Algo1",
             plt.fill_between(X3, Y31, Y32, facecolor='red', alpha=0.2)
             plt.fill_between(X3, Y31, Y33, facecolor='red', alpha=0.2)
         plt.plot(X3,Y31,label=name3, color='red', linewidth=4.0)
+        if not yMin is None:
+            plt.ylim([yMin,yMax])
+        if not xMin is None:
+            plt.xlim([xMin,xMax])
     if source4 != None:
         summary4File = os.path.join(source4, what)
         summary4Content = np.loadtxt(open(summary4File, "rb"), skiprows=1, delimiter=",", unpack=True)
@@ -203,6 +219,23 @@ def draw_graph(source1 = None, name1 = "Algo1",
             plt.fill_between(X4, Y41, Y42, facecolor='yellow', alpha=0.2)
             plt.fill_between(X4, Y41, Y43, facecolor='yellow', alpha=0.2)
         plt.plot(X4,Y41,label=name4, color='yellow', linewidth=4.0)
+        if not yMin is None:
+            plt.ylim([yMin,yMax])
+        if not xMin is None:
+            plt.xlim([xMin,xMax])
+    if source5 != None:
+        summary5File = os.path.join(source5, what)
+        summary5Content = np.loadtxt(open(summary5File, "rb"), skiprows=1, delimiter=",", unpack=True)
+        X5 = summary5Content[0]
+        Y51, Y52, Y53 = summary5Content[1],summary5Content[2],summary5Content[3]
+        if what != "__SUMMARY_budgets" and ci:
+            plt.fill_between(X5, Y51, Y52, facecolor='black', alpha=0.2)
+            plt.fill_between(X5, Y51, Y53, facecolor='black', alpha=0.2)
+        plt.plot(X5,Y51,label=name5, color='black', linewidth=4.0)
+        if not yMin is None:
+            plt.ylim([yMin,yMax])
+        if not xMin is None:
+            plt.xlim([xMin,xMax])
 
     if what == "__SUMMARY_goalpercentages":
         #plt.title('Goal Percentage per Trial')

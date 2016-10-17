@@ -49,7 +49,7 @@ class AdHocTD(AdHoc):
             # print "len "+str(len(actions))
         difQ = math.fabs(maxQ - minQ)
         
-        param = 0.7
+        param = 0.75
         #Calculates the probability
         prob = 1 - (math.pow((1 + param),-math.log(numberVisits) * difQ))
         ##
@@ -59,7 +59,7 @@ class AdHocTD(AdHoc):
             #print str(importance)+"  -  "+str(prob)
         ##
         #Check if the agent should advise
-        if random.random() < prob and prob > 0.1:
+        if random.random() < prob: #and prob > 0.1:
             advisedAction = self.select_action(stateFeatures,state,True)
             return True,advisedAction          
             
@@ -74,9 +74,9 @@ class AdHocTD(AdHoc):
             if numberVisits == 0:
                 return False
             
-            
+            param = 0.15
             #Calculates the probability
-            prob = 1 - math.pow(math.e,-math.log(numberVisits))
+            prob =  math.pow((1 + param),-math.log(numberVisits))
             
             ##
             #processedState = self.quantize_features(state)
@@ -84,6 +84,6 @@ class AdHocTD(AdHoc):
             #print str(numberVisits)+"  -  "+str(prob)
             ##
             
-            if random.random() < prob and prob > 0.1:
+            if random.random() < prob: #and prob > 0.1:
                 return True
         return False
