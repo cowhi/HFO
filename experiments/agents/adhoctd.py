@@ -49,7 +49,7 @@ class AdHocTD(AdHoc):
             # print "len "+str(len(actions))
         difQ = math.fabs(maxQ - minQ)
         
-        param = 0.75
+        param = 0.3
         #Calculates the probability
         prob = 1 - (math.pow((1 + param),-math.log(numberVisits) * difQ))
         ##
@@ -72,9 +72,9 @@ class AdHocTD(AdHoc):
             processedState = self.quantize_features(state)
             numberVisits = self.number_visits(processedState)
             if numberVisits == 0:
-                return False
+                return True
             
-            param = 0.15
+            param = 0.75
             #Calculates the probability
             prob =  math.pow((1 + param),-math.log(numberVisits))
             
