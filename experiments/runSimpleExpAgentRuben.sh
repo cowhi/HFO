@@ -2,9 +2,6 @@
 
 for I in $(seq $3 1 $4)
 do
-	python experiment.py -t 5000 -d 100 -r $I -i 20 -a1 $2 -a2 $2 -a3 $2 -p $1 -l *Result Folder Here, example: /home/leno/HFO/log/* -e *HFO Bin folder here, example: /home/leno/HFO/bin/*
+	python experiment.py -t 5000 -d 100 -r $I -i 20 -a1 $2 -a2 $2 -a3 $2 -p $1 -l /home/ruben/playground/HFO/experiments/results/ -e /home/ruben/playground/HFO/bin/
 	sleep 20
 done
-
-
-
