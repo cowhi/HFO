@@ -32,9 +32,9 @@ class AdHocVisit(AdHoc):
             return False,None
         
         
-        param = 0.05
+        param = 0.2
         #Calculates the probability
-        prob = 1 - math.pow((1 + param),-math.log(numberVisits))
+        prob = 1 - math.pow((1 + param),-math.log(numberVisits,2))
         ##
         #processedState = self.quantize_features(state)
         #numberVisits = self.number_visits(processedState)
@@ -42,8 +42,9 @@ class AdHocVisit(AdHoc):
             #print str(importance)+"  -  "+str(prob)
         ##
         #Check if the agent should advise
-        if random.random() < prob: #and prob > 0.1:
+        if random.random() < prob and prob > 0.1:
             advisedAction = self.select_action(stateFeatures,state,True)
+            #print "Advised: prob:"+str(prob)+" visits: "+str(numberVisits)
             return True,advisedAction          
             
         return False,None
@@ -57,9 +58,9 @@ class AdHocVisit(AdHoc):
             if numberVisits == 0:
                 return True
             
-            param = 0.75
+            param = 0.5
             #Calculates the probability
-            prob =  math.pow((1 + param),-math.log(numberVisits))
+            prob =  math.pow((1 + param),-math.sqrt(numberVisits))
             
             ##
             #processedState = self.quantize_features(state)
@@ -68,5 +69,6 @@ class AdHocVisit(AdHoc):
             ##
             
             if random.random() < prob: #and prob > 0.1:
+                #print "Asked: prob:"+str(prob)+" visits: "+str(numberVisits)
                 return True
         return False

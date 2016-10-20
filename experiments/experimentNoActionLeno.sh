@@ -3,25 +3,25 @@ pkill -f python\ exp*
 pkill -f python\ /home/leno/HFO*
 killall -9 rcssserver
 
-sh runSimpleExpServer.sh 13445 10 > serverAdHocVisit.log &
+sh runSimpleExpServer.sh 13445 7 > serverAdHocVisit.log &
 sleep 5
-sh runSimpleExpAgent.sh 13445 AdHocVisit 1 10 > logTestMetric.log &
+sh runSimpleExpAgent.sh 13445 AdHocVisit 4 10 > logTestMetric.log &
 
-sh runSimpleExpServer.sh 14445 10 > serverAdHocVisit.log &
+sh runSimpleExpServer.sh 14445 7 > serverAdHocVisit.log &
 sleep 5
-sh runSimpleExpAgent.sh 14445 AdHocVisit 11 20 > logTestMetric.log &
+sh runSimpleExpAgent.sh 14445 AdHocVisit 14 20 > logTestMetric.log &
 
-sh runSimpleExpServer.sh 15445 10 > serverAdHocVisit.log &
+sh runSimpleExpServer.sh 15445 7 > serverAdHocVisit.log &
 sleep 5
-sh runSimpleExpAgent.sh 15445 AdHocVisit 21 30 > logTestMetric.log &
+sh runSimpleExpAgent.sh 15445 AdHocVisit 24 30 > logTestMetric.log &
 
-sh runSimpleExpServer.sh 16445 10 > serverAdHocVisit.log &
+sh runSimpleExpServer.sh 16445 7 > serverAdHocVisit.log &
 sleep 5
-sh runSimpleExpAgent.sh 16445 AdHocVisit 31 40 > logTestMetric.log &
+sh runSimpleExpAgent.sh 16445 AdHocVisit 34 40 > logTestMetric.log &
 
-sh runSimpleExpServer.sh 17445 10 > serverAdHocVisit.log &
+sh runSimpleExpServer.sh 17445 7 > serverAdHocVisit.log &
 sleep 5
-sh runSimpleExpAgent.sh 17445 AdHocVisit 41 50 > logTestMetric.log &
+sh runSimpleExpAgent.sh 17445 AdHocVisit 44 50 > logTestMetric.log &
 # --
 sh runSimpleExpServer.sh 13945 10 > serverAdHocTD.log &
 sleep 5
