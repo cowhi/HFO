@@ -3,42 +3,62 @@ pkill -f python\ exp*
 pkill -f python\ /home/leno/HFO*
 killall -9 rcssserver
 
-sh runSimpleExpServer.sh 13445 7 > serverAdHocVisit.log &
-sleep 5
-sh runSimpleExpAgent.sh 13445 AdHocVisit 4 10 > logTestMetric.log &
+#sh runSimpleExpServer.sh 13445 3 > serverAdHocVisit.log &
+#sleep 5
+#sh runSimpleExpAgent.sh 13445 AdHocVisit 8 10 > logTestMetric.log &
 
-sh runSimpleExpServer.sh 14445 7 > serverAdHocVisit.log &
-sleep 5
-sh runSimpleExpAgent.sh 14445 AdHocVisit 14 20 > logTestMetric.log &
+#sh runSimpleExpServer.sh 14445 3 > serverAdHocVisit.log &
+#sleep 5
+#sh runSimpleExpAgent.sh 14445 AdHocVisit 18 20 > logTestMetric.log &
 
-sh runSimpleExpServer.sh 15445 7 > serverAdHocVisit.log &
-sleep 5
-sh runSimpleExpAgent.sh 15445 AdHocVisit 24 30 > logTestMetric.log &
+#sh runSimpleExpServer.sh 15445 3 > serverAdHocVisit.log &
+#sleep 5
+#sh runSimpleExpAgent.sh 15445 AdHocVisit 28 30 > logTestMetric.log &
 
-sh runSimpleExpServer.sh 16445 7 > serverAdHocVisit.log &
-sleep 5
-sh runSimpleExpAgent.sh 16445 AdHocVisit 34 40 > logTestMetric.log &
+#sh runSimpleExpServer.sh 16445 3 > serverAdHocVisit.log &
+#sleep 5
+#sh runSimpleExpAgent.sh 16445 AdHocVisit 38 40 > logTestMetric.log &
 
-sh runSimpleExpServer.sh 17445 7 > serverAdHocVisit.log &
-sleep 5
-sh runSimpleExpAgent.sh 17445 AdHocVisit 44 50 > logTestMetric.log &
+#sh runSimpleExpServer.sh 17445 3 > serverAdHocVisit.log &
+#sleep 5
+#sh runSimpleExpAgent.sh 17445 AdHocVisit 48 50 > logTestMetric.log &
 # --
-sh runSimpleExpServer.sh 13945 10 > serverAdHocTD.log &
+sh runSimpleExpServer.sh 13945 5 > serverAdHocTD.log &
 sleep 5
-sh runSimpleExpAgent.sh 13945 AdHocTD 1 10 > logTestMetric2.log &
+sh runSimpleExpAgent.sh 13945 AdHocTD 1 5 > logTestMetric2.log &
 
-sh runSimpleExpServer.sh 14945 10 > serverAdHocTD.log &
+sh runSimpleExpServer.sh 14945 5 > serverAdHocTD.log &
 sleep 5
-sh runSimpleExpAgent.sh 14945 AdHocTD 11 20 > logTestMetric2.log &
+sh runSimpleExpAgent.sh 14945 AdHocTD 6 10 > logTestMetric2.log &
 
-sh runSimpleExpServer.sh 15945 10 > serverAdHocTD.log &
+sh runSimpleExpServer.sh 15945 5 > serverAdHocTD.log &
 sleep 5
-sh runSimpleExpAgent.sh 15945 AdHocTD 21 30 > logTestMetric2.log &
+sh runSimpleExpAgent.sh 15945 AdHocTD 11 15 > logTestMetric2.log &
 
-sh runSimpleExpServer.sh 16945 10 > serverAdHocTD.log &
+sh runSimpleExpServer.sh 16945 5 > serverAdHocTD.log &
 sleep 5
-sh runSimpleExpAgent.sh 16945 AdHocTD 31 40 > logTestMetric2.log &
+sh runSimpleExpAgent.sh 16945 AdHocTD 16 20 > logTestMetric2.log &
 
-sh runSimpleExpServer.sh 17945 10 > serverAdHocTD.log &
+sh runSimpleExpServer.sh 17945 5 > serverAdHocTD.log &
 sleep 5
-sh runSimpleExpAgent.sh 17945 AdHocTD 41 50 > logTestMetric2.log &
+sh runSimpleExpAgent.sh 17945 AdHocTD 21 25 > logTestMetric2.log &
+
+sh runSimpleExpServer.sh 23945 5 > serverAdHocTD.log &
+sleep 5
+sh runSimpleExpAgent.sh 23945 AdHocTD 26 30 > logTestMetric2.log &
+
+sh runSimpleExpServer.sh 24945 5 > serverAdHocTD.log &
+sleep 5
+sh runSimpleExpAgent.sh 24945 AdHocTD 31 35 > logTestMetric2.log &
+
+sh runSimpleExpServer.sh 25945 5 > serverAdHocTD.log &
+sleep 5
+sh runSimpleExpAgent.sh 25945 AdHocTD 36 40 > logTestMetric2.log &
+
+sh runSimpleExpServer.sh 26945 5 > serverAdHocTD.log &
+sleep 5
+sh runSimpleExpAgent.sh 26945 AdHocTD 41 45 > logTestMetric2.log &
+
+sh runSimpleExpServer.sh 27945 5 > serverAdHocTD.log &
+sleep 5
+sh runSimpleExpAgent.sh 27945 AdHocTD 46 50 > logTestMetric2.log &

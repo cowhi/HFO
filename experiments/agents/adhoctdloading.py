@@ -14,7 +14,7 @@ class AdHocTDLoading(AdHocTD):
    visitFile = 'VisitTable.txt'
     
     
-   def __init__(self, budgetAsk=1000, budgetAdvise=1000,seed=12345, port=12345, 
+   def __init__(self, budgetAsk=0, budgetAdvise=1000,seed=12345, port=12345, 
                  epsilon=0.1, alpha=0.1, gamma=0.9, decayRate=0.9, serverPath = "/home/leno/HFO/bin/",storagePath="agentData/"):
         super(AdHocTDLoading, self).__init__(budgetAsk=budgetAsk,budgetAdvise=budgetAdvise,
                 port = port, seed=seed,serverPath = serverPath)
@@ -36,3 +36,8 @@ class AdHocTDLoading(AdHocTD):
          import cPickle
          with open(fileToWrite, "rb") as myFile:
              self.visitTable = cPickle.load(myFile)
+             
+   #Erase Here          
+  # def check_advise(self,stateFeatures,state): 
+  #      advisedAction = self.select_action(stateFeatures,state,True)
+  #      return True,advisedAction 

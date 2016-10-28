@@ -41,8 +41,10 @@ def collect_experiment_data(source='/', runs=1, servers=1, agents=3):
                             evalGoalPercentages[(agent,trial)].append(_egp)
                             evalGoalTimes[(agent,trial)].append(_egt)
                             evalUsedBudgets[(agent,trial)].append(_eub)
+                    else:
+                        print("Error " + str(run+1) + " - "+ str(sum(_eub.shape))+" , "+str(sum(evalTrials.shape)))
     goodRuns = int(goodRuns / agents)
-    print('Could use %d runs from expected %d' % (goodRuns, runs))
+    print('Could use %d runs from expected %d' % (goodRuns, runs)) 
     '''
                 trainFile = os.path.join(source, "_"+ str(run) +"_"+ str(server) +"_AGENT_"+ str(agent) +"_RESULTS_train")
                 print trainFile
@@ -110,7 +112,9 @@ def collect_experiment_data(source='/', runs=1, servers=1, agents=3):
             budgetAvg = [0]* (goodRuns)
             for agent in range(1,agents+1):
                 for i in range(len(evalUsedBudgets[(agent,evalTrials[trial])])):
-                    budgetAvg[i] += evalUsedBudgets[(agent,evalTrials[trial])][i]/agents
+                     budgetAvg[i] += evalUsedBudgets[(agent,evalTrials[trial])][i]/agents
+                    #except:
+                    #    print i, len(evalUsedBudgets[(agent,evalTrials[trial])])
             allBudgets.append(budgetAvg)
         for i in range(sum(evalTrials.shape)):
             newrow = [evalTrials[i]]
