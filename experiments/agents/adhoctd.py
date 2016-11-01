@@ -64,7 +64,7 @@ class AdHocTD(AdHoc):
             #print str(importance)+"  -  "+str(prob)
         ##
         #Check if the agent should advise
-        if random.random() < prob and prob > 0.1:
+        if random.random() < prob: #and prob > 0.1:
             advisedAction = self.select_action(stateFeatures,state,True)
             return True,advisedAction          
             

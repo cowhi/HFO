@@ -48,6 +48,6 @@ def wilcoxon_test(exp1Dir,exp2Dir,significance=95.0,exp1Name='Alg. 1',exp2Name='
     print "----End of Wilcoxon Test----"
     
 if __name__ == '__main__':
-    exp1Dir = "/home/leno/HFO/log/TestMetric2/"
-    exp2Dir = "/home/leno/HFO/log/SARSATile/" 
+    exp1Dir = "/home/leno/HFO/log/EpisodeSharing/"
+    exp2Dir = "/home/leno/Dropbox/DO - Felipe Leno da Silva/Artigos/NovoArtigo/Data/SARSATile/" 
     wilcoxon_test(exp1Dir,exp2Dir,95,"AdHocTD","SARSA")

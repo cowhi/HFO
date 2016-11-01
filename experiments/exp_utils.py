@@ -170,6 +170,7 @@ def draw_graph(source1 = None, name1 = "Algo1",
                source3 = None, name3 = "Algo3",
                source4 = None, name4 = "Algo4",
                source5 = None, name5 = "Algo5",
+               source6 = None, name6 = "Algo5",
                what = "__SUMMARY_goalpercentages", ci = True,
                #Parameters introduced to allow plot control
                xMin = None, xMax = None, yMin=None, yMax=None
@@ -236,6 +237,20 @@ def draw_graph(source1 = None, name1 = "Algo1",
             plt.fill_between(X5, Y51, Y52, facecolor='black', alpha=0.2)
             plt.fill_between(X5, Y51, Y53, facecolor='black', alpha=0.2)
         plt.plot(X5,Y51,label=name5, color='black', linewidth=4.0)
+        if not yMin is None:
+            plt.ylim([yMin,yMax])
+        if not xMin is None:
+            plt.xlim([xMin,xMax])
+            
+    if source6 != None:
+        summary6File = os.path.join(source6, what)
+        summary6Content = np.loadtxt(open(summary6File, "rb"), skiprows=1, delimiter=",", unpack=True)
+        X6 = summary6Content[0]
+        Y61, Y62, Y63 = summary6Content[1],summary6Content[2],summary6Content[3]
+        if what != "__SUMMARY_budgets" and ci:
+            plt.fill_between(X6, Y61, Y62, facecolor='black', alpha=0.2)
+            plt.fill_between(X6, Y61, Y63, facecolor='black', alpha=0.2)
+        plt.plot(X6,Y61,label=name6, color='#999999', linewidth=4.0)
         if not yMin is None:
             plt.ylim([yMin,yMax])
         if not xMin is None:
