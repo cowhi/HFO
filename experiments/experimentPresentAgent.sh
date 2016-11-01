@@ -77,49 +77,49 @@ killall -9 rcssserver
 #Aqui
 
 
-sh runSimpleExpServer.sh 46455 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
-sleep 5
-sh runMultipleAlgExp.sh 46455 AdHocTD AdHocTD AdHocTDLoading 1 5 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+#sh runSimpleExpServer.sh 46455 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
+#sleep 5
+#sh runMultipleAlgExp.sh 46455 AdHocTD AdHocTD AdHocTDLoading 1 5 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
-sh runSimpleExpServer.sh 46555 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
-sleep 5
-sh runMultipleAlgExp.sh 46555 AdHocTD AdHocTD AdHocTDLoading 11 15 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
-
-
-sh runSimpleExpServer.sh 46655 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
-sleep 5
-sh runMultipleAlgExp.sh 46655 AdHocTD AdHocTD AdHocTDLoading 21 25 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+#sh runSimpleExpServer.sh 46555 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
+#sleep 5
+#sh runMultipleAlgExp.sh 46555 AdHocTD AdHocTD AdHocTDLoading 11 15 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
 
-sh runSimpleExpServer.sh 46855 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
-sleep 5
-sh runMultipleAlgExp.sh 46855 AdHocTD AdHocTD AdHocTDLoading 31 35 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
-
-sh runSimpleExpServer.sh 46955 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
-sleep 5
-sh runMultipleAlgExp.sh 46955 AdHocTD AdHocTD AdHocTDLoading 41 45 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
-
-sh runSimpleExpServer.sh 36455 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
-sleep 5
-sh runMultipleAlgExp.sh 36455 AdHocTD AdHocTD AdHocTDLoading 6 10 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
-
-sh runSimpleExpServer.sh 36555 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
-sleep 5
-sh runMultipleAlgExp.sh 36555 AdHocTD AdHocTD AdHocTDLoading 16 20 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+#sh runSimpleExpServer.sh 46655 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
+#sleep 5
+#sh runMultipleAlgExp.sh 46655 AdHocTD AdHocTD AdHocTDLoading 21 25 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
 
-sh runSimpleExpServer.sh 36655 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
-sleep 5
-sh runMultipleAlgExp.sh 36655 AdHocTD AdHocTD AdHocTDLoading 26 30 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+#sh runSimpleExpServer.sh 46855 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
+#sleep 5
+#sh runMultipleAlgExp.sh 46855 AdHocTD AdHocTD AdHocTDLoading 31 35 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+#sh runSimpleExpServer.sh 46955 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
+#sleep 5
+#sh runMultipleAlgExp.sh 46955 AdHocTD AdHocTD AdHocTDLoading 41 45 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+#sh runSimpleExpServer.sh 36455 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
+#sleep 5
+#sh runMultipleAlgExp.sh 36455 AdHocTD AdHocTD AdHocTDLoading 6 10 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+#sh runSimpleExpServer.sh 36555 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
+#sleep 5
+#sh runMultipleAlgExp.sh 36555 AdHocTD AdHocTD AdHocTDLoading 16 20 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
 
-sh runSimpleExpServer.sh 36855 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
-sleep 5
-sh runMultipleAlgExp.sh 36855 AdHocTD AdHocTD AdHocTDLoading 36 40 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+#sh runSimpleExpServer.sh 36655 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
+#sleep 5
+#sh runMultipleAlgExp.sh 36655 AdHocTD AdHocTD AdHocTDLoading 26 30 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
-sh runSimpleExpServer.sh 36955 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
-sleep 5
-sh runMultipleAlgExp.sh 36955 AdHocTD AdHocTD AdHocTDLoading 46 50 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+#sh runSimpleExpServer.sh 36855 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
+#sleep 5
+#sh runMultipleAlgExp.sh 36855 AdHocTD AdHocTD AdHocTDLoading 36 40 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+#sh runSimpleExpServer.sh 36955 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTD.log &
+#sleep 5
+#sh runMultipleAlgExp.sh 36955 AdHocTD AdHocTD AdHocTDLoading 46 50 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
 
 #sh runSimpleExpServer.sh 47850 12 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverTorrey.log &
@@ -131,7 +131,51 @@ sh runMultipleAlgExp.sh 36955 AdHocTD AdHocTD AdHocTDLoading 46 50 /home/leno/HF
 #sleep
 #sh runMultipleAlgExp.sh 49850 Torrey Torrey TorreyLoading 39 50 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
+# ---
 
+sh runSimpleExpServer.sh 46455 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sleep 5
+sh runMultipleAlgExp.sh 46455 EpisodeSharing EpisodeSharing EpisodeSharingLoading 1 5 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+sh runSimpleExpServer.sh 46555 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sleep 5
+sh runMultipleAlgExp.sh 46555 EpisodeSharing EpisodeSharing EpisodeSharingLoading 11 15 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+
+sh runSimpleExpServer.sh 46655 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sleep 5
+sh runMultipleAlgExp.sh 46655 EpisodeSharing EpisodeSharing EpisodeSharingLoading 21 25 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+
+sh runSimpleExpServer.sh 46855 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sleep 5
+sh runMultipleAlgExp.sh 46855 EpisodeSharing EpisodeSharing EpisodeSharingLoading 31 35 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+sh runSimpleExpServer.sh 46955 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sleep 5
+sh runMultipleAlgExp.sh 46955 EpisodeSharing EpisodeSharing EpisodeSharingLoading 41 45 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+sh runSimpleExpServer.sh 36455 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sleep 5
+sh runMultipleAlgExp.sh 36455 EpisodeSharing EpisodeSharing EpisodeSharingLoading 6 10 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+sh runSimpleExpServer.sh 36555 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sleep 5
+sh runMultipleAlgExp.sh 36555 EpisodeSharing EpisodeSharing EpisodeSharingLoading 16 20 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+
+sh runSimpleExpServer.sh 36655 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sleep 5
+sh runMultipleAlgExp.sh 36655 EpisodeSharing EpisodeSharing EpisodeSharingLoading 26 30 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+
+sh runSimpleExpServer.sh 36855 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sleep 5
+sh runMultipleAlgExp.sh 36855 EpisodeSharing EpisodeSharing EpisodeSharingLoading 36 40 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+
+sh runSimpleExpServer.sh 36955 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sleep 5
+sh runMultipleAlgExp.sh 36955 EpisodeSharing EpisodeSharing EpisodeSharingLoading 46 50 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
 
 
