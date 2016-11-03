@@ -28,42 +28,42 @@ echo "Start experiments"
 
 # --
 
-sh runSimpleExpServerRuben.sh 32945 5 > log/serverAdHocTDAction.log &
+sh runSimpleExpServerRuben.sh 32945 10 > log/serverAdHocTDAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 32945 AdHocTDAction 1 5 > log/logAdHocTDAction.log &
+sh runSimpleExpAgentRuben.sh 32945 AdHocTDAction 1 10 > log/logAdHocTDAction.log &
 
-sh runSimpleExpServerRuben.sh 33945 5 > log/serverAdHocTDAction.log &
+sh runSimpleExpServerRuben.sh 33945 10 > log/serverAdHocTDAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 33945 AdHocTDAction 11 15 > log/logAdHocTDAction.log &
+sh runSimpleExpAgentRuben.sh 33945 AdHocTDAction 11 20 > log/logAdHocTDAction.log &
 
-sh runSimpleExpServerRuben.sh 34945 5 > log/serverAdHocTDAction.log &
+sh runSimpleExpServerRuben.sh 34945 10 > log/serverAdHocTDAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 34945 AdHocTDAction 21 25 > log/logAdHocTDAction.log &
+sh runSimpleExpAgentRuben.sh 34945 AdHocTDAction 21 30 > log/logAdHocTDAction.log &
 
-sh runSimpleExpServerRuben.sh 35945 5 > log/serverAdHocTDAction.log &
+sh runSimpleExpServerRuben.sh 35945 10 > log/serverAdHocTDAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 35945 AdHocTDAction 31 35 > log/logAdHocTDAction.log &
+sh runSimpleExpAgentRuben.sh 35945 AdHocTDAction 31 40 > log/logAdHocTDAction.log &
 
-sh runSimpleExpServerRuben.sh 36945 5 > log/serverAdHocTDAction.log &
+sh runSimpleExpServerRuben.sh 36945 10 > log/serverAdHocTDAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 36945 AdHocTDAction 41 45 > log/logAdHocTDAction.log &
+sh runSimpleExpAgentRuben.sh 36945 AdHocTDAction 41 50 > log/logAdHocTDAction.log &
 
-sh runSimpleExpServerRuben.sh 22945 5 > log/serverAdHocTDAction.log &
+sh runSimpleExpServerRuben.sh 22945 10 > log/serverTorreyAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 22945 AdHocTDAction 6 10 > log/logAdHocTDAction.log &
+sh runSimpleExpAgentRuben.sh 22945 TorreyAction 1 10 > log/logTorreyAction.log &
 
-sh runSimpleExpServerRuben.sh 23945 5 > log/serverAdHocTDAction.log &
+sh runSimpleExpServerRuben.sh 23945 10 > log/serverTorreyAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 23945 AdHocTDAction 16 20 > log/logAdHocTDAction.log &
+sh runSimpleExpAgentRuben.sh 23945 TorreyAction 11 20 > log/logTorreyAction.log &
 
-sh runSimpleExpServerRuben.sh 24945 5 > log/serverAdHocTDAction.log &
+sh runSimpleExpServerRuben.sh 24945 10 > log/serverTorreyAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 24945 AdHocTDAction 26 30 > log/logAdHocTDAction.log &
+sh runSimpleExpAgentRuben.sh 24945 TorreyAction 21 30 > log/logTorreyAction.log &
 
-sh runSimpleExpServerRuben.sh 25945 5 > log/serverAdHocTDAction.log &
+sh runSimpleExpServerRuben.sh 25945 10 > log/serverTorreyAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 25945 AdHocTDAction 36 40 > log/logAdHocTDAction.log &
+sh runSimpleExpAgentRuben.sh 25945 TorreyAction 31 40 > log/logTorreyAction.log &
 
-sh runSimpleExpServerRuben.sh 26945 5 > log/serverAdHocTDAction.log &
+sh runSimpleExpServerRuben.sh 26945 10 > log/serverTorreyAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 26945 AdHocTDAction 46 50 > log/logAdHocTDAction.log &
+sh runSimpleExpAgentRuben.sh 26945 TorreyAction 41 50 > log/logTorreyAction.log &
