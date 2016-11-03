@@ -73,7 +73,7 @@ class AdHoc(SARSATile):
                 
                 if advised:
                     try:
-                        self.advisedState[state] = True
+                        self.advisedState[self.quantize_features(state)] = True
                         self.spentBudgetAsk = self.spentBudgetAsk + 1
                         action = self.combineAdvice(advised)
                         return action
@@ -83,7 +83,7 @@ class AdHoc(SARSATile):
                 if self.informAction:
                     return normalAction
                     
-        return super(AdHoc, self).select_action(stateFeatures,state)
+        return super(AdHoc, self).select_action(stateFeatures,state,noAdvice)
       
     @abc.abstractmethod
     def check_advise(self,stateFeatures,state): 

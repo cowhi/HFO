@@ -68,7 +68,7 @@ class SARSA(Agent):
             #turns on the exploration again
     '''
 
-    def select_action(self, stateFeatures, state):
+    def select_action(self, stateFeatures, state, noAdvice=False):
         """Executes the epsilon-greedy exploration strategy"""
         #stores last CMAC result
         #self.lastState = state
@@ -78,7 +78,7 @@ class SARSA(Agent):
         else:
             return self.MOVE
         # epsilon greedy action selection
-        if self.exploring and random.random() < self.epsilon:
+        if self.exploring and random.random() < self.epsilon and not noAdvice:
             actionsRandom = [ self.SHOOT,self.DRIBBLE, self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
             return random.choice(actionsRandom)
         else:
@@ -117,7 +117,10 @@ class SARSA(Agent):
         statePrimeQuantized = self.quantize_features(statePrime)
         reward = self.get_reward(status)
         # select actionPrime
-        actionPrime = self.select_action(stateFeatures, statePrime)
+        if self.exploring:
+            actionPrime = self.select_action(stateFeatures, statePrime,False)
+        else:
+            actionPrime = self.select_action(stateFeatures, statePrime,True)
 
         if self.exploring:
             # calculate TDError

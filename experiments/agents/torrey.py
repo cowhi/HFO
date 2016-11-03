@@ -43,13 +43,13 @@ class Torrey(SARSATile):
         if self.exploring and stateFeatures[self.ABLE_KICK] == 1 and not noAdvice and not (self.quantize_features(state) in self.advisedState):
             #Ask for advice
             if self.informAction:
-                normalAction = super(Torrey, self).select_action(stateFeatures,state)
+                normalAction = super(Torrey, self).select_action(stateFeatures,state,True)
             else:
                 normalAction = None
             advised = self.adviceObject.ask_advice(self.get_Unum(),stateFeatures,normalAction)
             if advised:
                     try:
-                        self.advisedState[state] = True
+                        self.advisedState[self.quantize_features(state)] = True
                         action = self.combineAdvice(advised)
                         return action
                     except:
@@ -57,8 +57,12 @@ class Torrey(SARSATile):
             #No need to compute again the intended action
             if self.informAction:
                 return normalAction
-                    
-        return super(Torrey, self).select_action(stateFeatures,state)
+        #else:
+        #    if self.exploring and stateFeatures[self.ABLE_KICK] == 1:
+        #        with open("debugTorrey.log","a") as myfile:
+        #            #if importance>0:
+        #            myfile.write("Exp -  "+str(self.exploring)+",AbleKick = "+str(stateFeatures[self.ABLE_KICK] == 1)+", NoAdvice: "+str(noAdvice) +", Advised?: "+str(not (self.quantize_features(state) in self.advisedState))+"\n")
+        return super(Torrey, self).select_action(stateFeatures,state,noAdvice)
         
     def combineAdvice(self,advised):
         return int(max(set(advised), key=advised.count)) 
@@ -82,8 +86,10 @@ class Torrey(SARSATile):
             
         
         importance = self.state_importance(state)
-        #if importance>0:
-        #print "Importance "+str(importance) 
+        
+        #with open("debugTorrey.log","a") as myfile:
+            #if importance>0:
+        #        myfile.write("Importance "+str(importance)+"   -   ") 
         if importance > self.threshold:
             advisedAction = self.select_action(stateFeatures,state,True)
             return True,advisedAction          
@@ -104,7 +110,7 @@ class Torrey(SARSATile):
         actions = [self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
         for act in actions:
             if (processedState,act) in self.qTable:
-                actQ = self.qTable.get((processedState, act))
+                actQ = self.qTable.get((processedState, act),0)
                 if actQ > maxQ:
                     maxQ = actQ
                 if actQ < minQ:
@@ -113,8 +119,7 @@ class Torrey(SARSATile):
         #print "MaxQ "+str(maxQ)+"   - MinQ "+str(minQ)
         #print "MinQ "+str(minQ)
         # print "len "+str(len(actions))
-        if(minQ==float('Inf')):
-            return 0
+
 
         qImportance = math.fabs(maxQ - minQ) 
         

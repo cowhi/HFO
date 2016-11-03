@@ -38,7 +38,7 @@ class AdHocTD(AdHoc):
         actions = [self.DRIBBLE, self.SHOOT, self.PASSfar, self.PASSnear]
         for act in actions:
             if (processedState,act) in self.qTable:
-                actQ = self.qTable.get((processedState, act))
+                actQ = self.qTable.get((processedState, act),0)
                 if actQ > maxQ:
                     maxQ = actQ
                 if actQ < minQ:

@@ -118,7 +118,7 @@ class Agent(object):
         """ This method is called in preparation for advising """
         pass
     @abc.abstractmethod
-    def select_action(self,state):
+    def select_action(self, stateFeatures, state, noAdvice=False):
         """ When this method is called, the agent executes an action. """
         pass
 

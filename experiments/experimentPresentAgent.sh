@@ -133,49 +133,49 @@ killall -9 rcssserver
 
 # ---
 
-sh runSimpleExpServer.sh 46455 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sh runSimpleExpServer.sh 46455 3 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
 sleep 5
-sh runMultipleAlgExp.sh 46455 EpisodeSharing EpisodeSharing EpisodeSharingLoading 1 5 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+sh runMultipleAlgExp.sh 46455 EpisodeSharing EpisodeSharing EpisodeSharingLoading 3 5 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
-sh runSimpleExpServer.sh 46555 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sh runSimpleExpServer.sh 46555 3 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
 sleep 5
-sh runMultipleAlgExp.sh 46555 EpisodeSharing EpisodeSharing EpisodeSharingLoading 11 15 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+sh runMultipleAlgExp.sh 46555 EpisodeSharing EpisodeSharing EpisodeSharingLoading 13 15 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
 
-sh runSimpleExpServer.sh 46655 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sh runSimpleExpServer.sh 46655 3 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
 sleep 5
-sh runMultipleAlgExp.sh 46655 EpisodeSharing EpisodeSharing EpisodeSharingLoading 21 25 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+sh runMultipleAlgExp.sh 46655 EpisodeSharing EpisodeSharing EpisodeSharingLoading 23 25 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
 
-sh runSimpleExpServer.sh 46855 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sh runSimpleExpServer.sh 46855 3 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
 sleep 5
-sh runMultipleAlgExp.sh 46855 EpisodeSharing EpisodeSharing EpisodeSharingLoading 31 35 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+sh runMultipleAlgExp.sh 46855 EpisodeSharing EpisodeSharing EpisodeSharingLoading 33 35 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
-sh runSimpleExpServer.sh 46955 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sh runSimpleExpServer.sh 46955 3 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
 sleep 5
-sh runMultipleAlgExp.sh 46955 EpisodeSharing EpisodeSharing EpisodeSharingLoading 41 45 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+sh runMultipleAlgExp.sh 46955 EpisodeSharing EpisodeSharing EpisodeSharingLoading 43 45 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
-sh runSimpleExpServer.sh 36455 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sh runSimpleExpServer.sh 36455 3 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
 sleep 5
-sh runMultipleAlgExp.sh 36455 EpisodeSharing EpisodeSharing EpisodeSharingLoading 6 10 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+sh runMultipleAlgExp.sh 36455 EpisodeSharing EpisodeSharing EpisodeSharingLoading 8 10 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
-sh runSimpleExpServer.sh 36555 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sh runSimpleExpServer.sh 36555 3 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
 sleep 5
-sh runMultipleAlgExp.sh 36555 EpisodeSharing EpisodeSharing EpisodeSharingLoading 16 20 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+sh runMultipleAlgExp.sh 36555 EpisodeSharing EpisodeSharing EpisodeSharingLoading 18 20 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
 
-sh runSimpleExpServer.sh 36655 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sh runSimpleExpServer.sh 36655 3 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
 sleep 5
-sh runMultipleAlgExp.sh 36655 EpisodeSharing EpisodeSharing EpisodeSharingLoading 26 30 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+sh runMultipleAlgExp.sh 36655 EpisodeSharing EpisodeSharing EpisodeSharingLoading 28 30 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
 
-sh runSimpleExpServer.sh 36855 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sh runSimpleExpServer.sh 36855 3 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
 sleep 5
-sh runMultipleAlgExp.sh 36855 EpisodeSharing EpisodeSharing EpisodeSharingLoading 36 40 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+sh runMultipleAlgExp.sh 36855 EpisodeSharing EpisodeSharing EpisodeSharingLoading 38 40 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
-sh runSimpleExpServer.sh 36955 5 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
+sh runSimpleExpServer.sh 36955 3 > /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/serverEpisodeSh.log &
 sleep 5
-sh runMultipleAlgExp.sh 36955 EpisodeSharing EpisodeSharing EpisodeSharingLoading 46 50 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
+sh runMultipleAlgExp.sh 36955 EpisodeSharing EpisodeSharing EpisodeSharingLoading 48 50 /home/leno/HFO/experiments/agentData/FilesWithTrainedAgent/ &
 
 
 

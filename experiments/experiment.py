@@ -180,7 +180,7 @@ def thread_agent(agentObj,allAgents,agentIndex,mainParameters):
                 stateFeatures = agentObj.hfo.getState()
                 state = agentObj.get_transformed_features(stateFeatures)
                 #action = AGENT.select_action(tuple(stateFeatures), state)
-                action = agentObj.select_action(stateFeatures, state)
+                action = agentObj.select_action(stateFeatures, state, False)
                 while eval_status == agentObj.IN_GAME:
                     eval_frame += 1
                     eval_status, state, action = agentObj.step(state, action)
@@ -210,7 +210,7 @@ def thread_agent(agentObj,allAgents,agentIndex,mainParameters):
         state = agentObj.get_transformed_features(stateFeatures)
         #print('***** %s: state type: %s, len: %s' % (str(AGENT.unum), str(type(state)), str(len(state))))
         #action = AGENT.select_action(tuple(stateFeatures), state)
-        action = agentObj.select_action(stateFeatures, state)
+        action = agentObj.select_action(stateFeatures, state, False)
         #print "Selected action --- "+str(action)
         while status == agentObj.IN_GAME:
             frame += 1
