@@ -1,10 +1,10 @@
 #Stops all HFO related Processes
 echo "Stop all HFO related processes"
-#pkill -f  sh\ ru*
-#pkill -f python\ exp*
-#pkill -f python\ /home/ruben/playground/HFO*
-#killall -9 rcssserver
 
+pkill -f python\ exp*
+pkill -f python\ /home/ruben/playground/HFO*
+killall -9 rcssserver
+#pkill -f  sh\ ru*
 echo "Start experiments"
 #sh runSimpleExpServerRuben.sh 22445 10 > log/serverAdHocVisitAction.log &
 #sleep 5
@@ -30,7 +30,7 @@ echo "Start experiments"
 
 sh runSimpleExpServerRuben.sh 32945 5 > log/serverAdHocVisitAction.log &
 sleep 5
-sh runSimpleExpAgentRuben.sh 32945 AdHocVisit 1 5 > log/logAdHocVisitAction.log &
+sh runSimpleExpAgentRuben.sh 32945 AdHocVisitAction 1 5 > log/logAdHocVisitAction.log &
 
 sh runSimpleExpServerRuben.sh 33945 5 > log/serverAdHocVisitAction.log &
 sleep 5
