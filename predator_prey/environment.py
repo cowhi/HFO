@@ -21,10 +21,11 @@ class PredatorPreyEnvironment(object):
     
     #Default Environment Rewards
     capturedReward = +1
-    defaultReward = -0.1    
+    defaultReward = 0  
     
     
-    agentVisualDepth = 4
+    
+    agentVisualDepth = 2
     
     reward = None
     lastTerminal = False
@@ -64,6 +65,7 @@ class PredatorPreyEnvironment(object):
         self.preyPositions = [None]
         
         self.build_eval_eps(evalEpisodes)
+
         
     def act(self,agentID,action):
         """Performs an action.
@@ -84,7 +86,7 @@ class PredatorPreyEnvironment(object):
     def finish_state_transition(self):
         """Executed when all agents completed their state transition procedures"""
         self.state_transition()        
-        self.agentActions = [None]*self.numberAgents
+        #self.agentActions = [None]*self.numberAgents
 
         
         
@@ -151,6 +153,7 @@ class PredatorPreyEnvironment(object):
                  self.agentPositions[agentIndex][1] = 1
             elif(self.agentPositions[agentIndex][1] > self.sizeY):
                  self.agentPositions[agentIndex][1] = self.sizeY
+            agentIndex += 1
         #Updates the terminal state variable
         self.check_terminal()
         if(self.lastTerminal):
@@ -174,6 +177,13 @@ class PredatorPreyEnvironment(object):
     def get_state(self,agentID):
         """Returns the state for a given agent"""
         
+        if self.lastTerminal:
+           ret = [0,0]
+           for i in range(self.numberAgents-1):
+               ret.append(float('inf'))
+               ret.append(float('inf'))
+           return tuple(ret)
+        
         selfP = self.agentPositions[agentID]
         selfx = selfP[0]
         selfy = selfP[1]
@@ -184,7 +194,7 @@ class PredatorPreyEnvironment(object):
         offsetX = preyx - selfx
         offsetY = preyy - selfy
         
-        preySensation = [-1,-1]
+        preySensation = [float('inf'),float('inf')]
         #If the prey is inside the visualDepth
         if(math.fabs(offsetX)<= self.agentVisualDepth and math.fabs(offsetY)<= self.agentVisualDepth):
             preySensation =[offsetX,offsetY]
@@ -196,13 +206,23 @@ class PredatorPreyEnvironment(object):
         #sort agents by distance
         sortedAg = sorted(otherAg,key=lambda i: distance.euclidean(i,selfP))
         
-              
+        notUsedAg = 0
         for i in range(self.numberAgents-1):
              offsetX = sortedAg[i][0] - selfx
              offsetY = sortedAg[i][1] - selfy
-             sensations.append(offsetX)
-             sensations.append(offsetY)
-             
+             if(math.fabs(offsetX)<= self.agentVisualDepth and math.fabs(offsetY)<= self.agentVisualDepth):
+                 sensations.append(offsetX)
+                 sensations.append(offsetY)
+             else:
+                 notUsedAg += 1
+        
+        #Agents outside the visual depth
+        for i in range(notUsedAg):
+            sensations.append(float('inf'))
+            sensations.append(float('inf'))
+            
+        
+        
         sensations = tuple(sensations)
         return sensations
              
@@ -219,11 +239,28 @@ class PredatorPreyEnvironment(object):
         
     def start_evaluation_episode(self):
         """Start next evaluation episode"""
+        randomState = random.getstate()
         
+            
         epInfo = self.storedInitialPositions[self.lastEvalEps]
         self.load_episode(epInfo)
         #Prepares pointer for the next episode
         self.lastEvalEps = (self.lastEvalEps + 1) % len(self.storedInitialPositions)
+        
+        
+        #Agents in random position
+        notChosen = range(len(self.agentPositions))
+
+        agPosic = []        
+        while len(notChosen) != 0:
+            index = random.choice(notChosen)
+            agPosic.append(self.agentPositions[index])
+            notChosen.remove(index)
+        
+        self.agentPositions = agPosic
+        
+        random.setstate(randomState)
+            
                 
         
         
@@ -231,6 +268,7 @@ class PredatorPreyEnvironment(object):
     def start_learning_episode(self):
         """Starts episode with random initial positions"""
         epInfo = self.generate_episode_information()
+        #epInfo = random.choice(self.storedInitialPositions) # ---
         self.load_episode(epInfo)
           
 
@@ -244,6 +282,7 @@ class PredatorPreyEnvironment(object):
         
     def build_eval_eps(self,numEps):
         """Prepares the evaluation episodes for posterior use"""
+        #self.storedInitialPositions = [[[5,5],[[1,1],[10,10],[1,10]]]]        
         for i in range(numEps):        
             self.storedInitialPositions[i] = self.generate_episode_information()
             

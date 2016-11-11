@@ -7,5 +7,5 @@ Agent Actions for the Pre-Predator environment
 """
 
 agentActions = 4
-preyActions = 5
+preyActions = 4
 NORTH, SOUTH, WEST, EAST, NOOP = range(5)

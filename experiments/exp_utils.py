@@ -11,11 +11,12 @@ sns.set(style="darkgrid")
 import scipy as sp
 import scipy.stats
 
-def collect_experiment_data(source='/', runs=1, servers=1, agents=3):
+def collect_experiment_data(source='/', runs=1, servers=1, agents=3,hfo=True):
     # load all agent data
     evalGoalPercentages = defaultdict(list)
     evalGoalTimes = defaultdict(list)
     evalUsedBudgets = defaultdict(list)
+    evalSteps = defaultdict(list)
     evalTrials = np.array([])
     '''
     trainTrials = np.array([])
@@ -31,18 +32,31 @@ def collect_experiment_data(source='/', runs=1, servers=1, agents=3):
                 evalFile = os.path.join(source, "_"+ str(server) +"_"+ str(run+1) +"_AGENT_"+ str(agent) +"_RESULTS_eval")
                 #print evalFile
                 if os.path.isfile(evalFile):
-                    _et, _egp, _egt, _eub = np.loadtxt(open(evalFile, "rb"), skiprows=1, delimiter=",", unpack=True)
-                    if sum(evalTrials)==0:
-                        evalTrials = _et
-                    #print(sum(_eub.shape), sum(evalTrials.shape))
-                    if sum(_eub.shape) == sum(evalTrials.shape):
-                        goodRuns += 1
-                        for trial in _et:
-                            evalGoalPercentages[(agent,trial)].append(_egp)
-                            evalGoalTimes[(agent,trial)].append(_egt)
-                            evalUsedBudgets[(agent,trial)].append(_eub)
+                    if(hfo): #HFO experiment
+                        _et, _egp, _egt, _eub = np.loadtxt(open(evalFile, "rb"), skiprows=1, delimiter=",", unpack=True)
+                        if sum(evalTrials)==0:
+                            evalTrials = _et
+                        #print(sum(_eub.shape), sum(evalTrials.shape))
+                        if sum(_eub.shape) == sum(evalTrials.shape):
+                            goodRuns += 1
+                            for trial in _et:
+                                evalGoalPercentages[(agent,trial)].append(_egp)
+                                evalGoalTimes[(agent,trial)].append(_egt)
+                                evalUsedBudgets[(agent,trial)].append(_eub)
+                        else:
+                            print("Error " + str(run+1) + " - "+ str(sum(_eub.shape))+" , "+str(sum(evalTrials.shape)))
                     else:
-                        print("Error " + str(run+1) + " - "+ str(sum(_eub.shape))+" , "+str(sum(evalTrials.shape)))
+                        _et, _es, _eub = np.loadtxt(open(evalFile, "rb"), skiprows=1, delimiter=",", unpack=True)
+                        if sum(evalTrials)==0:
+                            evalTrials = _et
+                        #print(sum(_eub.shape), sum(evalTrials.shape))
+                        if sum(_eub.shape) == sum(evalTrials.shape):
+                            goodRuns += 1
+                            for trial in _et:
+                                evalSteps[(agent,trial)].append(_es)                                
+                                evalUsedBudgets[(agent,trial)].append(_eub)
+                        else:
+                            print("Error " + str(run+1) + " - "+ str(sum(_eub.shape))+" , "+str(sum(evalTrials.shape)))
     goodRuns = int(goodRuns / agents)
     print('Could use %d runs from expected %d' % (goodRuns, runs)) 
     '''
@@ -79,27 +93,39 @@ def collect_experiment_data(source='/', runs=1, servers=1, agents=3):
     for run in range(1, runs+1):
         headerLine.append("Run"+str(run))
 
-    with open(os.path.join(source, "__EVAL_goalpercentages"), 'wb') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerow((headerLine))
-        csvfile.flush()
-        for i in range(sum(evalTrials.shape)):
-            newrow = [evalTrials[i]]
-            for j in evalGoalPercentages[(1,evalTrials[i])]:
-                newrow.append("{:.2f}".format(j[i]))
-            csvwriter.writerow((newrow))
+    if(hfo):
+        with open(os.path.join(source, "__EVAL_goalpercentages"), 'wb') as csvfile:
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerow((headerLine))
             csvfile.flush()
-
-    with open(os.path.join(source, "__EVAL_goaltimes"), 'wb') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerow((headerLine))
-        csvfile.flush()
-        for i in range(sum(evalTrials.shape)):
-            newrow = [evalTrials[i]]
-            for j in evalGoalTimes[(1,evalTrials[i])]:
-                newrow.append("{:.2f}".format(j[i]))
-            csvwriter.writerow((newrow))
+            for i in range(sum(evalTrials.shape)):
+                newrow = [evalTrials[i]]
+                for j in evalGoalPercentages[(1,evalTrials[i])]:
+                    newrow.append("{:.2f}".format(j[i]))
+                csvwriter.writerow((newrow))
+                csvfile.flush()
+    
+        with open(os.path.join(source, "__EVAL_goaltimes"), 'wb') as csvfile:
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerow((headerLine))
             csvfile.flush()
+            for i in range(sum(evalTrials.shape)):
+                newrow = [evalTrials[i]]
+                for j in evalGoalTimes[(1,evalTrials[i])]:
+                    newrow.append("{:.2f}".format(j[i]))
+                csvwriter.writerow((newrow))
+                csvfile.flush()
+    else:
+        with open(os.path.join(source, "__EVAL_stepscaptured"), 'wb') as csvfile:
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerow((headerLine))
+            csvfile.flush()
+            for i in range(sum(evalTrials.shape)):
+                newrow = [evalTrials[i]]
+                for j in evalSteps[(1,evalTrials[i])]:
+                    newrow.append("{:.2f}".format(j[i]))
+                csvwriter.writerow((newrow))
+                csvfile.flush()
 
    
     with open(os.path.join(source, "__EVAL_budgets"), 'wb') as csvfile:
@@ -112,6 +138,7 @@ def collect_experiment_data(source='/', runs=1, servers=1, agents=3):
             budgetAvg = [0]* (goodRuns)
             for agent in range(1,agents+1):
                 for i in range(len(evalUsedBudgets[(agent,evalTrials[trial])])):
+                    #try:
                      budgetAvg[i] += evalUsedBudgets[(agent,evalTrials[trial])][i]/agents
                     #except:
                     #    print i, len(evalUsedBudgets[(agent,evalTrials[trial])])
@@ -134,8 +161,11 @@ def summarize_data(data, confidence=0.95):
     return np.asarray([m, m-h, m+h])
 
 
-def summarize_experiment_data(source):
-    values = ["__EVAL_goalpercentages", "__EVAL_goaltimes", "__EVAL_budgets"]
+def summarize_experiment_data(source,hfo=True):
+    if hfo:    
+        values = ["__EVAL_goalpercentages", "__EVAL_goaltimes", "__EVAL_budgets"]
+    else:
+        values = ["__EVAL_stepscaptured", "__EVAL_budgets"]
     #values = ["__EVAL_goalpercentages", "__EVAL_goaltimes"]
     for value in values:
         evalFile = os.path.join(source, value)
@@ -265,12 +295,15 @@ def draw_graph(source1 = None, name1 = "Algo1",
     elif what == "__SUMMARY_budgets":
         #plt.title('Used Budget per Trial')
         plt.ylabel('Budget', fontsize=20, fontweight='bold')
+    elif what == "__SUMMARY_stepscaptured":
+        #plt.title('Used Budget per Trial')
+        plt.ylabel('Steps until captured', fontsize=20, fontweight='bold')
     else:
         #plt.title('Unknown')
         plt.ylabel('Unknown')
 
     plt.xlabel('Training Episodes', fontsize=20, fontweight='bold')
-    plt.legend(loc='lower right',prop={'size':18, 'weight':'bold'})
+    plt.legend(loc='middle right',prop={'size':18, 'weight':'bold'})
     plt.tick_params(axis='both', which='major', labelsize=18)
     plt.show()
 

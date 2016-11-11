@@ -17,7 +17,9 @@ def wilcoxon_test(exp1Dir,exp2Dir,significance=95.0,exp1Name='Alg. 1',exp2Name='
     desiredP = 1.0 - (significance/100.0)
     #Open the summary files and prepare arrays for comparison
     file1 = open(exp1Dir+"__EVAL_goalpercentages",'r')
+    #file1 = open(exp1Dir+"__EVAL_goaltimes",'r')
     file2 = open(exp2Dir+"__EVAL_goalpercentages",'r')
+    #file2 = open(exp2Dir+"__EVAL_goaltimes",'r')
 
     reader1 = csv.reader(file1,delimiter=',')
     reader2 = csv.reader(file2,delimiter=',')
@@ -48,6 +50,6 @@ def wilcoxon_test(exp1Dir,exp2Dir,significance=95.0,exp1Name='Alg. 1',exp2Name='
     print "----End of Wilcoxon Test----"
     
 if __name__ == '__main__':
-    exp1Dir = "/home/leno/HFO/log/EpisodeSharing/"
-    exp2Dir = "/home/leno/Dropbox/DO - Felipe Leno da Silva/Artigos/NovoArtigo/Data/SARSATile/" 
-    wilcoxon_test(exp1Dir,exp2Dir,95,"AdHocTD","SARSA")
+    exp1Dir = "/home/leno/Dropbox/DO - Felipe Leno da Silva/Artigos/NovoArtigo/Data/AdHocTDLoading/"
+    exp2Dir = "/home/leno/Dropbox/DO - Felipe Leno da Silva/Artigos/NovoArtigo/Data/AdHocVisit/" 
+    wilcoxon_test(exp1Dir,exp2Dir,95,"EpisodeSharing","SARSA")
