@@ -99,7 +99,7 @@ class AdHoc(QLearning):
                             return action
                         except:
                             print "Exception when combining the advice " + str(advised)
-        return super(AdHoc, self).action(state)
+        return super(AdHoc, self).action(state,noAdvice)
         
 
 

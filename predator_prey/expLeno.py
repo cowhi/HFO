@@ -33,7 +33,7 @@ def thread_agent(initTrial,endTrial):
         
         
 def runMultipleThreads():
-    numThreads = 8  
+    numThreads = 8
     numTrials = 1000
     
     dividedT = int(math.floor(numTrials / numThreads))

@@ -19,7 +19,7 @@ class Torrey(QLearning):
     episodeUpdateTrace = None
     threshold = None
     
-    def __init__(self,agentIndex,alpha=0.2,gamma=0.9,T=0.4,budget = 350,threshold = 0.1):
+    def __init__(self,agentIndex,alpha=0.2,gamma=0.9,T=0.4,budget = 350,threshold = 0.05):
          super(Torrey, self).__init__(agentIndex,alpha=alpha,gamma=gamma,T=T)
                
          self.budget = budget
@@ -92,7 +92,7 @@ class Torrey(QLearning):
         
     def action(self,state,noAdvice = False):
         """Returns the action for the current state"""
-        if self.exploring and not noAdvice:
+        if self.exploring and not noAdvice and state[0] != float('inf'):
             #Ask for advice
             advised = self.adviceObject.ask_advice(self.agentIndex,state)
             if advised:
@@ -101,7 +101,7 @@ class Torrey(QLearning):
                         return action
                     except:
                         print "Exception when combining the advice " + str(advised)
-        return super(Torrey, self).action(state)
+        return super(Torrey, self).action(state,noAdvice)
         
 
 

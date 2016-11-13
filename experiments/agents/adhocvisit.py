@@ -32,7 +32,7 @@ class AdHocVisit(AdHoc):
             return False,None
         
         #param = 0.2  #-> Experiments Action and NoAction
-        param = 0.2
+        param = 0.4
         #param = 1.5
         #Calculates the probability
         prob = 1 - math.pow((1 + param),-math.log(numberVisits,2))#math.sqrt(numberVisits))#

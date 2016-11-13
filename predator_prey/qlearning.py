@@ -37,13 +37,16 @@ class QLearning(Agent):
         
              
         
-    def action(self,state):
+    def action(self,state,advise=False):
         """Returns the action for the current state"""
         
         allActions = [actions.NORTH, actions.SOUTH, actions.WEST, actions.EAST]
         
         if(self.exploring):
-            act = self.explore_boltzmann(state,allActions)            
+            if advise:
+                act = self.get_max_q_action(state,allActions)
+            else:
+                act = self.explore_boltzmann(state,allActions)            
         else:
             act = self.explore_boltzmann(state,allActions)            
             #act = self.get_max_q_action(state,allActions)            

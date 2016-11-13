@@ -20,6 +20,7 @@ class AdviceUtil():
          advice = []
          
          for advisor in self.advisors:
+             
              a = advisor.advise_action(uNum,state)
              
              #Check if any advice was received

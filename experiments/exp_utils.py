@@ -33,7 +33,10 @@ def collect_experiment_data(source='/', runs=1, servers=1, agents=3,hfo=True):
                 #print evalFile
                 if os.path.isfile(evalFile):
                     if(hfo): #HFO experiment
-                        _et, _egp, _egt, _eub = np.loadtxt(open(evalFile, "rb"), skiprows=1, delimiter=",", unpack=True)
+                        try:
+                            _et, _egp, _egt, _eub = np.loadtxt(open(evalFile, "rb"), skiprows=1, delimiter=",", unpack=True)
+                        except:
+                            continue
                         if sum(evalTrials)==0:
                             evalTrials = _et
                         #print(sum(_eub.shape), sum(evalTrials.shape))
@@ -46,7 +49,10 @@ def collect_experiment_data(source='/', runs=1, servers=1, agents=3,hfo=True):
                         else:
                             print("Error " + str(run+1) + " - "+ str(sum(_eub.shape))+" , "+str(sum(evalTrials.shape)))
                     else:
-                        _et, _es, _eub = np.loadtxt(open(evalFile, "rb"), skiprows=1, delimiter=",", unpack=True)
+                        try:
+                            _et, _es, _eub = np.loadtxt(open(evalFile, "rb"), skiprows=1, delimiter=",", unpack=True)
+                        except:
+                            continue
                         if sum(evalTrials)==0:
                             evalTrials = _et
                         #print(sum(_eub.shape), sum(evalTrials.shape))
